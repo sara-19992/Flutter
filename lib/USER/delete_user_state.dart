@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:flutterphone/USER/search_user.dart';
 import 'package:flutterphone/USER/user_Profile.dart';
-import 'package:flutterphone/Inside_the_app/user_order.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;

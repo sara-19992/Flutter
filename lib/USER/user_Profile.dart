@@ -5,11 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutterphone/ChatUuser/chatListUser.dart';
 import 'package:flutterphone/USER/List_worker_group.dart';
 import 'package:flutterphone/USER/WORKER_PROFILE.dart';
-import 'package:flutterphone/Inside_the_app/user_order.dart';
 import 'package:flutterphone/USER/search_user.dart';
 import 'package:flutterphone/USER/user_reserve_order.dart';
-import 'package:flutterphone/Worker/setting_worker.dart';
-import 'package:flutterphone/Worker/worker_order.dart';
 import 'package:flutterphone/screens/login_screen.dart';
 import 'package:flutterphone/screens/welcome.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -75,7 +72,6 @@ class  _U_PROFILE extends State<U_PROFILE> {
     getChat();
     getSearchall();
   }
-
   Future getUser() async {
     var url = 'https://' + IP4 + '/testlocalhost/getUser.php';
     var ressponse = await http.post(url, body: {
@@ -340,6 +336,19 @@ class _USER_PROFILE extends State<USER_PROFILE> {
 
     }
   }
+  Future getpost()async{
+    // var url='https://'+IP4+'/testlocalhost/post_profile.php';
+    // var ressponse=await http.get(url);
+    // // ignore: deprecated_member_use
+    // return json.decode(ressponse.body);
+    var url = 'https://' + IP4 + '/testlocalhost/getpost.php';
+    var ressponse = await http.post(url, body: {
+      "phone": "+970595320479",
+    });
+    // ignore: deprecated_member_use
+    return json.decode(ressponse.body);
+
+  }
   DatabaseMethods databaseMethods=new DatabaseMethods();
   Stream chatsRoom;
   getChat(){
@@ -441,7 +450,7 @@ class _USER_PROFILE extends State<USER_PROFILE> {
               child: Container(
                 transform: Matrix4.translationValues(0.0, -50.0, 0.0),
               margin: EdgeInsets.only(top:0),
-             height: 521,
+             height: 1000,
              width: 500,
              child: Stack(
               children: [
@@ -539,6 +548,58 @@ class _USER_PROFILE extends State<USER_PROFILE> {
             ],
           ),
         ),
+                Container(
+                  height: 600,
+                  margin: EdgeInsets.only(top:700),
+                  color: Colors.red,
+                  child:FutureBuilder(
+                    future: getpost(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if(snapshot.hasData){
+                        print("ASDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+                        return ListView.builder(
+                            itemCount:2,
+                            itemBuilder: (context, index) {
+                              //List_Post=snapshot.data;
+                              // postnumber=snapshot.data.length;
+                              //return myPost(snapshot.data[index]['text'], snapshot.data[index]['image'], snapshot.data[index]['data'],);
+                              return Container(height:100,color:Colors.green,);
+                            }
+                        );
+                      }
+                      return Center(child: Text('ASD'));
+                    },
+                  ),
+                ),
+                Container(
+                  height: 200,
+                  margin: EdgeInsets.only(top: 400),
+                  decoration: BoxDecoration(
+                    color:  Colors.grey[50],
+                    // color:Color(0xFF1C1C1C),
+                    // borderRadius: BorderRadius.only(
+                    //   topLeft: Radius.circular(50),
+                    //   topRight: Radius.circular(50),
+                    // ),
+                  ),
+                  child: FutureBuilder(
+                    future: getpost(),
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                            itemCount:2,
+                            itemBuilder: (context, index) {
+                              //List_Post=snapshot.data;
+                              // postnumber=snapshot.data.length;
+                              //return myPost(snapshot.data[index]['text'], snapshot.data[index]['image'], snapshot.data[index]['data'],);
+                              return Container(height:100,color:Colors.green,);
+                            }
+                        );
+                      }
+                      return Center(child: Text('DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD'));
+                    },
+                  ),
+                ),
                 new Container(
                   margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 0),
                   child: new Column(
@@ -552,6 +613,91 @@ class _USER_PROFILE extends State<USER_PROFILE> {
     ),
     ),],);
   }
+  myPost(String text,String image,String date) {
+    return Container(
+      width: 380, height: 321,
+      margin:EdgeInsets.only(left: 30,right: 30,bottom: 20,top: 5),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 1.0,
+            spreadRadius: 1.0,
+            offset: Offset(1,1), // shadow direction: bottom right
+          )
+        ],
+
+      ),
+      child:Column(
+        children: [
+          Row(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top:10,left:10,right: 20),
+                //transform: Matrix4.translationValues(0, -40.0, 0),
+                child: Center(
+                  child: CircleAvatar(backgroundImage: NetworkImage(
+                      'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+                    radius: 18.0,),),
+              ),
+              Column(
+                children: [
+                  Container(
+                    height: 22,
+                    margin: EdgeInsets.only(top:10,left: 150),
+                    child: Center(
+                      child: Text(widget.namefirst + " " + widget.namelast,
+                        style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 14.0,
+                          fontFamily: 'Changa',
+                          fontWeight: FontWeight.bold,),),
+                    ),),
+                  Container(
+                    height: 20,
+                    margin: EdgeInsets.only(top:0,left: 165),
+                    child: Center(
+                      child: Text(date,
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 11.5,
+                          fontFamily: 'Changa',
+                          fontWeight: FontWeight.bold,),),
+                    ),),
+                ],
+              ),
+            ],
+          ),
+          text!=null?Container(
+            height: 50,
+            width: 320,
+            margin: EdgeInsets.only(top: 5,right: 20,left:0),
+            child:Text(text,
+              style: TextStyle(
+                color: Colors.black87,
+                fontSize: 13.0,
+                fontFamily: 'Changa',
+                fontWeight: FontWeight.bold,
+              ),),
+          ):Container(height: 0,),
+          image!='null'?Container(
+            width: 380,
+            margin: EdgeInsets.only(top: 10),
+            alignment: Alignment.centerRight,
+            // margin:  EdgeInsets.only(left:10,),
+            child: ClipRRect(
+              child: Image.network('https://'+IP4+'/testlocalhost/upload/'+  image, height: 204, width: 380, fit: BoxFit.cover,),
+            ),):Container(height:0,),
+        ],
+      ),
+    );
+  }
+
   Widget _createSearchView() {
 
     return new Container(

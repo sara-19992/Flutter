@@ -3,7 +3,6 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutterphone/Chatworker/chatListworker.dart';
-import 'package:flutterphone/Inside_the_app/user_order.dart';
 import 'package:flutterphone/components/timepicker.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
@@ -234,33 +233,14 @@ class _slot extends State<slot> {
     var dateParse = DateTime.parse(_selectedDay.toString());
     formattedDate = DateFormat('yyyy-MM-dd').format(day);
     print(formattedDate);
-    if(ListBlock.isEmpty){
       print("Nulllll");
       // print(_selectedDay);
       Navigator.push(context, MaterialPageRoute(builder: (context) => Worker_SLot(Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst,time: _selectedDay,),),);
-
-    }
   }
   var ListTimeSlot1=[];
-  Container cheack1(){
-    ListTimeSlot1=[];
-    for(int i=0;i<ListTime1.length;i++) {
-      if (!ListBlock.contains(ListTime1[i])) {
-        ListTimeSlot1.add(ListTime1[i]);
-      }
-    }
-    return Container();
-  }
+
   var ListTimeSlot2=[];
-  Container cheack2(){
-    ListTimeSlot2=[];
-    for(int i=0;i<ListTime2.length;i++) {
-      if (!ListBlock.contains(ListTime2[i])) {
-        ListTimeSlot2.add(ListTime2[i]);
-      }
-    }
-    return Container();
-  }
+
   // Future cv(){
   //   String selectedTime;
   //   showCustomTimePicker(
@@ -572,15 +552,13 @@ class _Empty extends State<Empty> {
   void _onDaySelected(DateTime day, List events, List r) {
     _selectedDay = day;
     var dateParse = DateTime.parse(_selectedDay.toString());
-    formattedDate = DateFormat('yyyy-MM-dd').format(day);
+    var formattedDate = DateFormat('yyyy-MM-dd').format(day);
     print(formattedDate);
-    if (ListBlock.isEmpty) {
       print("Nulllll");
       // print(_selectedDay);
       //Navigator.push(context, MaterialPageRoute(builder: (context) => My_SLot(date:_selectedDay,phoneworker: widget.phoneworker,),),);
 
       Navigator.push(context, MaterialPageRoute(builder: (context) => Worker_SLot(Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst,time: _selectedDay),),);
-    }
   }
 
   @override

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterphone/USER/user_slot.dart';
 import 'package:flutterphone/USER/viewreservation.dart';
 import '../constants.dart';
-import '../Inside_the_app/user_order.dart';
 import 'WORKER_PROFILE.dart';
 class choose extends StatefulWidget {
   final name;

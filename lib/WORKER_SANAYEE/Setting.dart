@@ -2,17 +2,15 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterphone/Chatworker/chatListworker.dart';
-import 'package:flutterphone/Worker/change_pass.dart';
-import 'package:flutterphone/Worker/edit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
 import '../constants.dart';
-import 'package:flutterphone/Worker/PROFILE_PAGE_WORKER.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
 
+import 'Profile.dart';
 import 'orders_workers.dart';
 String IP4="192.168.1.8";
 //import 'edit_profile.dart';

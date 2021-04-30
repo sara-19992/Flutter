@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutterphone/ChatUuser/chatListUser.dart';
 import 'package:flutterphone/USER/user_Profile.dart';
-import 'package:flutterphone/Inside_the_app/user_order.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;

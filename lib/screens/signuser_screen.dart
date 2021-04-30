@@ -1,4 +1,4 @@
-import 'package:flutterphone/Inside_the_app/user_Profile.dart';
+import 'package:flutterphone/USER/user_Profile.dart';
 import 'package:flutterphone/screens/signuser_screen.dart';
 import 'package:flutterphone/screens/welcome.dart';
 import 'package:http/http.dart' as http;

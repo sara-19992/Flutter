@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutterphone/ChatUuser/Conversation.dart';
 import 'package:flutterphone/ChatUuser/chatListUser.dart';
-import 'package:flutterphone/Inside_the_app/user_Profile.dart';
 import 'package:flutterphone/USER/search_user.dart';
 import 'package:flutterphone/USER/user_slot.dart';
 import 'GET_IMGS.dart';
@@ -18,7 +17,6 @@ import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
 import '../constants.dart';
 import '../database.dart';
-import 'Worker_Slot.dart';
 import 'Choose_type.dart';
 
 String  name="";
@@ -289,7 +287,7 @@ class  _user_worker extends State<user_worker> {
                            bool AVG4=double.parse(snapshot.data[index]['AVG4'])>=4?true:false;
                            bool AVG5=double.parse(snapshot.data[index]['AVG5'])>=4?true:false;
                            bool AVG6=double.parse(snapshot.data[index]['AVG6'])>=4?true:false;
-                          return worker(List_Images:List_Images,List_Post:List_Post,comment:widget.comment,client_num:widget.client_num,AVG1:AVG1,AVG2:AVG2,AVG3:AVG3,AVG4:AVG4,AVG5:AVG5,AVG6:AVG6,Rate:Rate,phone:widget.phone,name: widget.name,namefirst: widget.namefirst,namelast: widget.namelast,image: widget.image,token: widget.token,Information: widget.Information,Experiance: widget.Experiance,name_Me: widget.name_Me,Work: widget.Work,);
+                          return worker(userphone:widget.phoneuser,List_Images:List_Images,List_Post:List_Post,comment:widget.comment,client_num:widget.client_num,AVG1:AVG1,AVG2:AVG2,AVG3:AVG3,AVG4:AVG4,AVG5:AVG5,AVG6:AVG6,Rate:Rate,phone:widget.phone,name: widget.name,namefirst: widget.namefirst,namelast: widget.namelast,image: widget.image,token: widget.token,Information: widget.Information,Experiance: widget.Experiance,name_Me: widget.name_Me,Work: widget.Work,);
                         },
                       );
                     }
@@ -301,24 +299,7 @@ class  _user_worker extends State<user_worker> {
    ], ), );
 
 }
-  Future delete_faverate() async {
-    var url = 'https://' + IP4 + '/testlocalhost/delete_faverate.php';
-    var ressponse = await http.post(url, body: {
-      "phoneuser":widget.phoneuser,
-      "phoneworker":widget.phone,
-    });
-    // ignore: deprecated_member_use
-    return json.decode(ressponse.body);
-  }
-  Future add_faverate() async {
-    var url = 'https://' + IP4 + '/testlocalhost/addfaverate.php';
-    var ressponse = await http.post(url, body: {
-      "phoneuser":widget.phoneuser,
-      "phoneworker":widget.phone,
-    });
-    // ignore: deprecated_member_use
-    return json.decode(ressponse.body);
-  }
+
   var ma;
   void _showSnackBar(BuildContext context, String text) {
     Scaffold.of(context).showSnackBar(SnackBar(content:
@@ -353,9 +334,10 @@ class worker extends StatefulWidget {
   final bool AVG6;
   final client_num;
   final comment;
+  final userphone;
   List<dynamic>List_Post;
   List<dynamic>List_Images;
-  worker({this.List_Images,this.List_Post,this.client_num,this.comment,this.AVG1,this.AVG2,this.AVG3,this.AVG4,this.AVG5,this.AVG6,this.Rate,this.name_Me,this.name,this.namelast,this.namefirst, this.phone, this.image, this.Work, this.Experiance, this.Information, this.token});
+  worker({this.userphone,this.List_Images,this.List_Post,this.client_num,this.comment,this.AVG1,this.AVG2,this.AVG3,this.AVG4,this.AVG5,this.AVG6,this.Rate,this.name_Me,this.name,this.namelast,this.namefirst, this.phone, this.image, this.Work, this.Experiance, this.Information, this.token});
   _worker createState() =>  _worker();
 }
 class  _worker extends State<worker> {
@@ -389,7 +371,7 @@ class  _worker extends State<worker> {
   double Rate;
   String Rate_S;
   double f=2.2.floorToDouble();
-  bool faverate=false;
+  bool faverate=true;
   Future getImages() async {
     var url = 'https://'+IP4+'/testlocalhost/Show_EXP.php';
     var ressponse = await http.post(url, body: {
@@ -437,6 +419,27 @@ class  _worker extends State<worker> {
   var ma='';
   int Length_Post;
   var List_Postanother=[];
+  Future delete_faverate() async {
+    var url = 'https://' + IP4 + '/testlocalhost/delete_faverate.php';
+    var ressponse = await http.post(url, body: {
+      "phoneuser":widget.userphone,
+      "phoneworker":widget.phone,
+    });
+    // ignore: deprecated_member_use
+    return json.decode(ressponse.body);
+  }
+  Future add_faverate() async {
+    print(widget.userphone);
+    print(widget.phone);
+    print("PHONE");
+    var url = 'https://' + IP4 + '/testlocalhost/addfaverate.php';
+    var ressponse = await http.post(url, body: {
+      "phoneuser":widget.userphone,
+      "phoneworker":widget.phone,
+    });
+    // ignore: deprecated_member_use
+    return json.decode(ressponse.body);
+  }
   Widget build(BuildContext context) {
     List_Postanother=widget.List_Post;
     print(widget.List_Post.toString());print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
@@ -469,23 +472,14 @@ class  _worker extends State<worker> {
                                     fontFamily: 'Changa',
                                     fontWeight: FontWeight.bold,),),
                               ),
-
                               Container(
-                                width: 40,
-                                margin: EdgeInsets.only(top: 8,),
-                                child:IconButton(icon:Icon(Icons.person_add,),
-                                    onPressed: ()async{
-                                      // faverate?await add_faverate():await delete_faverate();
-                                      _showSnackBar(context, 'تمت المتابعة');
-                                    }),
-                              ),
-                              Container(
-                                width: 40,
+                                width: 90,
+                                alignment: Alignment.topLeft,
                                 margin: EdgeInsets.only(top: 8,),
                                 child:IconButton(icon:Icon(faverate?Icons.favorite_border:Icons.favorite,color: faverate?Colors.black:Colors.red,),
                                     onPressed: ()async{
-                                     //faverate?await add_faverate():await delete_faverate();
-                                      faverate?_showSnackBar(context, 'تمت الإضافة إلى قائمة المفضلة لديك'):_showSnackBar(context, 'تم الحذف من مفضلتك ');
+                                     faverate?await add_faverate():await delete_faverate();
+                                      faverate?Fluttertoast.showToast(msg: " تمت الإضافة إلى قائمة المفضلة لديك ",fontSize: 16,textColor:Colors.black87,backgroundColor: Colors.white):Fluttertoast.showToast(msg: " تم الحذف من مفضلتك  ",fontSize: 16,textColor:Colors.black87,backgroundColor: Colors.white);
                                       faverate=!faverate;
                                       setState(() {
 
@@ -541,56 +535,38 @@ class  _worker extends State<worker> {
                           margin: EdgeInsets.only(right: 30,top: 20),
                           child: Row(
                             children: [
-                              GestureDetector(
-                                onTap: (){
-                                  UrlLauncher.launch("tel://0595320479");
-                                },
-                                child:Container(
-                                  width: 40,
-                                  height: 40,
-                                  margin: EdgeInsets.only(left:10,),
-                                  decoration: BoxDecoration(
-                                    color: Y,
-                                    shape: BoxShape.circle,
-                                    // boxShadow: [
-                                    //   BoxShadow(
-                                    //     color: Colors.black.withOpacity(0.5),
-                                    //     blurRadius: 2.0,
-                                    //     spreadRadius: 0.0,
-                                    //     offset: Offset(1.0,1.0), // shadow direction: bottom right
-                                    //   )
-                                    // ],
-                                  ),
-                                  child:Icon(Icons.phone,
+                              Container(
+                                width: 50,
+                                //padding: EdgeInsets.symmetric(horizontal: 3),
+                                child: FlatButton(
+                                  onPressed: () {
+                                    String phone=widget.phone.substring(3);
+                                    UrlLauncher.launch("tel://"+phone);
+                                    // UrlLauncher.launch("tel://0595320479");
+                                  },
+                                  child: new Icon(
+                                    Icons.phone,
                                     color: Colors.white,
-                                    size: 27.0,
+                                    size: 20.0,
                                   ),
+                                  shape: new CircleBorder(),
+                                  color: Y,
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: (){
-                                  //CreatChatRoom();
-                                },
-                                child:Container(
-                                  width: 40,
-                                  height: 40,
-                                  margin: EdgeInsets.only(left:10,),
-                                  decoration: BoxDecoration(
-                                    color: Y,
-                                    shape: BoxShape.circle,
-                                    // boxShadow: [
-                                    //   BoxShadow(
-                                    //     color: Colors.black.withOpacity(0.5),
-                                    //     blurRadius: 2.0,
-                                    //     spreadRadius: 0.0,
-                                    //     offset: Offset(1.0,1.0), // shadow direction: bottom right
-                                    //   )
-                                    // ],
+                              Container(
+                                width: 50,
+                                child: FlatButton(
+                                  onPressed: () {
+                                    print("chat");
+                                    CreatChatRoom();
+                                  },
+                                  child: new Icon(
+                                    Icons.mark_chat_unread,
+                                    color: Colors.white,
+                                    size: 20.0,
                                   ),
-                                  child:Icon(Icons.mark_chat_unread,
-                                    color:Colors.white,
-                                    size: 27.0,
-                                  ),
+                                  shape: new CircleBorder(),
+                                  color:Y,
                                 ),
                               ),
                             ],

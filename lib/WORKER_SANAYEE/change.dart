@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterphone/Worker/PROFILE_PAGE_WORKER.dart';
-import 'package:flutterphone/Worker/setting_worker.dart';
 // import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';

@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutterphone/Inside_the_app/user_Profile.dart';
 import 'package:image_picker/image_picker.dart';
 import '../constants.dart';
 import '../database.dart';

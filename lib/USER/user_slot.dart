@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutterphone/USER/WORKER_PROFILE.dart';
 import 'package:flutterphone/USER/user_Profile.dart';
-import 'package:flutterphone/Inside_the_app/user_order.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
@@ -219,36 +218,14 @@ class _slot extends State<slot> {
     }
   }
   var ListTimeSlot1=[];
-  Container cheack1(){
-    ListTimeSlot1=[];
-    for(int i=0;i<ListTime1.length;i++) {
-      if (!ListBlock.contains(ListTime1[i])) {
-        ListTimeSlot1.add(ListTime1[i]);
-      }
-    }
-    return Container();
-  }
-  var ListTimeSlot2=[];
-  Container cheack2(){
-    ListTimeSlot2=[];
-    for(int i=0;i<ListTime2.length;i++) {
-      if (!ListBlock.contains(ListTime2[i])) {
-        ListTimeSlot2.add(ListTime2[i]);
-      }
-    }
-    return Container();
-  }
+
   void _onDaySelected(DateTime day, List events,List r) {
     _selectedDay = day;
     formattedDate = DateFormat('yyyy-MM-dd').format(day);
     print(formattedDate);
-    if(ListBlock.isEmpty){
-      print("Nulllll");
 
       // print(_selectedDay);
       Navigator.push(context, MaterialPageRoute(builder: (context) => My_SLot(client_count:widget.client_count,comment:widget.comment,country:widget.country,date:_selectedDay,namelast:widget.namelast,namefirst:widget.namefirst,image:widget.image,nameworker:widget.nameworker,Information:widget.Information,Experiance:widget.Experiance,AVG:widget.AVG,work:widget.work,name_Me:widget.name_Me,token_Me:widget.token_Me,tokenworker: widget.token,phoneworker: widget.phoneworker,phone: widget.phone,),),);
-
-    }
   }
   @override
   int _page = 0;
@@ -579,16 +556,12 @@ class _Empty extends State<Empty> {
   void _onDaySelected(DateTime day, List events,List r) {
     _selectedDay = day;
     var dateParse = DateTime.parse(_selectedDay.toString());
-    formattedDate = DateFormat('yyyy-MM-dd').format(day);
+    var formattedDate = DateFormat('yyyy-MM-dd').format(day);
     print(formattedDate);
-    if(ListBlock.isEmpty){
-      print("Nulllll");
       // print(_selectedDay);
       //Navigator.push(context, MaterialPageRoute(builder: (context) => My_SLot(date:_selectedDay,phoneworker: widget.phoneworker,),),);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => My_SLot(client_count:widget.client_count,comment:widget.comment,country:widget.country,date:_selectedDay,namelast:widget.namelast,namefirst:widget.namefirst,image:widget.image,nameworker:widget.nameworker,Information:widget.Information,Experiance:widget.Experiance,AVG:widget.AVG,work:widget.work,name_Me:widget.name_Me,token_Me:widget.token_Me,tokenworker: widget.token,phoneworker: widget.phoneworker,phone: widget.phone,),),);
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) => My_SLot(client_count:widget.client_count,comment:widget.comment,country:widget.country,date:_selectedDay,namelast:widget.namelast,namefirst:widget.namefirst,image:widget.image,nameworker:widget.nameworker,Information:widget.Information,Experiance:widget.Experiance,AVG:widget.AVG,work:widget.work,name_Me:widget.name_Me,token_Me:widget.token_Me,tokenworker: widget.token,phoneworker: widget.phoneworker,phone: widget.phone,),),);
-
-    }
   }
   @override
   int _page = 0;

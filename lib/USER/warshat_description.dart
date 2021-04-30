@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutterphone/USER/WORKER_PROFILE.dart';
 import 'package:flutterphone/USER/descriptionorder.dart';
 import 'package:flutterphone/USER/user_Profile.dart';
-import 'package:flutterphone/Inside_the_app/user_order.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
@@ -24,7 +23,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterphone/USER/user_slot.dart';
 import '../constants.dart';
-import '../Inside_the_app/user_order.dart';
 String IP4="192.168.1.8";
 
 class war_description extends StatefulWidget {

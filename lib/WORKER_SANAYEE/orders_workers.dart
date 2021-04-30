@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutterphone/WORKER_SANAYEE/Worker_conferm_order.dart';
 import 'package:flutterphone/WORKER_SANAYEE/GET_IMGS.dart';
 import 'package:flutterphone/WORKER_SANAYEE/warshate.dart';
-import 'package:flutterphone/Worker/setting_worker.dart';
-import 'package:flutterphone/Worker/worker_order.dart';
 import 'package:flutterphone/screens/login_screen.dart';
 import 'package:flutterphone/screens/welcome.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
