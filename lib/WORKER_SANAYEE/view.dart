@@ -109,7 +109,7 @@ class _viewWarshaState extends State<viewWarsha> {
                           print(snapshot.data[index]['workerphone']);
                           // return Container(height: 200,);
                           print("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"+snapshot.data[index]['id']);
-                          return view (orderimage:snapshot.data[index]['orderimage'],latuser:snapshot.data[index]['lat'],lnguser:snapshot.data[index]['lng'],token:widget.token,work:widget.Work,lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,city:snapshot.data[index]['city'],country:snapshot.data[index]['country'],id:snapshot.data[index]['id'],type:snapshot.data[index]['type'],image:snapshot.data[index]['image'],describes:snapshot.data[index]['describes'],nameofwork : snapshot.data[index]['nameofwork'],workerphone : snapshot.data[index]['workerphone'], namefirst: snapshot.data[index]['namefirst'], namelast: snapshot.data[index]['namelast'], phoneuser: snapshot.data[index]['phoneuser']);
+                          return view (orderimage:snapshot.data[index]['orderimage'],latuser:snapshot.data[index]['lat'],lnguser:snapshot.data[index]['lng'],token:snapshot.data[index]['token'],work:widget.Work,lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,city:snapshot.data[index]['city'],country:snapshot.data[index]['country'],id:snapshot.data[index]['id'],type:snapshot.data[index]['type'],image:snapshot.data[index]['image'],describes:snapshot.data[index]['describes'],nameofwork : snapshot.data[index]['nameofwork'],workerphone : snapshot.data[index]['workerphone'], namefirst: snapshot.data[index]['namefirst'], namelast: snapshot.data[index]['namelast'], phoneuser: snapshot.data[index]['phoneuser']);
 
                         },
                       );
@@ -574,12 +574,14 @@ class _viewState extends State<view> {
               ),
             ),
             GestureDetector(
-              onTap: (){
-                print("SARAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhh");
+              onTap: ()async{
+                await print("SARAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhh");
                 addlongtimework(picked);
+                 sendaccept(widget.token);
                 Navigator.of(context).pop();
                 var formattedDate1 = DateFormat('yyyy-MM-dd').format(picked.first);
                 var formattedDate2 = DateFormat('yyyy-MM-dd').format(picked.last);
+
                 Navigator.push(context, MaterialPageRoute(builder: (context) => State_warshe_accept(name:widget.nameofwork,type:widget.type,from:formattedDate1,to:formattedDate2,tokenworker:widget.token,imageworker:widget.image,namelastworker:widget.namelast,namefirstworker:widget.namefirst,Information:widget.Information,Experiance:widget.Experiance,work:widget.work,country:widget.country,city:widget.city,description:widget.describes,latuser:widget.latuser,lnguser:widget.lnguser,lat:widget.lat,lng:widget.lng,orderimage:widget.orderimage,workername:widget.nameofwork,id:widget.id,namefirst: widget.namefirst,namelast: widget.namelast,phoneuser: widget.phoneuser,image: widget.image,phoneworker:widget.workerphone),),);
                 //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewWarsha(lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,Work:widget.work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst,name:widget.nameofwork,phone: widget.workerphone)));
               },
@@ -600,6 +602,14 @@ class _viewState extends State<view> {
         );
       },
     );
+  }
+  Future sendaccept(String token) async {
+    print(token);
+    print("vfddddddddddddddddddddddd");
+    var url = 'https://' + IP4 + '/testlocalhost/acceptwarsha.php';
+    var ressponse = await http.post(url, body: {
+      "token": token,
+    });
   }
   Future<void> addlongtimework(final List<DateTime> picked) async {
     int i = 0;

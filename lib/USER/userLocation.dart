@@ -68,13 +68,9 @@ class _mState extends State<Search_map> {
   }
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children:<Widget>[
-        Expanded(
-
-          child:Container(
-            height: 500,
-            color: Colors.white,
+    return Container(
+            height: 600,
+            color: Colors.transparent,
             child: FutureBuilder(
                 future: getMarker(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -95,7 +91,7 @@ class _mState extends State<Search_map> {
 
                 }
             ),
-          ),),],);
+          );
 
 
   }
@@ -159,10 +155,25 @@ class _MyHomePageState extends State<w> {
 
   @override
   Widget build(BuildContext context) {
+    //showmap=true;
     Fetch();
+    return Stack(
+    alignment: Alignment.topCenter,
+    overflow: Overflow.visible,
+    children: [Positioned(
+        //top: 10.0,
+        child: Container(
+          height: 547.5,
+          width: 500,
+
+          // transform: Matrix4.translationValues(0.0, -50.0, 0.0),
+          child: showgooglemap(markers),),
+    ),],);
     return  Container(
-      height: 540,
+      height: 560,
       width: 500,
+
+     // transform: Matrix4.translationValues(0.0, -50.0, 0.0),
       child: showgooglemap(markers),);
     //  child:FutureBuilder(
     //    future: checkLocationServicesInDevice(),
@@ -191,15 +202,15 @@ class _MyHomePageState extends State<w> {
 
       if (_permissionGranted == PermissionStatus.granted) {
         circles = Set.from([Circle(
-          strokeColor: Colors.blue.withOpacity(0.2),
-          strokeWidth: 1,
-          fillColor: Colors.blue.withOpacity(0.1),
+          strokeColor: Colors.black54.withOpacity(0.5),
+          strokeWidth: 0,
+          fillColor: Colors.black54.withOpacity(0.1),
           circleId: CircleId('1'),
           center: LatLng(32.464634,  35.293858),
           radius: 16000,
         )]);
-        final Uint8List markerIcon = await getBytesFromAsset('assets/icons/current.png', 100);
-        final Uint8List markerIconworker= await getBytesFromAsset('assets/icons/worker.png', 200);
+        final Uint8List markerIcon = await getBytesFromAsset('assets/icons/current.png', 170);
+        final Uint8List markerIconworker= await getBytesFromAsset('assets/icons/worker.png', 170);
 
         _location = await location.getLocation();
         print(_location.latitude.toString() + " " +
@@ -274,7 +285,7 @@ class _MyHomePageState extends State<w> {
             (1 - c((lon2 - lon1) * p)) / 2;
     print(12742 * asin(sqrt(a)));
     double distance = 12742 * asin(sqrt(a));
-    if (distance < 12000) {
+    if (distance < 120000) {
       list_.add(widget.Location[i]['phoneworker']);
       print("Duaa");
       print(list_.toString());
@@ -298,7 +309,7 @@ class _MyHomePageState extends State<w> {
           if(distance>=1){dis=distance.toInt().toString()+"كم";}
           else{distance=distance*1000;dis=distance.toInt().toString()+"م";}
 
-          _onButtonPressed(List_button[id]['Client'],dis,List_button[id]['namefirst'],List_button[id]['namelast'],List_button[id]['phoneworker'],Rate,List_button[id]['image'],widget.token_Me,List_button[id]['token'],widget.phone_Me,widget.namefirst_Me,widget.nameLast_Me,widget.image_Me);
+          _onButtonPressed(List_button[id]['name'],List_button[id]['Information'],List_button[id]['Experiance'],List_button[id]['Client'],dis,List_button[id]['namefirst'],List_button[id]['namelast'],List_button[id]['phoneworker'],Rate,List_button[id]['image'],widget.token_Me,List_button[id]['token'],widget.phone_Me,widget.namefirst_Me,widget.nameLast_Me,widget.image_Me);
           // var  bottomSheetController;
           // bottomSheetController=Scaffold.of(scaffoldKey.currentContext).
           // showBottomSheet((context) => Container(
@@ -324,7 +335,7 @@ class _MyHomePageState extends State<w> {
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
   }
 
-  void _onButtonPressed(String client_num,String dis,String namefirst,String namelast,String phoneworker,double Rate,String image,String token_Me,String token,String phoneuser,String namefirst_Me,String lastname_Me,String image_Me) {
+  void _onButtonPressed(String name,String infom,String Exp,String client_num,String dis,String namefirst,String namelast,String phoneworker,double Rate,String image,String token_Me,String token,String phoneuser,String namefirst_Me,String lastname_Me,String image_Me) {
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -332,7 +343,7 @@ class _MyHomePageState extends State<w> {
             color: Colors.white,
             height: 170,
             child: Container(
-              child: _buildBottomNavigationMenu(client_num,dis,namefirst,namelast,phoneworker,Rate,image,token_Me,token,phoneuser,namefirst_Me,lastname_Me,image_Me),
+              child: _buildBottomNavigationMenu(name,infom,Exp,client_num,dis,namefirst,namelast,phoneworker,Rate,image,token_Me,token,phoneuser,namefirst_Me,lastname_Me,image_Me),
               decoration: BoxDecoration(
                 color: Theme.of(context).canvasColor,
                 borderRadius: BorderRadius.only(
@@ -344,12 +355,12 @@ class _MyHomePageState extends State<w> {
           );
         });
   }
-  Container _buildBottomNavigationMenu(String clientnum,String dis,String namefirst,String namelast,String phoneworker,double Rate,String image,String token_Me,String token,String phoneuser,String namefirst_Me,String lastname_Me,String image_Me) {
+  Container _buildBottomNavigationMenu(String name,String Info,String Exp,String clientnum,String dis,String namefirst,String namelast,String phoneworker,double Rate,String image,String token_Me,String token,String phoneuser,String namefirst_Me,String lastname_Me,String image_Me) {
     return Container(
       height:170,
       child:Column(
         children: <Widget>[
-          GroupButtom(client_num:clientnum,distance:dis,image:image,namelast: namelast,namefirst: namefirst,Rate: Rate,Work:widget.work,phone:phoneworker,phone_Me:phoneuser,token:token,token_Me:token_Me,image_Me:image_Me,namefirst_Me:namefirst_Me,nameLast_Me:lastname_Me,),
+          GroupButtom(name_Me:widget.name_Me,name:name,Information:Info,Experiance:Exp,client_num:clientnum,distance:dis,image:image,namelast: namelast,namefirst: namefirst,Rate: Rate,Work:widget.work,phone:phoneworker,phone_Me:phoneuser,token:token,token_Me:token_Me,image_Me:image_Me,namefirst_Me:namefirst_Me,nameLast_Me:lastname_Me,),
           //   ListTile(
           //   leading: Icon(Icons.ac_unit),
           //   title: Text('Flutter'),
@@ -384,10 +395,10 @@ class _MyHomePageState extends State<w> {
       child: Stack(
         children: <Widget>[
           showmap == false ? Container(
-            height: 700,
+            height: 560,
             width: 500,
             // color:  Color(0xFFF3D657),
-            margin: EdgeInsets.only(top: 50),
+            margin: EdgeInsets.only(top: 45),
             //padding:EdgeInsets.only(right:25,left: 25),
             decoration: BoxDecoration(
             ),
@@ -429,7 +440,9 @@ class _MyHomePageState extends State<w> {
                         double distance=list_distance[j].distance;
                         if(distance>=1){dis=distance.toInt().toString()+"كم";}
                         else{distance=distance*1000;dis=distance.toInt().toString()+"م";}
-                        return Group(distance:dis.toString(),namefirst_Me: widget.namefirst_Me,
+                        return Group(
+                          country:widget.country,
+                          distance:dis.toString(),namefirst_Me: widget.namefirst_Me,
                           nameLast_Me: widget.nameLast_Me,
                           phone_Me: widget.phone_Me,
                           image_Me: widget.image_Me,
@@ -464,7 +477,7 @@ class _MyHomePageState extends State<w> {
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(target:
             LatLng(32.464634, 35.293858),
-                zoom: 10.65),
+                zoom: 10.7),
             markers: markers.toSet(),
             circles: circles,
             scrollGesturesEnabled: true,
@@ -576,8 +589,8 @@ class Group  extends StatefulWidget {
   final token_Me;
   final distance;
   final client_num;
-
-  Group({this.client_num,this.distance,this.token_Me,this.phone_Me,this.nameLast_Me,this.namefirst_Me,this.image_Me,this.Rate,this.name_Me,this.name,this.namefirst,this.namelast, this.phone, this.image, this.Work, this.Experiance, this.Information, this.token});
+  final country;
+  Group({this.country,this.client_num,this.distance,this.token_Me,this.phone_Me,this.nameLast_Me,this.namefirst_Me,this.image_Me,this.Rate,this.name_Me,this.name,this.namefirst,this.namelast, this.phone, this.image, this.Work, this.Experiance, this.Information, this.token});
 
   @override
   _Group createState() => _Group();
@@ -586,7 +599,19 @@ class Group  extends StatefulWidget {
 class _Group extends State<Group> {
   @override
   void initState() {
+    faverate();
     super.initState();
+  }
+  Future getCount() async {
+    var url = 'https://' + IP4 + '/testlocalhost/getcCount.php';
+    var ressponse = await http.post(url, body: {
+      "phone": widget.phone,
+    });
+    // ignore: deprecated_member_use
+    // var responsebody = json.decode(ressponse.body);
+    // print(responsebody);
+
+    return json.decode(ressponse.body);
   }
   var ma;
   Future getImages() async {
@@ -598,7 +623,20 @@ class _Group extends State<Group> {
     // var responsebody = json.decode(ressponse.body);
     // print(responsebody);
     return json.decode(ressponse.body);
-  }
+  }bool fav =false;
+  var c;
+  Future faverate() async {
+    print('hi hi hi');
+    var url = 'https://'+IP4+'/testlocalhost/checkiffaverate.php';
+    var ressponse = await http.post(url, body: {
+      "phoneworker": widget.phone,
+      "phoneuser":widget.phone_Me,
+    });
+    var massage = json.decode(ressponse.body);
+    if (massage == 'yes') {
+      print('yahhhhhhhhhhhhhhhhhhhh');
+      fav=true;
+    }}
 
   @override
   Widget build(BuildContext context) {
@@ -610,7 +648,7 @@ class _Group extends State<Group> {
         print(widget.phone); print(widget.name_Me); print(widget.phone_Me);
         print(widget.token); print(widget.image);
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => user_worker(comment:num,client_num:widget.client_num,phoneuser:widget.phone_Me,tokenuser:widget.token_Me,Work:widget.Work,image:widget.image,phone:widget.phone,name: widget.name,namelast:widget.namelast,name_Me: widget.name_Me,namefirst: widget.namefirst,token: widget.token,Information: widget.Information,Experiance:widget.Experiance,),));
+            MaterialPageRoute(builder: (context) => user_worker(country:widget.country,fav:fav,comment:ma,client_num:c,phoneuser:widget.phone_Me,tokenuser:widget.token_Me,Work:widget.Work,image:widget.image,phone:widget.phone,name: widget.name,namelast:widget.namelast,name_Me: widget.name_Me,namefirst: widget.namefirst,token: widget.token,Information: widget.Information,Experiance:widget.Experiance,),));
       },
       child:Directionality(
         textDirection: TextDirection.rtl,
@@ -641,7 +679,7 @@ class _Group extends State<Group> {
                     itemCount: 1,
                     itemBuilder: (context, index) {
                       ma = snapshot.data[index]['count'];
-                      return Row_worker();
+                      return row1();
                     },);
                 }
                 return Container(
@@ -650,6 +688,32 @@ class _Group extends State<Group> {
               }
           ),
         ),),);
+  }
+  Widget row1(){
+    return  Container(
+      height: 135,
+      child: FutureBuilder(
+          future: getCount(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              print("fffffffffffffffffffffffffffff");
+              print(fav);
+              print("SARAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhhhhhhhh");
+              //_MyHomePageState c= new _MyHomePageState();
+              return ListView.builder(
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  c=snapshot.data[index]['count'];
+                  return Row_worker();
+                },);
+            }
+            return Container(
+              child:Text(''),
+            );
+
+          }
+      ),
+    );
   }
   Widget Row_worker(){
     return Column(
@@ -715,7 +779,7 @@ class _Group extends State<Group> {
                   child:Text(
                     widget.distance,
                     style: TextStyle(
-                      color: Colors.red,
+                      color: Y,
                       fontSize: 18.0,
                       fontFamily: 'Changa',
                       fontWeight: FontWeight.bold,
@@ -763,7 +827,7 @@ class _Group extends State<Group> {
             child:  Row(
               children: [
                 SizedBox(width: 10,),
-                Text(widget.client_num,
+                Text(c,
                   style: TextStyle(
                     color: Color(0xFF666360),
                     fontSize: 13.0,
@@ -839,9 +903,36 @@ class GroupButtom  extends StatefulWidget {
 class _GroupButtom extends State<GroupButtom> {
   @override
   void initState() {
+    faverate();
     super.initState();
   }
   var ma;
+  bool fav =false;
+  var c;
+  Future getCount() async {
+    var url = 'https://' + IP4 + '/testlocalhost/getcCount.php';
+    var ressponse = await http.post(url, body: {
+      "phone": widget.phone,
+    });
+    // ignore: deprecated_member_use
+    // var responsebody = json.decode(ressponse.body);
+    // print(responsebody);
+
+    return json.decode(ressponse.body);
+  }
+
+  Future faverate() async {
+    print('hi hi hi');
+    var url = 'https://'+IP4+'/testlocalhost/checkiffaverate.php';
+    var ressponse = await http.post(url, body: {
+      "phoneworker": widget.phone,
+      "phoneuser":widget.phone_Me,
+    });
+    var massage = json.decode(ressponse.body);
+    if (massage == 'yes') {
+      print('yahhhhhhhhhhhhhhhhhhhh');
+      fav=true;
+    }}
   Future getImages() async {
     var url = 'https://' + IP4 + '/testlocalhost/Show_EXP.php';
     var ressponse = await http.post(url, body: {
@@ -869,7 +960,9 @@ class _GroupButtom extends State<GroupButtom> {
         print(widget.image);
         Navigator.push(context,
             MaterialPageRoute(builder: (context) =>
-                user_worker(phoneuser: widget.phone_Me,
+                user_worker(
+                  fav:fav,
+                  phoneuser: widget.phone_Me,
                   tokenuser: widget.token_Me,
                   Work: widget.Work,
                   image: widget.image,
@@ -881,7 +974,7 @@ class _GroupButtom extends State<GroupButtom> {
                   token: widget.token,
                   Information: widget.Information,
                   Experiance: widget.Experiance,
-                   client_num: widget.client_num,
+                   client_num:c,
                   comment: ma,),));
       },
       child: Directionality(
@@ -909,7 +1002,7 @@ class _GroupButtom extends State<GroupButtom> {
                             itemCount: 1,
                             itemBuilder: (context, index) {
                               ma = snapshot.data[index]['count'];
-                              return Row_Worker();
+                              return row();
                             },);
                         }
                         return Container(
@@ -942,7 +1035,32 @@ class _GroupButtom extends State<GroupButtom> {
 
     return json.decode(ressponse.body);
   }
+  Widget row(){
+    return  Container(
+      height: 135,
+      child: FutureBuilder(
+          future: getCount(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              print("fffffffffffffffffffffffffffff");
+              print(fav);
+              print("SARAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhhhhhhhh");
+              //_MyHomePageState c= new _MyHomePageState();
+              return ListView.builder(
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  c=snapshot.data[index]['count'];
+                  return Row_Worker();
+                },);
+            }
+            return Container(
+              child:Text(''),
+            );
 
+          }
+      ),
+    );
+  }
   Widget Row_Worker(){
     return Stack(
       children: [
@@ -1006,11 +1124,11 @@ class _GroupButtom extends State<GroupButtom> {
                 color: Colors.white,
                 height: 60,
                 transform: Matrix4.translationValues(0.0, -18.0, 0.0),
-                margin: EdgeInsets.only(right: 40),
+                margin: EdgeInsets.only(right: 50),
                 child: Text(
                   widget.distance,
                   style: TextStyle(
-                    color: Colors.red,
+                    color: Y,
                     fontSize: 20.0,
                     fontFamily: 'Changa',
                     fontWeight: FontWeight.bold,
@@ -1058,7 +1176,7 @@ class _GroupButtom extends State<GroupButtom> {
           child: Row(
             children: [
               SizedBox(width: 10,),
-              Text(widget.client_num.toString(),
+              Text(c.toString(),
                 style: TextStyle(
                   color: Color(0xFF666360),
                   fontSize: 13.0,

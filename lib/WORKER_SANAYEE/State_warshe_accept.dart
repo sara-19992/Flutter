@@ -183,11 +183,22 @@ class  _State_warshe_accept extends State<State_warshe_accept> {
                     child: FutureBuilder(
                       future: add(),
                       builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (mark.isNotEmpty) {
+                        if (widget.lnguser!="0.000000"&&widget.latuser!="0.000000"&&mark.isNotEmpty) {
                           return showgoogle(mark);
                         }
                         else{
-                          return Container();
+                          return Container(
+                            height: 200,
+                            padding: EdgeInsets.only(top:110,right:160),
+                            color: Colors.grey[50],
+                            child:Text("لا توجد خريطة",style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black54,
+                              fontFamily: 'Changa',
+                            ),
+                            ),
+                          );
                         }
                       },
                     ),
@@ -222,7 +233,24 @@ class  _State_warshe_accept extends State<State_warshe_accept> {
                         Container(
                           child:Row(
                             children: [
-                              Container(
+                              widget.lnguser=="0.000000"&&widget.latuser=="0.000000"?  Container(
+                                width: 150,
+                                alignment: Alignment.topRight,
+                                child:Row(
+                                  children: [
+                                    Text(""+widget.country, style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colors.black54,
+                                      fontFamily: 'Changa',
+                                    ),
+                                    ),
+                                    Icon(Icons.location_on,size:20,color:Colors.black87,),
+                                  ],
+                                ),
+
+                              ):Container(
+                                width: 150,
                                 alignment: Alignment.topRight,
                                 child:Row(
                                   children: [
@@ -238,7 +266,8 @@ class  _State_warshe_accept extends State<State_warshe_accept> {
                                 ),
 
                               ),
-                              SizedBox(width:159,),
+
+                              SizedBox(width:128,),
                               Container(
                                 width: 50,
                                 child: FlatButton(

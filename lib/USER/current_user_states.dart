@@ -3,6 +3,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:fdottedline/fdottedline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutterphone/ChatUuser/Conversation.dart';
 import 'package:flutterphone/USER/user_reserve_order.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
@@ -44,7 +45,9 @@ class current_user_statues extends StatefulWidget {
   final AVG;
   final name_Me;
   final id;
-  current_user_statues({this.id,this.name_Me,this.AVG,this.work,this.timesend,this.datesend,this.time,this.date,this.country,this.namefirst,this.namelast,this.image,this.phoneuser,this.phoneworker,this.description});
+  final cancelpermition;
+  final name;
+  current_user_statues({this.name,this.cancelpermition,this.id,this.name_Me,this.AVG,this.work,this.timesend,this.datesend,this.time,this.date,this.country,this.namefirst,this.namelast,this.image,this.phoneuser,this.phoneworker,this.description});
   _current_user_statues createState() =>  _current_user_statues();
 }
 class  _current_user_statues extends State<current_user_statues> {
@@ -62,6 +65,30 @@ class  _current_user_statues extends State<current_user_statues> {
   bool step3=false;
   bool step4=false;
   @override
+  CreatChatRoom (){
+    print(widget.name_Me);
+    print(widget.name);
+    String chatRoomId=getChatRoomId(widget.name,widget.name_Me);
+    List<String>Users=[widget.name_Me,widget.name];
+    Map<String,dynamic>ChatRoom={
+      "users":Users,
+      "chatroomid":chatRoomId
+    };
+    databaseMethods.createChat(chatRoomId, ChatRoom);
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return Conversation(chatRoomId: chatRoomId,name_Me: widget.name_Me,name: widget.name,image: widget.image,namefirst: widget.namefirst,namelast: widget.namefirst,);
+    },
+    ),
+    );
+
+  }
+  getChatRoomId(String a, String b) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+      return "$b\_$a";
+    } else {
+      return "$a\_$b";
+    }
+  }
   void initState() {
     super.initState();
     // getChat();
@@ -205,7 +232,10 @@ class  _current_user_statues extends State<current_user_statues> {
                                       child: InkWell(
                                         // splashColor: Colors.black87, // inkwell color
                                         child: SizedBox(width: 30, height: 30, child: Icon(Icons.mark_chat_unread,color: Colors.white,size: 20,)),
-                                        onTap: () {},
+                                        onTap: () {
+                                          print("SARAH");
+                                          CreatChatRoom();
+                                        },
                                       ),
                                     ),
                                   ),
@@ -217,11 +247,21 @@ class  _current_user_statues extends State<current_user_statues> {
                       ],
                     ),
                   ),
-
+                  widget.cancelpermition?Container(height: 0,):Container(
+                    width: 350,
+                    margin: EdgeInsets.only(top: 250,right: 20),
+                    child: Text(' لا يسمح لك بإلغاء هذا الطلب وذلك لمرور 24 ساعة على موافقة الصنايعي على  هذا الطلب ',
+                      style: TextStyle(
+                        fontFamily: 'Changa',
+                        color: Y,
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.bold,
+                      ),),
+                  ),
                   Container(
                     height: 300,
                     width: 450,
-                    margin: EdgeInsets.only(top:250,right: 15),
+                    margin:  widget.cancelpermition?EdgeInsets.only(top:250,right: 15):EdgeInsets.only(top:320,right: 15),
                     padding:EdgeInsets.only(right:0,left: 0),
                     decoration: BoxDecoration(
 
@@ -494,7 +534,7 @@ class  _current_user_statues extends State<current_user_statues> {
                           ),
                         ),
                       ],),),
-                  Container(
+                  widget.cancelpermition?Container(
                     child: Column(
                       children:[
                         Container(
@@ -531,7 +571,7 @@ class  _current_user_statues extends State<current_user_statues> {
                           ),
                         ),
                       ],),
-                  ),
+                  ):Container(height: 0.0,),
 
                 ],),),
           ),],),);

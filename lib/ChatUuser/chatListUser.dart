@@ -27,8 +27,9 @@ class Chat extends StatefulWidget{
   final namelast;
   final token;
   final image;
+  List<dynamic>Lsist_Post;
   @override
-  Chat({this.token,this.image,this.namelast,this.namefirst,this.phone,this.name_Me,this.chatsRoomList});
+  Chat({this.Lsist_Post,this.token,this.image,this.namelast,this.namefirst,this.phone,this.name_Me,this.chatsRoomList});
   _Chat createState() =>  _Chat();
 }
 class  _Chat extends State<Chat> {
@@ -89,7 +90,7 @@ class  _Chat extends State<Chat> {
     getChat();
     super.initState();
   }
-  int _selectedIndex=2;
+  int _selectedItem=2;
   GlobalKey _bottomNavigationKey = GlobalKey();
   Stream chatsRoom;
   Widget build(BuildContext context) {
@@ -98,106 +99,137 @@ class  _Chat extends State<Chat> {
       child: Scaffold(
         backgroundColor: Colors.white,
         key: _scaffoldKey,
-        bottomNavigationBar:Container(
-          decoration: BoxDecoration(color: Colors.white, boxShadow: [
-            BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
-          ]),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-              child: GNav(
-                  rippleColor: Colors.grey[300],
-                  hoverColor: Colors.grey[100],
-                  gap: 8,
-                  activeColor: Colors.black,
-                  iconSize: 24,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                  duration: Duration(milliseconds: 400),
-                  tabBackgroundColor: Colors.grey[100],
-                  tabs: [
-                    GButton(
-                      icon: Icons.home,
-                      text: 'الرئيسية',
-                      textStyle:TextStyle(
-                        fontFamily: 'Changa',
-                        color: Colors.black,
-                        fontSize: 14.5,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    GButton(
-                      onPressed: (){
-                      },
-                      icon: Icons.calendar_today,
-                      text: 'طلباتي',
-                      textStyle:TextStyle(
-                        fontFamily: 'Changa',
-                        color: Colors.black,
-                        fontSize: 14.5,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    GButton(
-                      onPressed: (){
+        // bottomNavigationBar:Container(
+        //   decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        //     BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
+        //   ]),
+        //   child: SafeArea(
+        //     child: Padding(
+        //       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+        //       child: GNav(
+        //           rippleColor: Colors.grey[300],
+        //           hoverColor: Colors.grey[100],
+        //           gap: 8,
+        //           activeColor: Colors.black,
+        //           iconSize: 24,
+        //           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+        //           duration: Duration(milliseconds: 400),
+        //           tabBackgroundColor: Colors.grey[100],
+        //           tabs: [
+        //             GButton(
+        //               icon: Icons.home,
+        //               text: 'الرئيسية',
+        //               textStyle:TextStyle(
+        //                 fontFamily: 'Changa',
+        //                 color: Colors.black,
+        //                 fontSize: 14.5,
+        //                 fontWeight: FontWeight.bold,
+        //               ),
+        //             ),
+        //             GButton(
+        //               onPressed: (){
+        //               },
+        //               icon: Icons.calendar_today,
+        //               text: 'طلباتي',
+        //               textStyle:TextStyle(
+        //                 fontFamily: 'Changa',
+        //                 color: Colors.black,
+        //                 fontSize: 14.5,
+        //                 fontWeight: FontWeight.bold,
+        //               ),
+        //             ),
+        //             GButton(
+        //               onPressed: (){
+        //
+        //               },
+        //               icon: Icons.mark_chat_unread,
+        //               text: 'شات',
+        //               textStyle:TextStyle(
+        //                 fontFamily: 'Changa',
+        //                 color: Colors.black,
+        //                 fontSize: 14.5,
+        //                 fontWeight: FontWeight.bold,
+        //               ),
+        //             ),
+        //             GButton(
+        //               icon: Icons.favorite_border,
+        //               text: 'المفضلة',
+        //               textStyle:TextStyle(
+        //                 fontFamily: 'Changa',
+        //                 color: Colors.black,
+        //                 fontSize: 14.5,
+        //                 fontWeight: FontWeight.bold,
+        //               ),
+        //             ),
+        //             GButton(
+        //               icon: Icons.menu,
+        //               text: 'القائمة',
+        //               textStyle:TextStyle(
+        //                 fontFamily: 'Changa',
+        //                 color: Colors.black,
+        //                 fontSize: 14.5,
+        //                 fontWeight: FontWeight.bold,
+        //               ),
+        //             ),
+        //           ],
+        //           selectedIndex: _selectedIndex,
+        //           onTabChange: (index) {
+        //             setState(() {
+        //               _selectedIndex = index;
+        //               if(index==0){
+        //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => U_PROFILE(name_Me: widget.name_Me,)));
+        //               }
+        //               if(index==1){
+        //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(username: widget.name_Me,phoneuser: widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+        //               }
+        //               if(index==2){
+        //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Chat(name_Me:widget.name_Me,chatsRoomList: chatsRoom,phone:widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+        //               }
+        //               if(index==3){
+        //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => favarate(username: widget.name_Me,phoneuser: widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+        //               }
+        //               if(index==4){
+        //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MenuePage(namelast:widget.namelast,name:widget.name_Me,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+        //               }
 
-                      },
-                      icon: Icons.mark_chat_unread,
-                      text: 'شات',
-                      textStyle:TextStyle(
-                        fontFamily: 'Changa',
-                        color: Colors.black,
-                        fontSize: 14.5,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    GButton(
-                      icon: Icons.favorite_border,
-                      text: 'المفضلة',
-                      textStyle:TextStyle(
-                        fontFamily: 'Changa',
-                        color: Colors.black,
-                        fontSize: 14.5,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    GButton(
-                      icon: Icons.menu,
-                      text: 'القائمة',
-                      textStyle:TextStyle(
-                        fontFamily: 'Changa',
-                        color: Colors.black,
-                        fontSize: 14.5,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                  selectedIndex: _selectedIndex,
-                  onTabChange: (index) {
-                    setState(() {
-                      _selectedIndex = index;
-                      if(index==0){
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => U_PROFILE(name_Me: widget.name_Me,)));
-                      }
-                      if(index==1){
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(username: widget.name_Me,phoneuser: widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
-                      }
-                      if(index==2){
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Chat(name_Me:widget.name_Me,chatsRoomList: chatsRoom,phone:widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
-                      }
-                      if(index==3){
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => favarate(username: widget.name_Me,phoneuser: widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
-                      }
-                      if(index==4){
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MenuePage(namelast:widget.namelast,name:widget.name_Me,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
-                      }
+        //
+        //
+        //             });
+        //           }
+        //       ),
+        //     ),
+        //   ),),
+        bottomNavigationBar: CustomBottomNavigationBar(
+          iconList: [
+            Icons.home,
+            Icons.calendar_today,
+            Icons.mark_chat_unread,
+            Icons.favorite_border,
+            Icons.menu,
+          ],
+          onChange: (val) {
+            setState(() {
+              _selectedItem = val;
+            });
+            if(_selectedItem==0){
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => U_PROFILE(name_Me: widget.name_Me,Lsist_Post:widget.Lsist_Post,)));
+            }
+            if(_selectedItem==1){
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(Lsist_Post:widget.Lsist_Post,username: widget.name_Me,phoneuser: widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+            }
+            if(_selectedItem==2){
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Chat(Lsist_Post:widget.Lsist_Post,name_Me:widget.name_Me,chatsRoomList: chatsRoom,phone:widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+            }
+            if(_selectedItem==3){
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => favarate(Lsist_Post:widget.Lsist_Post,username: widget.name_Me,phoneuser: widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+            }
+            if(_selectedItem==4){
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MenuePage(Lsist_Post:widget.Lsist_Post,namelast:widget.namelast,name:widget.name_Me,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+            }
 
-
-
-                    });
-                  }
-              ),
-            ),
-          ),),
+          },
+          defaultSelectedIndex: _selectedItem,
+        ),
         // appBar: PreferredSize(
         //     preferredSize: Size.fromHeight(80.0), // here the desired height
         //     child:AppBar(
@@ -267,6 +299,10 @@ class  _ChatRooTile extends State<ChatRooTile> {
                 // color:  Color(0xFFF3D657),
                 margin: EdgeInsets.only(top:0),
                 decoration: BoxDecoration(
+                    // borderRadius: BorderRadius.only(
+                    //   topLeft: Radius.circular(15),
+                    //   topRight: Radius.circular(15),
+                    // ),
                   color: Colors.white
                 ),
                 child:FutureBuilder(
@@ -326,6 +362,9 @@ class  _ChatBlock extends State<ChatBlock> {
   }
 
   Widget build(BuildContext context) {
+    print(widget.name);
+    print(widget.image);
+    print("QWERTYU");
   return GestureDetector(
           onTap: (){
             CreatChatRoom();
@@ -362,3 +401,73 @@ class  _ChatBlock extends State<ChatBlock> {
     ),),);
   }
 }
+class CustomBottomNavigationBar extends StatefulWidget {
+  final int defaultSelectedIndex;
+  final Function(int) onChange;
+  final List<IconData> iconList;
+
+  CustomBottomNavigationBar(
+      {this.defaultSelectedIndex = 0,
+        @required this.iconList,
+        @required this.onChange});
+
+  @override
+  _CustomBottomNavigationBarState createState() =>
+      _CustomBottomNavigationBarState();
+}
+
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
+  int _selectedIndex = 0;
+  List<IconData> _iconList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _selectedIndex = widget.defaultSelectedIndex;
+    _iconList = widget.iconList;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> _navBarItemList = [];
+
+    for (var i = 0; i < _iconList.length; i++) {
+      _navBarItemList.add(buildNavBarItem(_iconList[i], i));
+    }
+
+    return Row(
+      children: _navBarItemList,
+    );
+  }
+
+  Widget buildNavBarItem(IconData icon, int index) {
+    return GestureDetector(
+      onTap: () {
+        widget.onChange(index);
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      child: Container(
+        height: 60,
+
+        width: MediaQuery.of(context).size.width / _iconList.length,
+        decoration: index == _selectedIndex
+            ? BoxDecoration(
+          color: Colors.white,
+          // color: index == _selectedItemIndex ? Colors.green : Colors.white,
+        )
+            : BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Icon(
+          icon,
+          color: index == _selectedIndex ? Y : Colors.black,
+        ),
+      ),
+    );
+  }
+}
+

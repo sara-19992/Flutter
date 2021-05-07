@@ -47,10 +47,23 @@ class _Body extends State<Loginscreen> {
     var ressponse=await http.get(url);
     return json.decode(ressponse.body);
   }
+  var List_P=[];
+  Future getpost()async{
+    var url='https://'+IP4+'/testlocalhost/post_profile.php';
+    var ressponse=await http.get(url);
+    List_P=await json.decode(ressponse.body);
+    return json.decode(ressponse.body);
 
-
-
-
+  }
+  var phone;
+  Future getworker(String name) async {
+    var url = 'https://' + IP4 + '/testlocalhost/getphone.php';
+    var ressponse = await http.post(url, body: {
+      "name": name,
+    });
+    phone=await json.decode(ressponse.body);
+    return json.decode(ressponse.body);
+  }
   Future senddata() async {
     print('hi hi hi');
     var url = 'https://'+IP4+'/testlocalhost/login.php';
@@ -61,22 +74,24 @@ class _Body extends State<Loginscreen> {
     massage = json.decode(ressponse.body);
     if (massage == 'userlogin') {
       print('login is sucssefully');
+      await getpost();
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) {
-            return U_PROFILE(name_Me:nameController.text,);
+            return U_PROFILE(name_Me:nameController.text,Lsist_Post:List_P);
           },
         ),
       );
     }
     else if (massage == 'workerlogin') {
       print('worker login sucssefully');
+      await getworker(nameController.text);
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) {
-            return orderpperson_map(name_Me:nameController.text);
+            return orderpperson_map(name_Me:nameController.text,phone_Me:phone,);
             //  return ProfilePage(nameController.text);
 
           },

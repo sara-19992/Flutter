@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutterphone/ChatUuser/chatListUser.dart';
 import 'package:flutterphone/USER/user_Profile.dart';
 import 'package:flutterphone/USER/user_reserve_order.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'dart:ui' as ui;
@@ -38,7 +39,8 @@ class favarate extends StatefulWidget {
   final namefirst;
   final image;
   final token;
-  favarate({this.username,this.phoneuser,this.namefirst,this.namelast,this.image,this.token});
+  List<dynamic>Lsist_Post;
+  favarate({this.Lsist_Post,this.username,this.phoneuser,this.namefirst,this.namelast,this.image,this.token});
   _favarate createState() =>  _favarate();
 }
 class  _favarate extends State<favarate> {
@@ -81,7 +83,8 @@ class  _favarate extends State<favarate> {
     super.initState();
      getChat();
   }
-  int _selectedIndex = 3;
+
+  int _selectedItem = 3;
   PageController _pageController;
   DatabaseMethods databaseMethods=new DatabaseMethods();
   Stream chatsRoom;
@@ -112,104 +115,134 @@ class  _favarate extends State<favarate> {
             //     ),
             //   ),
             // ),
-            bottomNavigationBar:Container(
-              decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
-              ]),
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-                  child: GNav(
-                      rippleColor: Colors.grey[300],
-                      hoverColor: Colors.grey[100],
-                      gap: 8,
-                      activeColor: Colors.black,
-                      iconSize: 24,
-                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                      duration: Duration(milliseconds: 400),
-                      tabBackgroundColor: Colors.grey[100],
-                      tabs: [
-                        GButton(
-                          icon: Icons.home,
-                          text: 'الرئيسية',
-                          textStyle:TextStyle(
-                            fontFamily: 'Changa',
-                            color: Colors.black,
-                            fontSize: 14.5,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        GButton(
-                          onPressed: (){
-                          },
-                          icon: Icons.calendar_today,
-                          text: 'طلباتي',
-                          textStyle:TextStyle(
-                            fontFamily: 'Changa',
-                            color: Colors.black,
-                            fontSize: 14.5,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        GButton(
-                          onPressed: (){
-
-                          },
-                          icon: Icons.mark_chat_unread,
-                          text: 'شات',
-                          textStyle:TextStyle(
-                            fontFamily: 'Changa',
-                            color: Colors.black,
-                            fontSize: 14.5,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        GButton(
-                          icon: Icons.favorite_border,
-                          text: 'المفضلة',
-                          textStyle:TextStyle(
-                            fontFamily: 'Changa',
-                            color: Colors.black,
-                            fontSize: 14.5,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        GButton(
-                          icon: Icons.menu,
-                          text: 'القائمة',
-                          textStyle:TextStyle(
-                            fontFamily: 'Changa',
-                            color: Colors.black,
-                            fontSize: 14.5,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                      selectedIndex: _selectedIndex,
-                      onTabChange: (index) {
-                        setState(() {
-                          _selectedIndex = index;
-                          if(index==0){
-                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => U_PROFILE(name_Me: widget.username,)));
-                          }
-                          if(index==1){
-                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(username: widget.username,phoneuser: widget.phoneuser,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
-                          }
-                          if(index==2){
-                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Chat(name_Me:widget.username,chatsRoomList: chatsRoom,phone:widget.phoneuser,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
-                          }
-                          if(index==3){
-                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => favarate(username: widget.username,phoneuser: widget.phoneuser,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
-                          }
-                          if(index==4){
-                            Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MenuePage(namelast:widget.namelast,name:widget.username,phone:widget.phoneuser,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
-                          }
-
-                        });
-                      }
-                  ),
-                ),
-              ),),
+            // bottomNavigationBar:Container(
+            //   decoration: BoxDecoration(color: Colors.white, boxShadow: [
+            //     BoxShadow(blurRadius: 20, color: Colors.black.withOpacity(.1))
+            //   ]),
+            //   child: SafeArea(
+            //     child: Padding(
+            //       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+            //       child: GNav(
+            //           rippleColor: Colors.grey[300],
+            //           hoverColor: Colors.grey[100],
+            //           gap: 8,
+            //           activeColor: Colors.black,
+            //           iconSize: 24,
+            //           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+            //           duration: Duration(milliseconds: 400),
+            //           tabBackgroundColor: Colors.grey[100],
+            //           tabs: [
+            //             GButton(
+            //               icon: Icons.home,
+            //               text: 'الرئيسية',
+            //               textStyle:TextStyle(
+            //                 fontFamily: 'Changa',
+            //                 color: Colors.black,
+            //                 fontSize: 14.5,
+            //                 fontWeight: FontWeight.bold,
+            //               ),
+            //             ),
+            //             GButton(
+            //               onPressed: (){
+            //               },
+            //               icon: Icons.calendar_today,
+            //               text: 'طلباتي',
+            //               textStyle:TextStyle(
+            //                 fontFamily: 'Changa',
+            //                 color: Colors.black,
+            //                 fontSize: 14.5,
+            //                 fontWeight: FontWeight.bold,
+            //               ),
+            //             ),
+            //             GButton(
+            //               onPressed: (){
+            //
+            //               },
+            //               icon: Icons.mark_chat_unread,
+            //               text: 'شات',
+            //               textStyle:TextStyle(
+            //                 fontFamily: 'Changa',
+            //                 color: Colors.black,
+            //                 fontSize: 14.5,
+            //                 fontWeight: FontWeight.bold,
+            //               ),
+            //             ),
+            //             GButton(
+            //               icon: Icons.favorite_border,
+            //               text: 'المفضلة',
+            //               textStyle:TextStyle(
+            //                 fontFamily: 'Changa',
+            //                 color: Colors.black,
+            //                 fontSize: 14.5,
+            //                 fontWeight: FontWeight.bold,
+            //               ),
+            //             ),
+            //             GButton(
+            //               icon: Icons.menu,
+            //               text: 'القائمة',
+            //               textStyle:TextStyle(
+            //                 fontFamily: 'Changa',
+            //                 color: Colors.black,
+            //                 fontSize: 14.5,
+            //                 fontWeight: FontWeight.bold,
+            //               ),
+            //             ),
+            //           ],
+            //           selectedIndex: _selectedIndex,
+            //           onTabChange: (index) {
+            //             setState(() {
+            //               _selectedIndex = index;
+            //               if(index==0){
+            //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => U_PROFILE(name_Me: widget.username,)));
+            //               }
+            //               if(index==1){
+            //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(username: widget.username,phoneuser: widget.phoneuser,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+            //               }
+            //               if(index==2){
+            //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Chat(name_Me:widget.username,chatsRoomList: chatsRoom,phone:widget.phoneuser,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+            //               }
+            //               if(index==3){
+            //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => favarate(username: widget.username,phoneuser: widget.phoneuser,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+            //               }
+            //               if(index==4){
+            //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MenuePage(namelast:widget.namelast,name:widget.username,phone:widget.phoneuser,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+            //               }
+            //
+            //             });
+            //           }
+            //       ),
+            //     ),
+            //   ),),
+            bottomNavigationBar: CustomBottomNavigationBar(
+              iconList: [
+                Icons.home,
+                Icons.calendar_today,
+                Icons.mark_chat_unread,
+                Icons.favorite_border,
+                Icons.menu,
+              ],
+              onChange: (val) {
+                setState(() {
+                  _selectedItem = val;
+                });
+                if(_selectedItem==0){
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => U_PROFILE(name_Me: widget.username,Lsist_Post:widget.Lsist_Post,)));
+                }
+                if(_selectedItem==1){
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(Lsist_Post:widget.Lsist_Post,username: widget.username,phoneuser: widget.phoneuser,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+                }
+                if(_selectedItem==2){
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Chat(Lsist_Post:widget.Lsist_Post,name_Me:widget.username,chatsRoomList: chatsRoom,phone:widget.phoneuser,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+                }
+                if(_selectedItem==3){
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => favarate(Lsist_Post:widget.Lsist_Post,username: widget.username,phoneuser: widget.phoneuser,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+                }
+                if(_selectedItem==4){
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MenuePage(Lsist_Post:widget.Lsist_Post,namelast:widget.namelast,name:widget.username,phone:widget.phoneuser,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+                }
+              },
+              defaultSelectedIndex: _selectedItem,
+            ),
             body: Form(
               // child:SingleChildScrollView(
               child: Stack(
@@ -217,20 +250,30 @@ class  _favarate extends State<favarate> {
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    height: 150,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          // colors: [B,A,G]
-                          colors: [Y1,Y4]
+                    width: 300,
+                      height: 60,
+                      margin: EdgeInsets.only(top:70,right: 10),
+                      // transform: Matrix4.translationValues(0, -120.0, 0),
+                      child:Row(
+                        children: [
+                          SizedBox(width: 150,),
+                          Text('مفضلتي',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                              fontFamily: 'vibes',
+                              //fontStyle: FontStyle.italic,
+                            ),),
+                          Icon(Icons.favorite_border,size: 25,color: Colors.red,),
+                        ],
                       ),
-                    ),),
+                  ),
                  Container(
-                    height: 600,
+                    height: 700,
                     width: 500,
                     // color:  Color(0xFFF3D657),
-                    margin: EdgeInsets.only(top:130),
+                    margin: EdgeInsets.only(top:110),
                     //padding:EdgeInsets.only(right:25,left: 25),
                     decoration: BoxDecoration(
                       // color:Color(0xFF1C1C1C),
@@ -310,23 +353,23 @@ class _f extends State<f> {
           onTap: (){
           },
           child:Container(
-            width: 350,
-            height: 100,
+            width: 360,
+            height: 90,
             alignment: Alignment.topRight,
             decoration: BoxDecoration(
-              color:Colors.grey[100],
+              color:Colors.grey[50],
               borderRadius: BorderRadius.circular(5),
             ),
             margin: EdgeInsets.only(bottom: 20,),
-            padding: EdgeInsets.only(right: 10,top: 10,bottom: 10),
+            padding: EdgeInsets.only(right: 10,top: 5,bottom: 10),
             child:Row(
               children: [
 
                 Container(
-                  margin: EdgeInsets.only(top: 10, right: 5),
+                  margin: EdgeInsets.only(top: 5, right: 5),
                   child: CircleAvatar(backgroundImage: NetworkImage(
                       'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
-                    radius: 40.0,),),
+                    radius: 30.0,),),
                 Container(
                   child: Column(
                     children: [
@@ -356,10 +399,12 @@ class _f extends State<f> {
                       ),
                     ],
                 ),),
+               SizedBox(width: 25,),
                GestureDetector(
                  onTap: ()async{
                    await delete_faverate();
-                   _showSnackBar(context, 'تمت الإزالة من قائمة المفضلة لديك');
+                    Fluttertoast.showToast(msg: " تم الحذف من مفضلتك  ",fontSize: 16,textColor:Colors.black87,backgroundColor: Colors.transparent);
+                   //_showSnackBar(context, 'تمت الإزالة من قائمة المفضلة لديك');
                    Navigator.push(context, MaterialPageRoute(builder: (context) => favarate(phoneuser:widget.phoneuser,username:widget.username,namelast:widget.usernamelast,image:widget.userimage,token:widget.usertoken,namefirst:widget.usernamefirst),),);
                  },
                  child:Container(
@@ -391,6 +436,75 @@ class _f extends State<f> {
     });
     // ignore: deprecated_member_use
     return json.decode(ressponse.body);
+  }
+}
+class CustomBottomNavigationBar extends StatefulWidget {
+  final int defaultSelectedIndex;
+  final Function(int) onChange;
+  final List<IconData> iconList;
+
+  CustomBottomNavigationBar(
+      {this.defaultSelectedIndex = 0,
+        @required this.iconList,
+        @required this.onChange});
+
+  @override
+  _CustomBottomNavigationBarState createState() =>
+      _CustomBottomNavigationBarState();
+}
+
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
+  int _selectedIndex = 0;
+  List<IconData> _iconList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _selectedIndex = widget.defaultSelectedIndex;
+    _iconList = widget.iconList;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> _navBarItemList = [];
+
+    for (var i = 0; i < _iconList.length; i++) {
+      _navBarItemList.add(buildNavBarItem(_iconList[i], i));
+    }
+
+    return Row(
+      children: _navBarItemList,
+    );
+  }
+
+  Widget buildNavBarItem(IconData icon, int index) {
+    return GestureDetector(
+      onTap: () {
+        widget.onChange(index);
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      child: Container(
+        height: 60,
+
+        width: MediaQuery.of(context).size.width / _iconList.length,
+        decoration: index == _selectedIndex
+            ? BoxDecoration(
+          color: Colors.white,
+          // color: index == _selectedItemIndex ? Colors.green : Colors.white,
+        )
+            : BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Icon(
+          icon,
+          color: index == _selectedIndex ? Y : Colors.black,
+        ),
+      ),
+    );
   }
 }
 

@@ -69,8 +69,10 @@ class _mState extends State<order_map> {
   @override
   Widget build(BuildContext context) {
     return Container(
-            height: 650,
-            color: Colors.grey[50],
+            height: 700,
+           // color: Colors.red,
+      transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+           // margin: EdgeInsets.only(top:20),
             child: FutureBuilder(
                 future: today(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -218,9 +220,7 @@ class _MyHomePageState extends State<w> {
   }
 
   Widget showgooglemap(List<Marker>mark) {
-    return Stack(
-          children:[
-            Container(
+    return Container(
               margin: EdgeInsets.only(top: 0),
               height: 650,
               child:GoogleMap(
@@ -235,8 +235,7 @@ class _MyHomePageState extends State<w> {
                 gestureRecognizers: Set()
                   ..add(Factory<PanGestureRecognizer>(() => PanGestureRecognizer())),
               ),
-            ),
-          ],);
+            );
           // SizedBox(width: 5,),
           // IconButton(
           //   icon: showmap?Icon(Icons.person,color:Colors.black,):Icon(Icons.location_on,color: Colors.black87,),
@@ -451,7 +450,7 @@ class _MyHomePageState extends State<w> {
     Fetch();
 
     return  Container(
-      height: 690,
+      height: 670,
       width: 500,
       child: showgooglemap(markers),);
     //  child:FutureBuilder(
@@ -470,7 +469,7 @@ class _MyHomePageState extends State<w> {
 
   // @override
   Future <double> add() async {
-        final Uint8List markerIconuser= await getBytesFromAsset('assets/icons/worker.png',200);
+        final Uint8List markerIconuser= await getBytesFromAsset('assets/icons/worker.png',150);
       int index = i;
       Marker m = new Marker(markerId: MarkerId(index.toString()),
         infoWindow: InfoWindow(title: widget.Location[i]['namefirst'] + " " +

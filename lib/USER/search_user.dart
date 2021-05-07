@@ -161,12 +161,64 @@ class _HomeState extends State<Search_user> {
     // ignore: deprecated_member_use
     return json.decode(ressponse.body);
   }
+  Future getoneworker(String phone)async{
+    var url='https://'+IP4+'/testlocalhost/getoneworker.php';
+    var ressponse=await http.post(url,body: {
+      "phone":phone,
+    });
+    // ignore: deprecated_member_use
+    return json.decode(ressponse.body);
+  }
   Future searchcountry_avalibel_rate(String country)async{
     var url='https://'+IP4+'/testlocalhost/searchcountry_avalibel_rate.php';
     var ressponse=await http.post(url,body: {
       "Work":widget.work,
       "country":country,
     });
+    // ignore: deprecated_member_use
+    return json.decode(ressponse.body);
+  }
+  bool fav =false;
+  Future faverate(String phone) async {
+    print('hi hi hi');
+    var url = 'https://'+IP4+'/testlocalhost/checkiffaverate.php';
+    var ressponse = await http.post(url, body: {
+      "phoneworker": phone,
+      "phoneuser":widget.phone_Me,
+    });
+    var massage = json.decode(ressponse.body);
+    if (massage == 'yes') {
+      print('yahhhhhhhhhhhhhhhhhhhh');
+      fav=true;
+    }}
+  var count_comment;
+  Future getComment(String phone) async {
+    var url = 'https://' + IP4 + '/testlocalhost/getcountcomment.php';
+    var ressponse = await http.post(url, body: {
+      "phone": phone,
+    });
+    count_comment=await json.decode(ressponse.body);
+    return json.decode(ressponse.body);
+  }
+  var count_client;
+  Future getCount(String phone) async {
+    var url = 'https://' + IP4 + '/testlocalhost/getcountclient.php';
+    var ressponse = await http.post(url, body: {
+      "phone": phone,
+    });
+    // ignore: deprecated_member_use
+    // var responsebody = json.decode(ressponse.body);
+    // print(responsebody);
+    count_client=await json.decode(ressponse.body);
+    return json.decode(ressponse.body);
+  }
+  var List_Post=[];
+  Future getpost(String phone)async{
+    var url='https://'+IP4+'/testlocalhost/getpost.php';
+    var ressponse=await http.post(url,body: {
+      "phone": phone,
+    });
+    List_Post=await json.decode(ressponse.body);
     // ignore: deprecated_member_use
     return json.decode(ressponse.body);
   }
@@ -541,7 +593,7 @@ class _HomeState extends State<Search_user> {
                 },
               ),
             ):Container(),
-            button2==true && button3==true && button1==false && button4==false? Container(
+            button2==true && button3==true && button1==false && button4==false && button5==false? Container(
               height: 500,
               width: 500,
               // color:  Color(0xFFF3D657),
@@ -754,17 +806,21 @@ class _HomeState extends State<Search_user> {
               ),
             ):Container(),
             button5==true && button3==false && button2==false? Container(
-                margin: EdgeInsets.only(top:210),
-                child:Search_map(work: widget.work,),) :Container(),
+                margin: EdgeInsets.only(top:200),
+                height: 600,
+                child:Search_map(phone_Me:widget.phone_Me,image_Me:widget.image_Me,token_Me:widget.token_Me,location:widget.location,country:widget.country,work: widget.work,nameLast_Me:widget.nameLast_Me,namefirst_Me:widget.namefirst_Me,name_Me: widget.name_Me,),) :Container(),
             button5==true && button3==true && button2==false? Container(
-              margin: EdgeInsets.only(top:210),
-              child:Search_map_rate(work: widget.work,),) :Container(),
+              height: 600,
+              margin: EdgeInsets.only(top:200),
+              child:Search_map_rate(phone_Me:widget.phone_Me,image_Me:widget.image_Me,token_Me:widget.token_Me,location:widget.location,country:widget.country,work: widget.work,nameLast_Me:widget.nameLast_Me,namefirst_Me:widget.namefirst_Me,name_Me: widget.name_Me,),) :Container(),
             button5==true && button3==false && button2==true? Container(
-              margin: EdgeInsets.only(top:210),
-              child:Search_map_avalibel(work: widget.work,),) :Container(),
+              height: 600,
+              margin: EdgeInsets.only(top:200),
+              child:Search_map_avalibel(phone_Me:widget.phone_Me,image_Me:widget.image_Me,token_Me:widget.token_Me,location:widget.location,country:widget.country,work: widget.work,nameLast_Me:widget.nameLast_Me,namefirst_Me:widget.namefirst_Me,name_Me: widget.name_Me,),) :Container(),
             button5==true && button3==true && button2==true? Container(
-              margin: EdgeInsets.only(top:210),
-              child:Search_map_avalibel_rate(work: widget.work,),) :Container(),
+              height: 600,
+              margin: EdgeInsets.only(top:200),
+              child:Search_map_avalibel_rate(phone_Me:widget.phone_Me,image_Me:widget.image_Me,token_Me:widget.token_Me,location:widget.location,country:widget.country,work: widget.work,nameLast_Me:widget.nameLast_Me,namefirst_Me:widget.namefirst_Me,name_Me: widget.name_Me,),) :Container(),
             new Container(
               margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 0.0),
               child: new Column(
@@ -950,9 +1006,11 @@ class _HomeState extends State<Search_user> {
       padding: EdgeInsets.only(right: 10),
       // decoration: BoxDecoration(border: Border.all(width: 1.0)),
       child: new TextField(
+        scrollPadding: EdgeInsets.only(top:7),
+        cursorColor:Y,
         controller: _searchview,
         style: TextStyle(
-          fontSize: 16.0,
+          fontSize: 14.0,
           fontWeight: FontWeight.bold,
           fontFamily: 'Changa',
         ),
@@ -1036,8 +1094,10 @@ class _HomeState extends State<Search_user> {
           child:Directionality(textDirection: TextDirection.ltr,
             child:Container(
               width: 390,
-              height: 200,
-              margin:EdgeInsets.only(left: 10,right: 10),
+              height: 150,
+              // transform: Matrix4.translationValues(0.0, -50.0, 0.0),
+              margin:EdgeInsets.only(left: 10,right: 10,top:4),
+              padding:EdgeInsets.all(0),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -1049,18 +1109,24 @@ class _HomeState extends State<Search_user> {
                   ),],
               ),
               child: new ListView.builder(
+                  padding: EdgeInsets.only(top: 8.0),
                   itemCount: _filterList.length,
                   itemBuilder: (BuildContext context, int index) {
+                    print("Listtttttttttttttttttttttttttttttt");
                     return new GestureDetector(
-                      onTap: (){
+                      onTap: ()async{
+                        await faverate(Listsearch[index]['phone']);
+                        await getpost(Listsearch[index]['phone']);
+                        await getComment(Listsearch[index]['phone']);
+                        await getCount(Listsearch[index]['phone']);
                         Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => user_worker(phoneuser:widget.phone_Me,tokenuser:widget.token_Me,Work:Listsearch[index]['Work'],image:Listsearch[index]['image'],phone:Listsearch[index]['phone'],name: Listsearch[index]['name'],namelast:Listsearch[index]['namelast'],name_Me: widget.name_Me,namefirst:Listsearch[index]['namefirst'],token:Listsearch[index]['token'],Information:Listsearch[index]['Information'],Experiance:Listsearch[index]['Experiance'],),));
+                            MaterialPageRoute(builder: (context) => user_worker(List_Post:List_Post,fav:fav,client_num:count_client,comment: count_comment,country:widget.country,phoneuser:widget.phone_Me,tokenuser:widget.token_Me,Work:widget.work,image:Listsearch[index]['image'],phone:Listsearch[index]['phone'],name:Listsearch[index]['name'],namelast:Listsearch[index]['namelast'],name_Me: widget.name_Me,namefirst:Listsearch[index]['namefirst'],token:Listsearch[index]['token'],Information:Listsearch[index]['Information'],Experiance:Listsearch[index]['Experiance'],),));
+
                       },
                       child:  Container(
                         alignment: Alignment.topRight,
-                        color: Colors.white,
-                        width: 200,
-                        margin: EdgeInsets.only(right: 20,top:10),
+                        width: 220,
+                        margin: EdgeInsets.only(right: 10,top:7),
                         padding:EdgeInsets.only(right: 5,),
                         child: new Text("${_filterList[index]}",
                           style: TextStyle(
@@ -1105,14 +1171,40 @@ class Group  extends StatefulWidget {
 
 class _Group extends State<Group> {
   var ma="";
+  var c="";
   @override
   void initState(){
     getpost();
+    faverate();
+    getCount();
     super.initState();
   }
-
+  bool fav =false;
+  Future faverate() async {
+    print('hi hi hi');
+    var url = 'https://'+IP4+'/testlocalhost/checkiffaverate.php';
+    var ressponse = await http.post(url, body: {
+      "phoneworker": widget.phone,
+      "phoneuser":widget.phone_Me,
+    });
+    var massage = json.decode(ressponse.body);
+    if (massage == 'yes') {
+      print('yahhhhhhhhhhhhhhhhhhhh');
+      fav=true;
+    }}
   Future getComment() async {
     var url = 'https://' + IP4 + '/testlocalhost/getcomment.php';
+    var ressponse = await http.post(url, body: {
+      "phone": widget.phone,
+    });
+    // ignore: deprecated_member_use
+    // var responsebody = json.decode(ressponse.body);
+    // print(responsebody);
+
+    return json.decode(ressponse.body);
+  }
+  Future getCount() async {
+    var url = 'https://' + IP4 + '/testlocalhost/getcCount.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -1140,7 +1232,7 @@ class _Group extends State<Group> {
         print(widget.phone); print(widget.name_Me); print(widget.phone_Me);
         print(widget.token); print(widget.token_Me);
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => user_worker(List_Post:List_Post,client_num: widget.client_num,comment: ma,country:widget.country,phoneuser:widget.phone_Me,tokenuser:widget.token_Me,Work:widget.Work,image:widget.image,phone:widget.phone,name: widget.name,namelast:widget.namelast,name_Me: widget.name_Me,namefirst: widget.namefirst,token: widget.token,Information: widget.Information,Experiance:widget.Experiance,),));
+            MaterialPageRoute(builder: (context) => user_worker(fav:fav,List_Post:List_Post,client_num: c,comment: ma,country:widget.country,phoneuser:widget.phone_Me,tokenuser:widget.token_Me,Work:widget.Work,image:widget.image,phone:widget.phone,name: widget.name,namelast:widget.namelast,name_Me: widget.name_Me,namefirst: widget.namefirst,token: widget.token,Information: widget.Information,Experiance:widget.Experiance,),));
       },
       child: Container(
 
@@ -1169,13 +1261,15 @@ class _Group extends State<Group> {
                     future: getComment(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
                       if (snapshot.hasData) {
+                        print("fffffffffffffffffffffffffffff");
+                        print(fav);
                         print("SARAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhhhhhhhh");
                         //_MyHomePageState c= new _MyHomePageState();
                         return ListView.builder(
                           itemCount: 1,
                           itemBuilder: (context, index) {
                             ma=snapshot.data[index]['count'];
-                            return row_worker();
+                            return row1();
                           },);
                       }
                       return Container(
@@ -1185,6 +1279,8 @@ class _Group extends State<Group> {
                     }
                 ),
               ),
+
+
               // Container(
               //   margin: EdgeInsets.only(top: 30, right: 10),
               //   child: CircleAvatar(backgroundImage: NetworkImage(
@@ -1224,6 +1320,32 @@ class _Group extends State<Group> {
 
           ],),
       ),);
+  }
+  Widget row1(){
+    return  Container(
+      height: 135,
+      child: FutureBuilder(
+          future: getCount(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              print("fffffffffffffffffffffffffffff");
+              print(fav);
+              print("SARAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhhhhhhhh");
+              //_MyHomePageState c= new _MyHomePageState();
+              return ListView.builder(
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  c=snapshot.data[index]['count'];
+                  return row_worker();
+                },);
+            }
+            return Container(
+              child:Text(''),
+            );
+
+          }
+      ),
+    );
   }
   Widget row_worker(){
     return   Row(
@@ -1309,7 +1431,7 @@ class _Group extends State<Group> {
                 child:  Row(
                   children: [
                     SizedBox(width: 15,),
-                    Text(widget.client_num.toString(),
+                    Text(c.toString(),
                       style: TextStyle(
                         color: Color(0xFF666360),
                         fontSize: 13.0,

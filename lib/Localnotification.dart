@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp20> {
     var iOS = new IOSNotificationDetails();
     var platform = new NotificationDetails(android, iOS);
     await flutterLocalNotificationsPlugin.show(
-        0, 'New Tutorial', 'Local Notification', platform,
+        0, 'New Tutorial', 'Local Notificationddd', platform,
         payload: 'AndroidCoding.in');
   }
 }

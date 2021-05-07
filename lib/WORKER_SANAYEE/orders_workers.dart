@@ -127,7 +127,7 @@ class  _order_worker extends State<order_worker> {
     // ignore: deprecated_member_use
     return json.decode(ressponse.body);
   }
-  int _selectedIndex = 1;
+  int _selectedItem = 1;
   @override
   DatabaseMethods databaseMethods=new DatabaseMethods();
   Stream chatsRoom;
@@ -138,107 +138,140 @@ class  _order_worker extends State<order_worker> {
     return  Directionality( textDirection: TextDirection.rtl,
       child:Scaffold(
         key: _scaffoldKey,
-        bottomNavigationBar:Container(
-          decoration: BoxDecoration(color: Colors.white, boxShadow: [
-            BoxShadow(blurRadius: 5, color: Colors.black.withOpacity(.1))
-          ]),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
-              child: GNav(
-                  rippleColor: Colors.grey[300],
-                  hoverColor: Colors.grey[100],
-                  gap: 8,
-                  activeColor: Colors.black,
-                  iconSize: 24,
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                  duration: Duration(milliseconds: 400),
-                  tabBackgroundColor: Colors.grey[100],
-                  tabs: [
-                    GButton(
-                      icon: Icons.home,
-                      text: 'الرئيسية',
-                      textStyle:TextStyle(
-                        fontFamily: 'Changa',
-                        color: Colors.black,
-                        fontSize: 14.5,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    GButton(
-                      onPressed: (){
-                      },
-                      icon: Icons.calendar_today,
-                      text: 'طلباتي',
-                      textStyle:TextStyle(
-                        fontFamily: 'Changa',
-                        color: Colors.black,
-                        fontSize: 14.5,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    GButton(
-                      onPressed: (){
-
-                      },
-                      icon: Icons.mark_chat_unread,
-                      text: 'شات',
-                      textStyle:TextStyle(
-                        fontFamily: 'Changa',
-                        color: Colors.black,
-                        fontSize: 14.5,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    GButton(
-                      icon: Icons.person,
-                      text: 'حسابي',
-                      textStyle:TextStyle(
-                        fontFamily: 'Changa',
-                        color: Colors.black,
-                        fontSize: 14.5,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    GButton(
-                      icon: Icons.menu,
-                      text: 'القائمة',
-                      textStyle:TextStyle(
-                        fontFamily: 'Changa',
-                        color: Colors.black,
-                        fontSize: 14.5,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                  selectedIndex: _selectedIndex,
-                  onTabChange: (index) {
-                    setState(() {
-                      _selectedIndex = index;
-                      if(index==0){
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Home_Page(name: widget.name)));
-                      }
-                      if(index==2){
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Chat(name_Me:widget.name,chatsRoomList: chatsRoom,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
-                      }
-                      if(index==3){
-                        print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-                        print(widget.image);
-                        print(widget.name);
-                        print(widget.phone);
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PROFILE(name:widget.name,phone:widget.phone,)));
-                      }
-                      if(index==4){
-                        DateTime date=DateTime.now();
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MenuePage(Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst,)));
-                      }
-
-
-                    });
-                  }
-              ),
-            ),
-          ),),
+        // bottomNavigationBar:Container(
+        //   decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        //     BoxShadow(blurRadius: 5, color: Colors.black.withOpacity(.1))
+        //   ]),
+        //   child: SafeArea(
+        //     child: Padding(
+        //       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
+        //       child: GNav(
+        //           rippleColor: Colors.grey[300],
+        //           hoverColor: Colors.grey[100],
+        //           gap: 8,
+        //           activeColor: Colors.black,
+        //           iconSize: 24,
+        //           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+        //           duration: Duration(milliseconds: 400),
+        //           tabBackgroundColor: Colors.grey[100],
+        //           tabs: [
+        //             GButton(
+        //               icon: Icons.home,
+        //               text: 'الرئيسية',
+        //               textStyle:TextStyle(
+        //                 fontFamily: 'Changa',
+        //                 color: Colors.black,
+        //                 fontSize: 14.5,
+        //                 fontWeight: FontWeight.bold,
+        //               ),
+        //             ),
+        //             GButton(
+        //               onPressed: (){
+        //               },
+        //               icon: Icons.calendar_today,
+        //               text: 'طلباتي',
+        //               textStyle:TextStyle(
+        //                 fontFamily: 'Changa',
+        //                 color: Colors.black,
+        //                 fontSize: 14.5,
+        //                 fontWeight: FontWeight.bold,
+        //               ),
+        //             ),
+        //             GButton(
+        //               onPressed: (){
+        //
+        //               },
+        //               icon: Icons.mark_chat_unread,
+        //               text: 'شات',
+        //               textStyle:TextStyle(
+        //                 fontFamily: 'Changa',
+        //                 color: Colors.black,
+        //                 fontSize: 14.5,
+        //                 fontWeight: FontWeight.bold,
+        //               ),
+        //             ),
+        //             GButton(
+        //               icon: Icons.person,
+        //               text: 'حسابي',
+        //               textStyle:TextStyle(
+        //                 fontFamily: 'Changa',
+        //                 color: Colors.black,
+        //                 fontSize: 14.5,
+        //                 fontWeight: FontWeight.bold,
+        //               ),
+        //             ),
+        //             GButton(
+        //               icon: Icons.menu,
+        //               text: 'القائمة',
+        //               textStyle:TextStyle(
+        //                 fontFamily: 'Changa',
+        //                 color: Colors.black,
+        //                 fontSize: 14.5,
+        //                 fontWeight: FontWeight.bold,
+        //               ),
+        //             ),
+        //           ],
+        //           selectedIndex: _selectedIndex,
+        //           onTabChange: (index) {
+        //             setState(() {
+        //               _selectedIndex = index;
+        //               if(index==0){
+        //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Home_Page(name: widget.name)));
+        //               }
+        //               if(index==2){
+        //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Chat(name_Me:widget.name,chatsRoomList: chatsRoom,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+        //               }
+        //               if(index==3){
+        //                 print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        //                 print(widget.image);
+        //                 print(widget.name);
+        //                 print(widget.phone);
+        //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PROFILE(name:widget.name,phone:widget.phone,)));
+        //               }
+        //               if(index==4){
+        //                 DateTime date=DateTime.now();
+        //                 Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MenuePage(Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst,)));
+        //               }
+        //
+        //
+        //             });
+        //           }
+        //       ),
+        //     ),
+        //   ),),
+        bottomNavigationBar: CustomBottomNavigationBar(
+          iconList: [
+            Icons.home,
+            Icons.calendar_today,
+            Icons.mark_chat_unread,
+            Icons.person,
+            Icons.menu,
+          ],
+          onChange: (val) {
+            setState(() {
+              _selectedItem = val;
+            });
+            if(_selectedItem==0){
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => orderpperson_map(name_Me:widget.name,phone_Me:widget.phone,)));
+              // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Home_Page(name: widget.name)));
+            }
+            if(_selectedItem==2){
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Chat(lat:widget.lat,lng:widget.lng,name_Me:widget.name,chatsRoomList: chatsRoom,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+            }
+            if(_selectedItem==3){
+              print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+              print(widget.image);
+              print(widget.name);
+              print(widget.phone);
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PROFILE(lat:widget.lat,lng:widget.lng,name:widget.name,phone:widget.phone,)));
+            }
+            if(_selectedItem==4){
+              DateTime date=DateTime.now();
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MenuePage(lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst,)));
+            }
+          },
+          defaultSelectedIndex: _selectedItem,
+        ),
         backgroundColor: Colors.white,
         // appBar: PreferredSize(
         //     preferredSize: Size.fromHeight(40.0), // here the desired height
@@ -284,21 +317,21 @@ class  _order_worker extends State<order_worker> {
           //
           //   ),
           // ),
+          // Container(
+          //   height: 100,
+          //   margin: EdgeInsets.only(top: 150,),
+          //   child:Center(
+          //       child:Text('صنايعي ',
+          //         style: TextStyle(
+          //           fontSize: 55,
+          //           fontWeight: FontWeight.w400,
+          //           color: Colors.white,
+          //           fontFamily: 'vibes',
+          //           //fontStyle: FontStyle.italic,
+          //         ),)
+          //   ),),
           Container(
-            height: 100,
-            margin: EdgeInsets.only(top: 150,),
-            child:Center(
-                child:Text('صنايعي ',
-                  style: TextStyle(
-                    fontSize: 55,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
-                    fontFamily: 'vibes',
-                    //fontStyle: FontStyle.italic,
-                  ),)
-            ),),
-          Container(
-            margin: EdgeInsets.only(top: 300,right: 150),
+            margin: EdgeInsets.only(top: 300,right:165),
             child: Row(
               children: [
 
@@ -370,8 +403,9 @@ class  _order_worker extends State<order_worker> {
           Container(
             margin: EdgeInsets.only(top: 405),
             child:Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
+                SizedBox(width:55,),
                 GestureDetector(
                   onTap: (){
                     print(widget.phone);
@@ -381,7 +415,7 @@ class  _order_worker extends State<order_worker> {
                   },
                   child:SizedBox(
                     height: 100,
-                    width: 130,
+                    width: 140,
                     child: Card(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -421,6 +455,7 @@ class  _order_worker extends State<order_worker> {
                     ),
                   ),
                 ),
+                SizedBox(width:20,),
                 GestureDetector(
                   onTap: (){
                     print(widget.phone);
@@ -429,7 +464,7 @@ class  _order_worker extends State<order_worker> {
                   },
                   child:SizedBox(
                     height: 100,
-                    width: 130,
+                    width: 140,
                     child: Card(
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
@@ -469,6 +504,7 @@ class  _order_worker extends State<order_worker> {
                     ),
                   ),
                 ),
+                SizedBox(width:50,),
               ],
             ),
           ),
@@ -477,6 +513,7 @@ class  _order_worker extends State<order_worker> {
             child:Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
+                SizedBox(width:55,),
                 GestureDetector(
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Warshat(lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst,name:widget.name,phone: widget.phone)));
@@ -486,6 +523,7 @@ class  _order_worker extends State<order_worker> {
                     item: "ورشاتي الحاية",
                   ),
                 ),
+                SizedBox(width:20,),
                 GestureDetector(
                   onTap: (){
                     DateTime date=DateTime.now();
@@ -495,6 +533,7 @@ class  _order_worker extends State<order_worker> {
                   imageUrl: "assets/work/taqaat.png",
                   item: "الطقات خفيفة",
                 ),),
+                SizedBox(width:55,),
               ],
             ),
           ),
@@ -506,7 +545,7 @@ class  _order_worker extends State<order_worker> {
 _customCard1({String imageUrl, String item}){
   return SizedBox(
     height: 135,
-    width: 130,
+    width: 140,
     child: Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -549,7 +588,7 @@ _customCard1({String imageUrl, String item}){
 _customCard2({String imageUrl, String item}){
   return SizedBox(
     height: 135,
-    width: 130,
+    width: 140,
     child: Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(
@@ -651,4 +690,73 @@ class ClippingClass extends CustomClipper<Path>{
 
   @override
   bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+class CustomBottomNavigationBar extends StatefulWidget {
+  final int defaultSelectedIndex;
+  final Function(int) onChange;
+  final List<IconData> iconList;
+
+  CustomBottomNavigationBar(
+      {this.defaultSelectedIndex = 0,
+        @required this.iconList,
+        @required this.onChange});
+
+  @override
+  _CustomBottomNavigationBarState createState() =>
+      _CustomBottomNavigationBarState();
+}
+
+class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
+  int _selectedIndex = 0;
+  List<IconData> _iconList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    _selectedIndex = widget.defaultSelectedIndex;
+    _iconList = widget.iconList;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> _navBarItemList = [];
+
+    for (var i = 0; i < _iconList.length; i++) {
+      _navBarItemList.add(buildNavBarItem(_iconList[i], i));
+    }
+
+    return Row(
+      children: _navBarItemList,
+    );
+  }
+
+  Widget buildNavBarItem(IconData icon, int index) {
+    return GestureDetector(
+      onTap: () {
+        widget.onChange(index);
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      child: Container(
+        height: 60,
+
+        width: MediaQuery.of(context).size.width / _iconList.length,
+        decoration: index == _selectedIndex
+            ? BoxDecoration(
+          color: Colors.white,
+          // color: index == _selectedItemIndex ? Colors.green : Colors.white,
+        )
+            : BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Icon(
+          icon,
+          color: index == _selectedIndex ? Y : Colors.black,
+        ),
+      ),
+    );
+  }
 }

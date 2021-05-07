@@ -37,16 +37,18 @@ const G=Color(0xFF85B170);
 
 const S=Color(0xFFEFC63C);
 
+const po=Color(0xFFD138FF);
 const Y=Color(0xFFFFD136);
+const YSD=Color(0xFFF5E7B3);
 const W=Color(0xFFa536ff);
 const ZY=Color(0xffff9e36);
 const DS=Color(0xFF93761A);
 const Y1=Color(0xFFFEC519);
 const Y2=Color(0xFFF6C634);
 const Y3=Color(0xFFF8C753);
-const Y4=Color(0xFFFEEF7C);
-const Y5=Color(0xFFFED96F);
-const Y6=Color(0xFFFED96F);
+const Y4=Color(0xFFFCFCD9);
+const Y5=Color(0xFFF8E5AE);
+const Y6=Color(0xFFF6DB8C);
 
 const P=Color(0xFFff9e36);
 const X1=Color(0xFFF5BC11);
@@ -55,16 +57,16 @@ const X3=Color(0xFFFCE8BA);
 const X4=Color(0xFF333750);
 
 const blue1=Color(0xFF13C0E3);
-const blue2=Color(0xFFDFF0F7);
+const blue2=Color(0xFFBEE4F3);
 
 const green1=Color(0xFF22B594);
-const green2=Color(0xFFC2E5DF);
+const green2=Color(0xFFCBF6EF);
 
 const red1=Color(0xFFE15657);
-const red2=Color(0xFFF2D4D6);
+const red2=Color(0xFFF6D1D3);
 
 const perp1=Color(0xFF6631C6);
-const perp2=Color(0xFFD7CDEE);
+const perp2=Color(0xFFD8CCF3);
 
 
 

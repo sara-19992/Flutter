@@ -22,7 +22,8 @@ class choose extends StatefulWidget {
   final  Information;
   final client_num;
   final comment;
-  choose({this.client_num,this.comment,this.Experiance,this.Information,this.tokenworker,this.tokenuser,this.phoneworker,this.username,this.time,this.phone,this.image,this.country,this.work,this.name,this.namelast,this.namefirst});
+  final fav;
+  choose({this.fav,this.client_num,this.comment,this.Experiance,this.Information,this.tokenworker,this.tokenuser,this.phoneworker,this.username,this.time,this.phone,this.image,this.country,this.work,this.name,this.namelast,this.namefirst});
   _chooseState createState() => _chooseState();
 }
 
@@ -84,7 +85,7 @@ class _chooseState extends State<choose> {
                         GestureDetector(
                             onTap:(){
                               // Navigator.pop(context);
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => user_worker(client_num: widget.client_num,comment: widget.comment,country:widget.country,phoneuser:widget.phone,tokenuser:widget.tokenuser,Work:widget.work,image:widget.image,phone:widget.phoneworker,name: widget.name,namelast:widget.namelast,name_Me: widget.username,namefirst: widget.namefirst,token: widget.tokenworker,Information: widget.Information,Experiance:widget.Experiance,)));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => user_worker(fav:widget.fav,client_num: widget.client_num,comment: widget.comment,country:widget.country,phoneuser:widget.phone,tokenuser:widget.tokenuser,Work:widget.work,image:widget.image,phone:widget.phoneworker,name: widget.name,namelast:widget.namelast,name_Me: widget.username,namefirst: widget.namefirst,token: widget.tokenworker,Information: widget.Information,Experiance:widget.Experiance,)));
                             },
                             child:Container(
                               margin: EdgeInsets.only(top: 70,left: 370),

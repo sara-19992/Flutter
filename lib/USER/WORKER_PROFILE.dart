@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutterphone/ChatUuser/Conversation.dart';
 import 'package:flutterphone/ChatUuser/chatListUser.dart';
 import 'package:flutterphone/USER/search_user.dart';
@@ -18,6 +19,7 @@ import 'dart:ui' as ui;
 import '../constants.dart';
 import '../database.dart';
 import 'Choose_type.dart';
+import 'CommentAll.dart';
 
 String  name="";
 String  phone="";
@@ -45,8 +47,9 @@ class  user_worker extends StatefulWidget {
   final country;
   final client_num;
   final comment;
+  final fav;
    List<dynamic>List_Post;
-  user_worker({this.List_Post,this.comment,this.client_num,this.country,this.tokenuser,this.phoneuser,this.name_Me,this.name,this.namelast,this.namefirst, this.phone, this.image, this.Work, this.Experiance, this.Information, this.token});
+  user_worker({this.fav,this.List_Post,this.comment,this.client_num,this.country,this.tokenuser,this.phoneuser,this.name_Me,this.name,this.namelast,this.namefirst, this.phone, this.image, this.Work, this.Experiance, this.Information, this.token});
   _user_worker createState() =>  _user_worker();
 }
 class  _user_worker extends State<user_worker> {
@@ -95,6 +98,8 @@ class  _user_worker extends State<user_worker> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.phone);
+    print(widget.phoneuser);
     print(widget.List_Post.toString());print('BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
     // List_P=widget.List_Post;
     // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -133,7 +138,8 @@ class  _user_worker extends State<user_worker> {
                         margin: EdgeInsets.only(top:50,left: 310),
                         child:IconButton(icon: Icon(Icons.arrow_back,color: Colors.white,), onPressed: (){
                           print(widget.country);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'نجار',name_Me: widget.name_Me,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
+                          Navigator.pop(context);
+                        //  Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(location:widget.country,country:widget.country,token_Me:widget.token,work:widget.Work,name_Me: widget.name_Me,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phoneuser,image_Me: widget.image,),),);
 
                           // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => U_PROFILE(name_Me: widget.name_Me,)));
                         }),
@@ -189,7 +195,7 @@ class  _user_worker extends State<user_worker> {
                        print(widget.phoneuser); print(widget.name_Me); print(widget.phone);
                        print(widget.token); print(widget.tokenuser);print("=====================================================");
                        // Navigator.push(context, MaterialPageRoute(builder: (context) => My_SLot(comment:widget.comment,client_count:widget.client_num,country:widget.country,namelast:widget.namelast,namefirst:widget.namefirst,image:widget.image,nameworker:widget.name,Information:widget.Information,Experiance:widget.Experiance,AVG:Rate,work:widget.Work,date:date,name_Me:widget.name_Me,token_Me:widget.tokenuser,tokenworker: widget.token,phoneworker: widget.phone,phone: widget.phoneuser,),),);
-                       Navigator.push(context, MaterialPageRoute(builder: (context) =>choose(time:date,work:widget.Work,phone:widget.phoneuser,username:widget.name_Me,phoneworker:widget.phone,name:widget.name,namelast:widget.namelast,namefirst:widget.namefirst,image:widget.image,tokenworker: widget.token,tokenuser: widget.tokenuser,Information: widget.Information,Experiance:widget.Experiance,comment:widget.comment,client_num:widget.client_num,country:widget.country,)));
+                       Navigator.push(context, MaterialPageRoute(builder: (context) =>choose(fav:widget.fav,time:date,work:widget.Work,phone:widget.phoneuser,username:widget.name_Me,phoneworker:widget.phone,name:widget.name,namelast:widget.namelast,namefirst:widget.namefirst,image:widget.image,tokenworker: widget.token,tokenuser: widget.tokenuser,Information: widget.Information,Experiance:widget.Experiance,comment:widget.comment,client_num:widget.client_num,country:widget.country,)));
                      },
                      // shape: RoundedRectangleBorder(
                      //     borderRadius: BorderRadius.circular(25.0),
@@ -287,7 +293,7 @@ class  _user_worker extends State<user_worker> {
                            bool AVG4=double.parse(snapshot.data[index]['AVG4'])>=4?true:false;
                            bool AVG5=double.parse(snapshot.data[index]['AVG5'])>=4?true:false;
                            bool AVG6=double.parse(snapshot.data[index]['AVG6'])>=4?true:false;
-                          return worker(userphone:widget.phoneuser,List_Images:List_Images,List_Post:List_Post,comment:widget.comment,client_num:widget.client_num,AVG1:AVG1,AVG2:AVG2,AVG3:AVG3,AVG4:AVG4,AVG5:AVG5,AVG6:AVG6,Rate:Rate,phone:widget.phone,name: widget.name,namefirst: widget.namefirst,namelast: widget.namelast,image: widget.image,token: widget.token,Information: widget.Information,Experiance: widget.Experiance,name_Me: widget.name_Me,Work: widget.Work,);
+                          return worker(fav:widget.fav,userphone:widget.phoneuser,List_Images:List_Images,List_Post:List_Post,comment:widget.comment,client_num:widget.client_num,AVG1:AVG1,AVG2:AVG2,AVG3:AVG3,AVG4:AVG4,AVG5:AVG5,AVG6:AVG6,Rate:Rate,phone:widget.phone,name: widget.name,namefirst: widget.namefirst,namelast: widget.namelast,image: widget.image,token: widget.token,Information: widget.Information,Experiance: widget.Experiance,name_Me: widget.name_Me,Work: widget.Work,);
                         },
                       );
                     }
@@ -335,9 +341,10 @@ class worker extends StatefulWidget {
   final client_num;
   final comment;
   final userphone;
+  final fav;
   List<dynamic>List_Post;
   List<dynamic>List_Images;
-  worker({this.userphone,this.List_Images,this.List_Post,this.client_num,this.comment,this.AVG1,this.AVG2,this.AVG3,this.AVG4,this.AVG5,this.AVG6,this.Rate,this.name_Me,this.name,this.namelast,this.namefirst, this.phone, this.image, this.Work, this.Experiance, this.Information, this.token});
+  worker({this.fav,this.userphone,this.List_Images,this.List_Post,this.client_num,this.comment,this.AVG1,this.AVG2,this.AVG3,this.AVG4,this.AVG5,this.AVG6,this.Rate,this.name_Me,this.name,this.namelast,this.namefirst, this.phone, this.image, this.Work, this.Experiance, this.Information, this.token});
   _worker createState() =>  _worker();
 }
 class  _worker extends State<worker> {
@@ -355,6 +362,7 @@ class  _worker extends State<worker> {
   void initState() {
     super.initState();
      h=100;
+    faverate=widget.fav;
     var boolien = [widget.AVG1,widget.AVG2,widget.AVG3,widget.AVG4,widget.AVG5,widget.AVG6];
   }
   bool Show_anatherPost=false;
@@ -371,7 +379,7 @@ class  _worker extends State<worker> {
   double Rate;
   String Rate_S;
   double f=2.2.floorToDouble();
-  bool faverate=true;
+  bool faverate;
   Future getImages() async {
     var url = 'https://'+IP4+'/testlocalhost/Show_EXP.php';
     var ressponse = await http.post(url, body: {
@@ -476,10 +484,10 @@ class  _worker extends State<worker> {
                                 width: 90,
                                 alignment: Alignment.topLeft,
                                 margin: EdgeInsets.only(top: 8,),
-                                child:IconButton(icon:Icon(faverate?Icons.favorite_border:Icons.favorite,color: faverate?Colors.black:Colors.red,),
+                                child:IconButton(icon:Icon(faverate?Icons.favorite:Icons.favorite_border,color: faverate?Colors.red:Colors.black,),
                                     onPressed: ()async{
-                                     faverate?await add_faverate():await delete_faverate();
-                                      faverate?Fluttertoast.showToast(msg: " تمت الإضافة إلى قائمة المفضلة لديك ",fontSize: 16,textColor:Colors.black87,backgroundColor: Colors.white):Fluttertoast.showToast(msg: " تم الحذف من مفضلتك  ",fontSize: 16,textColor:Colors.black87,backgroundColor: Colors.white);
+                                     faverate?await delete_faverate():await add_faverate();
+                                      faverate?Fluttertoast.showToast(msg: " تم الحذف من مفضلتك  ",fontSize: 16,textColor:Colors.white,backgroundColor: Colors.black87.withOpacity(0.5)):Fluttertoast.showToast(msg: " تمت الإضافة إلى قائمة المفضلة لديك ",fontSize: 16,textColor:Colors.white,backgroundColor: Colors.black87.withOpacity(0.5));
                                       faverate=!faverate;
                                       setState(() {
 
@@ -629,8 +637,210 @@ class  _worker extends State<worker> {
                       ),
                     ),
                    ):Container(),
+
+                  Container(
+                    height: 220,
+                    color: Colors.white,
+                    margin: EdgeInsets.only(top: 90),
+                    child: Container(
+                      child:FutureBuilder(
+                        future: getcom(),
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                          if(snapshot.hasData){
+                            int l=4;
+                            if(snapshot.data.length==0) {
+                              return Container(height:0,);
+                            }
+                            if(snapshot.data.length<4){
+                              l=snapshot.data.length;
+                            }
+                            return ListView.builder(
+                              itemCount:l,
+                              itemBuilder: (context, index) {
+                                return Rate1(snapshot.data[index]['phone'],snapshot.data[index]['namefirst'],snapshot.data[index]['namelast'],snapshot.data[index]['image'],snapshot.data[index]['comment']);
+                              },
+                            );
+                          }
+                          return Center(child: Container());
+                        },
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => getMyComment(phone: widget.phone,name:widget.name,)));
+                    },
+                   child:Container(
+                     height: 55,
+                     alignment: Alignment.center,
+                     margin: EdgeInsets.only(top:15,),
+                     //color:Y,
+                     width:370,
+                     decoration: BoxDecoration(
+                       border: Border.all(
+                         color: Y,
+                         style: BorderStyle.solid,
+                         width: 1.0,
+                       ),
+                       color: Colors.transparent,
+                       borderRadius: BorderRadius.circular(10.0),
+                     ),
+                     // margin: EdgeInsets.only(left: 8,right: 15),
+                     child: Text(
+                       "رؤية كل التعليقات",
+                       style: TextStyle(
+                         color: Y,
+                         fontWeight: FontWeight.bold,
+                         fontSize: 15.0,
+                         fontFamily: 'Changa',
+                       ),
+                     ),
+                   ),
+                  ),
                 ],
           ),);
+  }
+  Container Rate1(String phone,String namefirst,String namelast,String image,String comment){
+    String value;
+    return  Container(
+      height: 107,
+      child: FutureBuilder(
+          future: getRate(phone),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: 1,
+                itemBuilder: (context, index) {
+                  value=snapshot.data[index]['total'];
+                  return Com(namefirst,namelast,image,comment,value);
+                },);
+            }
+            return Container(
+              child:Text(''),
+            );
+
+          }
+      ),
+    );
+  }
+  Container Com(String namefirst,String namelast,String image,String comment,String value){
+    return Container(
+      width:250,
+      height: 90,
+      transform: Matrix4.translationValues(0.0,0.0, 0.0),
+      decoration: BoxDecoration(
+        color:Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
+        ),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0, 0.2),
+            blurRadius: 0.5,
+            color: Colors.black54,
+          ),
+        ],),
+      //color: PURPEL,
+      margin: EdgeInsets.only(top: 10,bottom: 5,left: 20,right: 20),
+      child: Row(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 5,bottom: 5,right: 10),
+            child:CircleAvatar(backgroundImage: NetworkImage(
+                'https://' + IP4 + '/testlocalhost/upload/' + image),
+              radius: 30.0,),
+          ),
+          Container(
+            child: Column(
+              children: [
+                Container(
+                  width: 280,
+                  //color: Colors.green,
+                  alignment: Alignment.topRight,
+                  margin: EdgeInsets.only(top: 8,bottom: 0,left: 0,right:5),
+                  child:Row(
+                    children: [
+                      Container(
+                        width: 100,
+                        //color: Colors.green,
+                        child: Text(namefirst + " " + namelast,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15.0,
+                            fontFamily: 'Changa',
+                            fontWeight: FontWeight.bold,),
+                        ),),
+                      Directionality(textDirection: ui.TextDirection.ltr,
+
+                        child: Container(
+                            width: 180,
+                            height: 25,
+                            alignment: Alignment.topLeft,
+                            child: RatingBar.builder(
+                              glowColor: Colors.orangeAccent,
+                              initialRating:double.parse(value),
+                              minRating: 0,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              unratedColor: Colors.amber.withAlpha(50),
+                              itemCount: 5,
+                              itemSize: 20.0,
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemPadding: EdgeInsets.symmetric(horizontal:0.07),
+
+                              onRatingUpdate: (rating) {
+                                setState(() {
+                                  // _rating1 = rating;
+                                  //_rating2=
+                                });
+                              },
+                              updateOnDrag: false,
+                            )
+                        ),),
+
+                    ],
+                  ),
+                ),
+                Container(
+                  width: 280,
+                  color: Colors.white,
+                  alignment: Alignment.topRight,
+                  margin: EdgeInsets.only(top: 2,bottom: 2,left: 0,right:10),
+                  child: Text(comment,
+                    style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 13.0,
+                      fontFamily: 'Changa',
+                      fontWeight: FontWeight.bold,),
+                  ),),
+              ],
+            ),
+          ),
+
+
+          // Divider(color:Colors.black,thickness: 2,),
+
+        ],
+      ),
+    );
+  }
+  Future getcom() async {
+    var url = 'https://'+IP4+'/testlocalhost/getmycommint.php';
+    var ressponse = await http.post(url, body: {
+      "phone": widget.phone,
+    });
+    return json.decode(ressponse.body);
+  }
+  Future getRate(String phone) async {
+    var url = 'https://'+IP4+'/testlocalhost/getRate.php';
+    var ressponse = await http.post(url, body: {
+      "phone": phone,
+      "workerphone":widget.phone,
+    });
+    return json.decode(ressponse.body);
   }
   Container Images(List<dynamic>Images){
    return Container(
@@ -644,6 +854,17 @@ class  _worker extends State<worker> {
        ],
      )
    );
+  }
+  Future getCount() async {
+    var url = 'https://' + IP4 + '/testlocalhost/getcCount.php';
+    var ressponse = await http.post(url, body: {
+      "phone": widget.phone,
+    });
+    // ignore: deprecated_member_use
+    // var responsebody = json.decode(ressponse.body);
+    // print(responsebody);
+
+    return json.decode(ressponse.body);
   }
   Future getpost()async{
     var url='https://'+IP4+'/testlocalhost/getpost.php';
@@ -872,7 +1093,30 @@ class  _worker extends State<worker> {
       ],
     );
   }
-
+  // Widget ROw(){
+  //   return  Container(
+  //     height:90,
+  //     child: FutureBuilder(
+  //         future: getPost(),
+  //         builder: (BuildContext context, AsyncSnapshot snapshot) {
+  //           if (snapshot.hasData) {
+  //             print(
+  //                 "SARAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhhhhhhhh");
+  //             //_MyHomePageState c= new _MyHomePageState();
+  //             return ListView.builder(
+  //               itemCount: 1,
+  //               itemBuilder: (context, index) {
+  //                 ma = snapshot.data[index]['count'];
+  //                 return Container_number();
+  //               },);
+  //           }
+  //           return Container(
+  //             child: Text(''),
+  //           );
+  //         }
+  //     ),
+  //   );
+  // }
   Widget Container_number(){
     return  Center(
       child:Container(

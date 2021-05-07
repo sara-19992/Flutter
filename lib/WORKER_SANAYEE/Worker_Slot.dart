@@ -976,7 +976,7 @@ class _MyDialogState extends State<MyDialog> {
                       Navigator.pop(context);
                       print(widget.time); print(widget.phone); print(widget.namelast); print(widget.namefirst); print(widget.Information); print(widget.Experiance);print(widget.image);
                       print(widget.name); print(widget.token); print(widget.Work);
-                      Fluttertoast.showToast(msg: " تمت الإضافة  بنجاح ",fontSize: 16,textColor:Colors.black87,backgroundColor: Colors.white);
+                      Fluttertoast.showToast(msg: "تمت الإضافة  بنجاح  ",fontSize: 16,textColor:Colors.white,backgroundColor: Colors.black87.withOpacity(0.5));
                       // _showSnackBar(context, 'لقد تمت الإضافة  بنجاح');
                       Navigator.push(context, MaterialPageRoute(builder: (context) => Worker_SLot(time: widget.time,phone:widget.phone,name:widget.name,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst,),),);
 
@@ -1314,7 +1314,7 @@ class _edit_delete extends State<edit_delete> {
                     // senddata();
                     await check_Slot();
                     Navigator.pop(context);
-                    Fluttertoast.showToast(msg: " تم التعديل بنجاح ",fontSize: 16,textColor:Colors.black87,backgroundColor: Colors.white);
+                    Fluttertoast.showToast(msg: " تم التعديل بنجاح ",fontSize: 16,textColor:Colors.white,backgroundColor: Colors.black87.withOpacity(0.5));
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Worker_SLot(time: widget.time,phone:widget.phone,name:widget.name,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst),),);
                   }),),
             Container(
@@ -1340,7 +1340,7 @@ class _edit_delete extends State<edit_delete> {
                     // senddata();
                     await delete_Slot();
                     Navigator.pop(context);
-                    Fluttertoast.showToast(msg: " تم الحذف بنجاح   ",fontSize: 16,textColor:Colors.black87,backgroundColor: Colors.white);
+                    Fluttertoast.showToast(msg: " تم الحذف بنجاح ",fontSize: 16,textColor:Colors.white,backgroundColor: Colors.black87.withOpacity(0.5));
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Worker_SLot(time:_selectedDay,phone:widget.phone,name:widget.name,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst),),);
                     setState(() {
                     });

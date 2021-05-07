@@ -173,7 +173,7 @@ class _Body extends State<settiing> {
       child:Stack (children: <Widget>[
         CircleAvatar(
           backgroundImage: image_file==null? AssetImage('assets/icons/signup.jpg'):FileImage(File(image_file.path)),
-          radius: 50.0,
+          radius: 25.0,
         ),
         Positioned(
           bottom:10.0,

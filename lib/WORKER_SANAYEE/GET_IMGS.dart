@@ -109,19 +109,20 @@ class  _Get_Images extends State< Get_Images> {
                         child:Icon(Icons.arrow_back,color: Colors.grey[600],),
                      )
                    ),
-                  Container(
-                      margin: EdgeInsets.only(top:70,right: 10),
-                      alignment: Alignment.center,
-                      // transform: Matrix4.translationValues(0, -120.0, 0),
-                      child:Text('ألبوم الصور',
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black,
-                          fontFamily: 'vibes',
-                          //fontStyle: FontStyle.italic,
-                        ),)
-                  ),
+
+                  // Container(
+                  //     margin: EdgeInsets.only(top:70,right: 10),
+                  //     alignment: Alignment.center,
+                  //     // transform: Matrix4.translationValues(0, -120.0, 0),
+                  //     child:Text('ألبوم الصور',
+                  //       style: TextStyle(
+                  //         fontSize: 30,
+                  //         fontWeight: FontWeight.w400,
+                  //         color: Colors.black,
+                  //         fontFamily: 'vibes',
+                  //         //fontStyle: FontStyle.italic,
+                  //       ),)
+                  // ),
                   // GestureDetector(
                   //   onTap: (){
                   //     chooseImage();

@@ -36,6 +36,7 @@ class All_Service extends StatefulWidget {
   final image;
   final phone;
   final token;
+
   All_Service({this.token,this.name_Me,this.country,this.namefirst,this.namelast,this.image,this.phone});
   _All_Service createState() =>  _All_Service();
 }
@@ -54,6 +55,14 @@ class  _All_Service extends State<All_Service> {
   void initState() {
     super.initState();
     // getChat();
+  }
+  Future getpost()async{
+    var url='https://'+IP4+'/testlocalhost/post_profile.php';
+    var ressponse=await http.get(url);
+    // // ignore: deprecated_member_use
+    // ignore: deprecated_member_use
+    return json.decode(ressponse.body);
+
   }
   Future getdata()async{
     var url='https://'+IP4+'/testlocalhost/all_worker.php';
@@ -84,7 +93,7 @@ class  _All_Service extends State<All_Service> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: (){
-                      Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) => U_PROFILE(name_Me: widget.name_Me,)));
+                      Navigator.pop(context);
                     },
                     child:Container(
                       margin:EdgeInsets.only(top:70,left: 370),
@@ -474,9 +483,9 @@ class RecomendPlantCard1 extends StatelessWidget {
                     ),
                     color: Colors.grey[100],
                     gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
-                        colors: [X1,X3]
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Y,Y5]
                     ),
                   ),
                   child:  Center(
@@ -552,8 +561,8 @@ class RecomendPlantCard2 extends StatelessWidget {
                 ),
                     color: Colors.grey[100],
                     gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                         colors: [red1,red2]
                     ),
                   ),
@@ -627,12 +636,11 @@ class RecomendPlantCard3 extends StatelessWidget {
                       topRight: Radius.circular(10),
                       bottomRight:  Radius.circular(10),
                       bottomLeft:  Radius.circular(10),
-
                     ),
                     color: Colors.grey[100],
                     gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                         colors: [blue1,blue2]
                     ),
                   ),
@@ -709,8 +717,8 @@ class RecomendPlantCard4 extends StatelessWidget {
                     ),
                     color: Colors.grey[100],
                     gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                         colors: [green1,green2]
                     ),
                   ),
@@ -787,8 +795,8 @@ class RecomendPlantCard5 extends StatelessWidget {
                     ),
                     color: Colors.grey[100],
                     gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                         colors: [perp1,perp2]
                     ),
                   ),
@@ -866,8 +874,8 @@ class RecomendPlantCard6 extends StatelessWidget {
                     ),
                     color: Colors.grey[100],
                     gradient: LinearGradient(
-                        begin: Alignment.topRight,
-                        end: Alignment.bottomLeft,
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
                         colors: [X1,X3]
                     ),
                   ),

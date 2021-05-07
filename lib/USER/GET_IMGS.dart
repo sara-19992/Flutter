@@ -116,7 +116,9 @@ class  _Get_Images extends State< Get_Images> {
                   //
                   //   ),),
                    Row(
-                  children :[Expanded(
+                  children :[
+
+                    Expanded(
                     child:Column(
                       children: <Widget>[
                       Container(

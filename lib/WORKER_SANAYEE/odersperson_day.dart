@@ -231,101 +231,108 @@ class  _Home_Page extends State<Home_Page> {
               ),
             ),
             Container(
-              height: 150,
-              color: Colors.grey[50],
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(top: 30, right: 10),
-                    child: GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => orderpperson_map(lat:lat,lng:lng,countorder:Length,name_Me: widget.name,phone_Me:phone,Information:Information,Experiance:Experiance,token_Me:token,namefirst_Me:namefirst,nameLast_Me: namelast,image_Me:image,)));
-                      },
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        size: 20,
-                        color: Colors.black,
-                      ),
+              height: 160,
+              width: 500,
+              margin: EdgeInsets.only(top: 0, right: 0),
+              // transform: Matrix4.translationValues(0.0, -42.0, 0.0),
+              decoration: BoxDecoration(
+                color: Colors.black87.withOpacity(0.9),
+                image: new DecorationImage(
+                  fit: BoxFit.cover,
+                  colorFilter:
+                  ColorFilter.mode(Colors.black87.withOpacity(0.4),
+                      BlendMode.dstATop),
+                  image: new AssetImage('assets/work/cvtop.jpg',),
+                ),),),
+                 Container(
+                   margin: EdgeInsets.only(top: 50),
+                   child: Row(
+                     children: [
+                       Container(
+                         margin: EdgeInsets.only(right: 10),
+                         child: GestureDetector(
+                           onTap: (){
+                             Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => orderpperson_map(lat:lat,lng:lng,countorder:Length,name_Me: widget.name,phone_Me:phone,Information:Information,Experiance:Experiance,token_Me:token,namefirst_Me:namefirst,nameLast_Me: namelast,image_Me:image,)));
+                           },
+                           child: Icon(
+                             Icons.arrow_back_ios,
+                             size: 20,
+                             color: Colors.white,
+                           ),
+                         ),
+                       ),
+                       Container(
+                         margin: EdgeInsets.only(right: 5),
+                         child: Text('طلبات اليوم',
+                           style: TextStyle(
+                             color: Colors.white,
+                             fontSize: 16.0,
+                             fontFamily: 'Changa',
+                             fontWeight: FontWeight.bold,
+                           ),
+                         ),
+                       ),
+                       Container(
+                         height: 70,
+                         width: 120,
+                         transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+                         margin: EdgeInsets.only(right: 170,),
+                         decoration: BoxDecoration(
+                         ),
+                         child: FutureBuilder(
+                           future: today(),
+                           builder: (BuildContext context, AsyncSnapshot snapshot) {
+                             if (snapshot.hasData) {
+                               if (snapshot.data.length == 0) {
+                                 return Container(
+                                   color: Colors.grey[50],
+                                   child:Row(
+                                     children: [
+
+                                     ],
+                                   ),
+                                 );
+                               }
+                               return ListView.builder(
+                                   itemCount: 1,
+                                   itemBuilder: (context, index) {
+                                     Length=snapshot.data.length;
+                                     String text='';
+                                     if(Length==1){text='طلب';}
+                                     if(Length==2){text='طلب';}
+                                     if(Length>=3){text='طلبات';}
+                                     return Container(
+                                       margin: EdgeInsets.only(right: 50,top: 20),
+                                       transform: Matrix4.translationValues(0.0, -28.0, 0.0),
+                                       child: Row(
+                                         children: [
+                                           Text(Length.toString()+'  '+text,
+                                             style: TextStyle(
+                                               color:Y,
+                                               fontSize: 16.0,
+                                               fontFamily: 'Changa',
+                                               fontWeight: FontWeight.bold,
+                                             ),
+                                           ),
+                                         ],
+                                       ),
+                                     );
+                                     return ORDER();
+                                   }
+                               );
+                             }
+                             return Center(child: CircularProgressIndicator());
+                           },
+                         ),
+                       ),
+                        ],
                     ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 30, right: 5),
-                    child: Text('طلبات اليوم',
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 16.0,
-                        fontFamily: 'Changa',
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 80,
-                    width: 120,
-                    margin: EdgeInsets.only(top: 40,right: 170),
-                    decoration: BoxDecoration(
-                    ),
-                    child: FutureBuilder(
-                      future: today(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          if (snapshot.data.length == 0) {
-                            return Container(
-                              color: Colors.grey[50],
-                              child:Row(
-                                children: [
-                                  // Text('لا توجد طلبات اليوم',
-                                  //   style: TextStyle(
-                                  //     color: Colors.black87,
-                                  //     fontSize: 13.0,
-                                  //     fontFamily: 'Changa',
-                                  //     fontWeight: FontWeight.bold,
-                                  //   ),
-                                  // ),
-                                  Image.asset('assets/work/dayoff.png',width:120,height:120,)
-                                ],
-                              ),
-                            );
-                          }
-                          return ListView.builder(
-                              itemCount: 1,
-                              itemBuilder: (context, index) {
-                                Length=snapshot.data.length;
-                                String text='';
-                                if(Length==1){text='طلب';}
-                                if(Length==2){text='طلب';}
-                                if(Length>=3){text='طلبات';}
-                                return Container(
-                                  margin: EdgeInsets.only(right: 50),
-                                  transform: Matrix4.translationValues(0.0, -28.0, 0.0),
-                                  child: Row(
-                                    children: [
-                                      Text(Length.toString()+'  '+text,
-                                        style: TextStyle(
-                                          color:Y,
-                                          fontSize: 16.0,
-                                          fontFamily: 'Changa',
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                                return ORDER();
-                              }
-                          );
-                        }
-                        return Center(child: CircularProgressIndicator());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                     ),
             Container(
-              height: 700,
+              height: 720,
               margin: EdgeInsets.only(top: 100),
               decoration: BoxDecoration(
+              //   color:Colors.yellowAccent,
               ),
               child: FutureBuilder(
                 future: getWorker(),

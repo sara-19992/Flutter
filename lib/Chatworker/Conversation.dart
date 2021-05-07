@@ -288,7 +288,7 @@ class MessageTile extends StatelessWidget {
               // width: MediaQuery.of(context).size.width*0.5,
               padding: EdgeInsets.symmetric(horizontal: 24,vertical: 11),
               decoration: BoxDecoration(
-                  color:isSendByMe?Y5:Colors.grey[100],
+                  color:isSendByMe?Y.withOpacity(0.8):Colors.grey[100],
                   borderRadius: isSendByMe?BorderRadius.only(
                   topRight:Radius.circular(12),
                   topLeft: Radius.circular(12),

@@ -56,7 +56,7 @@ dependencies:
   shimmer: ^1.1.2
   hexagon: ^0.1.0
   table_calendar: ^2.2.3
-  rate_my_app: ^0.4.0
+  rate_my_app: 0.6.0+3
   curved_navigation_bar: ^0.3.7 #latest version
   lite_rolling_switch: ^0.1.1
   font_awesome_flutter:
@@ -78,7 +78,12 @@ dependencies:
   rxdart: ^0.24.1
   clippy_flutter: ^1.1.1
   flutter_slidable: ^0.5.7
-    #google_maps_flutter:
+  sentiment_dart: ^0.0.4
+  image_editor_pro:
+
+
+
+  #google_maps_flutter:
    #location: ^3.0.0
   #geolocator: ^2.1.0
   #flutter_plugin_android_lifecycle: ^1.0.0
@@ -95,6 +100,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_name: "^0.0.1"
+
+flutter_launcher_name:
+  name: "صنايعي 11"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -141,6 +150,8 @@ flutter:
     - assets/work/w4.jpg
     - assets/work/dayoff.png
     - assets/work/cvtop.jpg
+    - assets/work/map.png
+    - assets/work/main1.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

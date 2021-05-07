@@ -3,6 +3,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:fdottedline/fdottedline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutterphone/ChatUuser/Conversation.dart';
 import 'package:flutterphone/USER/user_reserve_order.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
@@ -47,7 +48,8 @@ class finished_warshat_statues extends StatefulWidget {
   final from;
   final to;
   final type;
-  finished_warshat_statues({this.from,this.to,this.type,this.id,this.name_Me,this.AVG,this.work,this.timesend,this.datesend,this.time,this.date,this.country,this.namefirst,this.namelast,this.image,this.phoneuser,this.phoneworker,this.description});
+  final name;
+  finished_warshat_statues({this.name,this.from,this.to,this.type,this.id,this.name_Me,this.AVG,this.work,this.timesend,this.datesend,this.time,this.date,this.country,this.namefirst,this.namelast,this.image,this.phoneuser,this.phoneworker,this.description});
   _finished_warshat_statues createState() =>  _finished_warshat_statues();
 }
 class  _finished_warshat_statues extends State<finished_warshat_statues> {
@@ -68,6 +70,30 @@ class  _finished_warshat_statues extends State<finished_warshat_statues> {
   void initState() {
     super.initState();
     // getChat();
+  }
+  CreatChatRoom (){
+    print(widget.name_Me);
+    print(widget.name);
+    String chatRoomId=getChatRoomId(widget.name,widget.name_Me);
+    List<String>Users=[widget.name_Me,widget.name];
+    Map<String,dynamic>ChatRoom={
+      "users":Users,
+      "chatroomid":chatRoomId
+    };
+    databaseMethods.createChat(chatRoomId, ChatRoom);
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return Conversation(chatRoomId: chatRoomId,name_Me: widget.name_Me,name: widget.name,image: widget.image,namefirst: widget.namefirst,namelast: widget.namefirst,);
+    },
+    ),
+    );
+
+  }
+  getChatRoomId(String a, String b) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+      return "$b\_$a";
+    } else {
+      return "$a\_$b";
+    }
   }
   int _selectedIndex = 0;
   PageController _pageController;
@@ -208,7 +234,9 @@ class  _finished_warshat_statues extends State<finished_warshat_statues> {
                                       child: InkWell(
                                         // splashColor: Colors.black87, // inkwell color
                                         child: SizedBox(width: 30, height: 30, child: Icon(Icons.mark_chat_unread,color: Colors.white,size: 20,)),
-                                        onTap: () {},
+                                        onTap: () {
+                                          CreatChatRoom();
+                                        },
                                       ),
                                     ),
                                   ),
