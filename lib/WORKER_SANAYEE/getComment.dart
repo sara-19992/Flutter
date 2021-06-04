@@ -7,7 +7,7 @@ import 'dart:io';
 import 'dart:convert';
 
 import '../constants.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 FocusNode myFocusNode = new FocusNode();
 bool Pass_Null=true;
 bool Pass_R=true;
@@ -33,17 +33,9 @@ class getMyComment extends StatefulWidget{
 class _getMyComment extends State<getMyComment> {
   @override
   Future getcom() async {
-    var url = 'https://'+IP4+'/testlocalhost/getmycommint.php';
+    var url = 'http://'+IP4+'/testlocalhost/allcomment.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
-    });
-    return json.decode(ressponse.body);
-  }
-  Future getRate(String phone) async {
-    var url = 'https://'+IP4+'/testlocalhost/getRate.php';
-    var ressponse = await http.post(url, body: {
-      "phone": phone,
-      "workerphone":widget.phone,
     });
     return json.decode(ressponse.body);
   }
@@ -60,7 +52,7 @@ class _getMyComment extends State<getMyComment> {
                 backgroundColor: Colors.transparent,
                 body:Container(
                   height: 800,
-                  color: Colors.grey[50],
+                  color: Colors.white,
                   child: Stack(
                     children:[
                       Container(
@@ -76,37 +68,37 @@ class _getMyComment extends State<getMyComment> {
 
                       Container(
                         height: 705,
-                        color: Colors.grey[50],
+                        color: Colors.white,
                         margin: EdgeInsets.only(top: 90),
-                          child: Container(
-                            child:FutureBuilder(
+                        child: Container(
+                          child:FutureBuilder(
                             future: getcom(),
                             builder: (BuildContext context, AsyncSnapshot snapshot) {
-                            if(snapshot.hasData){
-                            if(snapshot.data.length==0) {
-                              return Container(
-                                margin: EdgeInsets.only(top: 20),
-                                height:50,
-                                child: Text('لا يوجد لديك أي تعليقات',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 15.0,
-                                    fontFamily: 'Changa',
-                                    fontWeight: FontWeight.bold,),
-                                ),);
-                            }
-                            return ListView.builder(
-                            itemCount:snapshot.data.length,
-                            itemBuilder: (context, index) {
-                              return Rate(snapshot.data[index]['phone'],snapshot.data[index]['namefirst'],snapshot.data[index]['namelast'],snapshot.data[index]['image'],snapshot.data[index]['comment']);
+                              if(snapshot.hasData){
+                                if(snapshot.data.length==0) {
+                                  return Container(
+                                    margin: EdgeInsets.only(top: 20),
+                                    height:50,
+                                    child: Text('لا يوجد لديك أي تعليقات',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 15.0,
+                                        fontFamily: 'Changa',
+                                        fontWeight: FontWeight.bold,),
+                                    ),);
+                                }
+                                return ListView.builder(
+                                  itemCount:snapshot.data.length,
+                                  itemBuilder: (context, index) {
+                                    return Com(snapshot.data[index]['namefirst'],snapshot.data[index]['namelast'],snapshot.data[index]['image'],snapshot.data[index]['comment'],snapshot.data[index]['Rate']);
+                                  },
+                                );
+                              }
+                              return Center(child: Container());
                             },
-                      );
-                    }
-                    return Center(child: Container());
-                  },
-                ),
-              ),
-            ),
+                          ),
+                        ),
+                      ),
             ],),
 
               ),),],),);
@@ -126,39 +118,16 @@ class _getMyComment extends State<getMyComment> {
       // title: "Profile"
     );
   }
-Container Rate(String phone,String namefirst,String namelast,String image,String comment){
-   String value;
-    return  Container(
-      height: 107,
-      child: FutureBuilder(
-          future: getRate(phone),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  value=snapshot.data[index]['total'];
-                  return Com(namefirst,namelast,image,comment,value);
-                },);
-            }
-            return Container(
-              child:Text(''),
-            );
-
-          }
-      ),
-    );
-}
-Container Com(String namefirst,String namelast,String image,String comment,String value){
-  return Container(
+  Container Com(String namefirst,String namelast,String image,String comment,String value){
+    return Container(
       width:250,
       height: 90,
       transform: Matrix4.translationValues(0.0, -20.0, 0.0),
       decoration: BoxDecoration(
-      color:Colors.white,
-      borderRadius: BorderRadius.all(
-      Radius.circular(10),
-       ),
+        color:Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
+        ),
         boxShadow: [
           BoxShadow(
             offset: Offset(0, 0.2),
@@ -173,7 +142,7 @@ Container Com(String namefirst,String namelast,String image,String comment,Strin
           Container(
             margin: EdgeInsets.only(top: 5,bottom: 5,right: 10),
             child:CircleAvatar(backgroundImage: NetworkImage(
-                'https://' + IP4 + '/testlocalhost/upload/' + image),
+                'http://' + IP4 + '/testlocalhost/upload/' + image),
               radius: 30.0,),
           ),
           Container(
@@ -199,33 +168,33 @@ Container Com(String namefirst,String namelast,String image,String comment,Strin
                       Directionality(textDirection: TextDirection.ltr,
 
                         child: Container(
-                          width: 180,
-                          height: 25,
-                          alignment: Alignment.topLeft,
-                          child: RatingBar.builder(
-                            glowColor: Colors.orangeAccent,
-                            initialRating:double.parse(value),
-                            minRating: 0,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            unratedColor: Colors.amber.withAlpha(50),
-                            itemCount: 5,
-                            itemSize: 20.0,
-                            itemBuilder: (context, _) => Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            ),
-                            itemPadding: EdgeInsets.symmetric(horizontal:0.07),
+                            width: 180,
+                            height: 25,
+                            alignment: Alignment.topLeft,
+                            child: RatingBar.builder(
+                              glowColor: Colors.orangeAccent,
+                              initialRating:double.parse(value),
+                              minRating: 0,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              unratedColor: Colors.amber.withAlpha(50),
+                              itemCount: 5,
+                              itemSize: 20.0,
+                              itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.amber,
+                              ),
+                              itemPadding: EdgeInsets.symmetric(horizontal:0.07),
 
-                            onRatingUpdate: (rating) {
-                              setState(() {
-                                // _rating1 = rating;
-                                //_rating2=
-                              });
-                            },
-                            updateOnDrag: false,
-                          )
-                      ),),
+                              onRatingUpdate: (rating) {
+                                setState(() {
+                                  // _rating1 = rating;
+                                  //_rating2=
+                                });
+                              },
+                              updateOnDrag: false,
+                            )
+                        ),),
 
                     ],
                   ),
@@ -251,7 +220,8 @@ Container Com(String namefirst,String namelast,String image,String comment,Strin
 
         ],
       ),
-  );
-}
+    );
+  }
+
 
 }

@@ -11,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
+import 'tassser.dart';
 import 'package:flutterphone/constants.dart';
 import '../constants.dart';
 import '../database.dart';
@@ -31,7 +32,7 @@ String  Work="";
 String  Experiance="";
 String  Information="";
 String  token="";
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class order_worker extends StatefulWidget {
   final  name;
@@ -69,7 +70,7 @@ class  _order_worker extends State<order_worker> {
   final picker = ImagePicker();
   var mytoken ;
   Future getdata1()async{
-    var url='https://'+IP4+'/testlocalhost/count.php';
+    var url='http://'+IP4+'/testlocalhost/count.php';
     var ressponse=await http.post(url,body: {
       "phone": phone,
     });
@@ -83,7 +84,7 @@ class  _order_worker extends State<order_worker> {
     // print(ListDate1);
   }
   Future vc()async{
-    var url='https://'+IP4+'/testlocalhost/viewOrder.php';
+    var url='http://'+IP4+'/testlocalhost/viewOrder.php';
     var ressponse=await http.post(url,body: {
       "phone": widget.phone,
     });
@@ -91,7 +92,7 @@ class  _order_worker extends State<order_worker> {
     return json.decode(ressponse.body);
   }
   Future getdata2()async{
-    var url='https://'+IP4+'/testlocalhost/count2.php';
+    var url='http://'+IP4+'/testlocalhost/count2.php';
     var ressponse=await http.post(url,body: {
       "phone": phone,
     });
@@ -120,7 +121,7 @@ class  _order_worker extends State<order_worker> {
   }
 
   Future getWorker()async{
-    var url='https://'+IP4+'/testlocalhost/getworker.php';
+    var url='http://'+IP4+'/testlocalhost/getworker.php';
     var ressponse=await http.post(url,body: {
       "name": widget.name,
     });
@@ -331,10 +332,9 @@ class  _order_worker extends State<order_worker> {
           //         ),)
           //   ),),
           Container(
-            margin: EdgeInsets.only(top: 300,right:165),
+            margin: EdgeInsets.only(top: 300,right:100),
             child: Row(
               children: [
-
                GestureDetector(
                   onTap: (){
                     print(widget.phone);
@@ -366,6 +366,55 @@ class  _order_worker extends State<order_worker> {
                                     alignment: Alignment.center,
                                     child:Text(
                                       'جدول أعمالي',
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14.0,
+                                        fontFamily: 'Changa',
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+               SizedBox(width: 20,),
+               GestureDetector(
+                  onTap: (){
+                    print(widget.phone);
+                    DateTime date=DateTime.now();
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => taasser(name: widget.name,phone: widget.phone,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+                  },
+                  child:SizedBox(
+                    height: 90,
+                    width: 95,
+                    child: Card(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                      ),
+                      elevation: 5,
+                      child: Padding(
+                        padding: EdgeInsets.all(2),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(Icons.attach_money),
+                            Align(
+                              alignment: Alignment.center,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Container(
+                                    alignment: Alignment.center,
+                                    child:Text(
+                                      'تسعيرات',
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 14.0,
@@ -509,7 +558,7 @@ class  _order_worker extends State<order_worker> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 512),
+            margin: EdgeInsets.only(top: 520),
             child:Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[

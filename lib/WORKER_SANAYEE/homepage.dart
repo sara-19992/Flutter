@@ -24,7 +24,7 @@ import 'orders_workers.dart';
 import 'package:flutterphone/Chatworker/chatListworker.dart';
 import 'package:flutterphone/Chatworker/Conversation.dart';
 
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 bool showmap=true;
 String  name="";
 String  phone="";
@@ -84,8 +84,9 @@ class _mState extends State<orderpperson_map> {
       });
     });
   }
+  bool rt=false;
   Future getWorker() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getworker.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getworker.php';
     var ressponse = await http.post(url, body: {
       "name": widget.name_Me,
     });
@@ -100,7 +101,20 @@ class _mState extends State<orderpperson_map> {
   today() async {
     DateTime date=DateTime.now();
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/userlocation.php';
+    var url = 'http://' + IP4 + '/testlocalhost/userlocation.php';
+    // for(int i=0;i<list_.length;i++){
+    var ressponse = await http.post(url, body: {
+      //"phone":list_ [i],
+      "phoneworker": widget.phone_Me,
+      "date":formattedDate,
+
+    });
+    return json.decode(ressponse.body);
+  }
+  todaywar() async {
+    DateTime date=DateTime.now();
+    var formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    var url = 'http://' + IP4 + '/testlocalhost/todaywarshat.php';
     // for(int i=0;i<list_.length;i++){
     var ressponse = await http.post(url, body: {
       //"phone":list_ [i],
@@ -283,25 +297,12 @@ class _mState extends State<orderpperson_map> {
               ),
             ),
             Container(
-              height: 160,
-              width: 500,
-              // transform: Matrix4.translationValues(0.0, -42.0, 0.0),
-              decoration: BoxDecoration(
-                color: Colors.black87.withOpacity(0.9),
-                image: new DecorationImage(
-                  fit: BoxFit.cover,
-                  colorFilter:
-                  ColorFilter.mode(Colors.black87.withOpacity(0.4),
-                      BlendMode.dstATop),
-                  image: new AssetImage('assets/work/cvtop.jpg',),
-                ),),),
-            Container(
-              height: 512,
+              height: 737,
               margin: EdgeInsets.only(top: 0,),
               decoration: BoxDecoration(
               ),
               child: FutureBuilder(
-                future: today(),
+                future: todaywar(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.hasData) {
                       print(snapshot.data.length);
@@ -362,7 +363,7 @@ class _MyHomePageState extends State<w> {
   today() async {
     DateTime date=DateTime.now();
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/userlocation.php';
+    var url = 'http://' + IP4 + '/testlocalhost/userlocation.php';
     // for(int i=0;i<list_.length;i++){
     var ressponse = await http.post(url, body: {
       //"phone":list_ [i],
@@ -375,7 +376,7 @@ class _MyHomePageState extends State<w> {
   todaywar() async {
     DateTime date=DateTime.now();
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/todaywarshat.php';
+    var url = 'http://' + IP4 + '/testlocalhost/todaywarshat.php';
     // for(int i=0;i<list_.length;i++){
     var ressponse = await http.post(url, body: {
       //"phone":list_ [i],
@@ -390,7 +391,7 @@ class _MyHomePageState extends State<w> {
     DateTime date=DateTime.now();
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
     var formattedTime = DateFormat('HH:mm:ss').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/finishedorder.php';
+    var url = 'http://' + IP4 + '/testlocalhost/finishedorder.php';
     var ressponse = await http.post(url, body: {
       //"phone":list_ [i],
       "id":id,
@@ -404,7 +405,7 @@ class _MyHomePageState extends State<w> {
     DateTime date=DateTime.now();
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
     var formattedTime = DateFormat('HH:mm:ss').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/delete_accept_order.php';
+    var url = 'http://' + IP4 + '/testlocalhost/delete_accept_order.php';
     var ressponse = await http.post(url, body: {
       "id": id,
       "datecancel":formattedDate,
@@ -418,7 +419,7 @@ class _MyHomePageState extends State<w> {
   Container order_user(int index,String namefirst,String namelast,String image,String timestart,String timeend,String Am_Pm,String phone,String id){
     return Container(
       height: 85,
-      transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+      transform: Matrix4.translationValues(0.0, -30.0, 0.0),
       margin: EdgeInsets.only(bottom:20),
       decoration: BoxDecoration(
         color:Colors.grey[50],
@@ -440,7 +441,7 @@ class _MyHomePageState extends State<w> {
                   decoration: BoxDecoration(
                     color:Colors.white,
                     borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+image),
+                    image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+image),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -536,7 +537,7 @@ class _MyHomePageState extends State<w> {
                   },
                  child:Container(
                       height: 50,
-                      width: 120,
+                      width: 104,
                       transform: Matrix4.translationValues(0.0, 0.0, 0.0),
                       child:FlatButton(
                           shape: RoundedRectangleBorder(
@@ -546,19 +547,20 @@ class _MyHomePageState extends State<w> {
                           // padding: EdgeInsets.symmetric(vertical: 0, horizontal: 40),
                           color:Colors.green,
                           onPressed: (){
+                            _dialogCall(id);
                           },
                           child:Row(
                             children: [
-                              Text('تم الانتهاء',
+                              Text('انتهاء الطلب',
                                 style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w400,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                   fontFamily: 'Changa',
                                   //fontStyle: FontStyle.italic,
                                 ),),
-                              SizedBox(width:5,),
-                              Icon(Icons.check,color:Colors.white,size:24,),
+                              // SizedBox(width:5,),
+                              // Icon(Icons.check,color:Colors.white,size:24,),
                             ],
                           )
                       ),
@@ -570,10 +572,19 @@ class _MyHomePageState extends State<w> {
         ],),
     );
   }
+  Future<void> _dialogCall(String id) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Directionality(textDirection: ui.TextDirection.rtl,
+              child:finishorder(id:id,name: widget.name_Me,phone: widget.phone_Me,));
+        });
+  }
+
   Container order_warshat(int index,String namefirst,String namelast,String image,String type,String phone,String id){
     return Container(
       height: 85,
-      transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+      transform: Matrix4.translationValues(0.0, -50.0, 0.0),
       margin: EdgeInsets.only(bottom:20),
       decoration: BoxDecoration(
         color:Colors.grey[50],
@@ -595,7 +606,7 @@ class _MyHomePageState extends State<w> {
                   decoration: BoxDecoration(
                     color:Colors.white,
                     borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+image),
+                    image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+image),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -684,7 +695,7 @@ class _MyHomePageState extends State<w> {
                   },
                   child:Container(
                     height: 50,
-                    width: 120,
+                    width: 104,
                     transform: Matrix4.translationValues(0.0, 0.0, 0.0),
                     child:FlatButton(
                         shape: RoundedRectangleBorder(
@@ -699,14 +710,12 @@ class _MyHomePageState extends State<w> {
                           children: [
                             Text('تم الانتهاء',
                               style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 fontFamily: 'Changa',
                                 //fontStyle: FontStyle.italic,
                               ),),
-                            SizedBox(width:5,),
-                            Icon(Icons.check,color:Colors.white,size:24,),
                           ],
                         )
                     ),
@@ -718,6 +727,7 @@ class _MyHomePageState extends State<w> {
         ],),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return  SingleChildScrollView(
@@ -729,61 +739,23 @@ class _MyHomePageState extends State<w> {
        child:Column(
          children: [
            widget.length!=0?Container(
-             height:600,
+             height:800,
              child:Column(
                children: [
                  SizedBox(height:40,),
-                 // Container(
-                 //   height:140,
-                 //   margin: EdgeInsets.only(top:0,right:0),
-                 //   padding: EdgeInsets.only(top:70,right: 10,bottom: 20),
-                 //   alignment: Alignment.center,
-                 //   color:Colors.grey[50],
-                 //   // transform: Matrix4.translationValues(0, -120.0, 0),
-                 //   child:Row(
-                 //     children:[
-                 //       SizedBox(width: 140,),
-                 //       Text('طلبات اليوم',
-                 //         style: TextStyle(
-                 //           fontSize: 30,
-                 //           fontWeight: FontWeight.w400,
-                 //           color: Colors.black,
-                 //           fontFamily: 'vibes',
-                 //           //fontStyle: FontStyle.italic,
-                 //         ),),
-                 //       SizedBox(width:100,),
-                 //       Container(
-                 //         width: 50,
-                 //         //padding: EdgeInsets.symmetric(horizontal: 3),
-                 //         child: FlatButton(
-                 //           onPressed: () {
-                 //             Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Home_Page(name: widget.name_Me)));
-                 //             // UrlLauncher.launch("tel://0595320479");
-                 //           },
-                 //           child: new Icon(
-                 //             Icons.location_on,
-                 //             color: Colors.black54,
-                 //             size: 40.0,
-                 //           ),
-                 //           shape: new CircleBorder(),
-                 //           color: Colors.grey[50],
-                 //         ),
-                 //       ),
-                 //     ],
-                 //   ),),
-                 // Container(
-                 //   height: 160,
-                 //   width: 500,
-                 //   transform: Matrix4.translationValues(0.0, -42.0, 0.0),
-                 //   decoration: BoxDecoration(
-                 //     color: Colors.black87.withOpacity(0.9),
-                 //     image: new DecorationImage(
-                 //       fit: BoxFit.cover,
-                 //       colorFilter:
-                 //       ColorFilter.mode(Colors.black87.withOpacity(0.4),
-                 //           BlendMode.dstATop),
-                 //       image: new AssetImage('assets/work/cvtop.jpg',),
-                 //     ),),),
+                 Container(
+                   height: 125,
+                   width: 500,
+                   // transform: Matrix4.translationValues(0.0, -42.0, 0.0),
+                   decoration: BoxDecoration(
+                     color: Colors.black87.withOpacity(0.9),
+                     image: new DecorationImage(
+                       fit: BoxFit.cover,
+                       colorFilter:
+                       ColorFilter.mode(Colors.black87.withOpacity(0.4),
+                           BlendMode.dstATop),
+                       image: new AssetImage('assets/work/cvtop.jpg',),
+                     ),),),
                  Container(
                    height: 50,
                    //width: 50,
@@ -793,7 +765,7 @@ class _MyHomePageState extends State<w> {
                    padding: EdgeInsets.symmetric(horizontal: 3),
                    child: GestureDetector(
                      onTap: () {
-                       Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Home_Page(name: widget.name_Me)));
+                       Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Home_Page(name: widget.name_Me,phone:widget.phone_Me)));
                        // UrlLauncher.launch("tel://0595320479");
                      },
                      child: Row(
@@ -801,39 +773,6 @@ class _MyHomePageState extends State<w> {
                          Image.asset('assets/work/map.png',width:40,height: 40,fit:BoxFit.contain,),
                        ],
                      ),
-                   ),
-                 ),
-                 Container(
-                   height:40,
-                   width: 200,
-                   margin: EdgeInsets.only(top:15,right:15,left:180),
-                   alignment: Alignment.topRight,
-                       child:Text('طقات اليوم ',
-                         style: TextStyle(
-                           fontSize: 15,
-                           fontWeight: FontWeight.w400,
-                           color: Colors.black87,
-                           fontFamily: 'Changa',
-                           //fontStyle: FontStyle.italic,
-                         ),),
-                 ),
-                  Container(height: 200,
-                   margin: EdgeInsets.only(top: 0,),
-                   decoration: BoxDecoration(
-                   ),
-                   child: FutureBuilder(
-                     future: today(),
-                     builder: (BuildContext context, AsyncSnapshot snapshot) {
-                       if (snapshot.hasData) {
-                         return ListView.builder(
-                           itemCount: snapshot.data.length,
-                           itemBuilder: (context, index) {
-                             print(snapshot.data[index]['id']);
-                             return order_user(index,snapshot.data[index]['namefirst'],snapshot.data[index]['namelast'],snapshot.data[index]['image'],snapshot.data[index]['timestart'],snapshot.data[index]['timeend'],snapshot.data[index]['Am_Pm'],snapshot.data[index]['phone'],snapshot.data[index]['id']);
-                           },);
-                       }
-                       return Center(child: CircularProgressIndicator());
-                     },
                    ),
                  ),
                  Container(
@@ -880,11 +819,45 @@ class _MyHomePageState extends State<w> {
                      },
                    ),
                  ),
+                 Container(
+                   height:40,
+                   width: 200,
+                   margin: EdgeInsets.only(top:15,right:15,left:180),
+                   alignment: Alignment.topRight,
+                       child:Text('طقات اليوم ',
+                         style: TextStyle(
+                           fontSize: 15,
+                           fontWeight: FontWeight.w400,
+                           color: Colors.black87,
+                           fontFamily: 'Changa',
+                           //fontStyle: FontStyle.italic,
+                         ),),
+                 ),
+                  Container(
+                    height: 200,
+                    transform: Matrix4.translationValues(0.0,-20.0, 0.0),
+                   decoration: BoxDecoration(
+                   ),
+                   child: FutureBuilder(
+                     future: today(),
+                     builder: (BuildContext context, AsyncSnapshot snapshot) {
+                       if (snapshot.hasData) {
+                         return ListView.builder(
+                           itemCount: snapshot.data.length,
+                           itemBuilder: (context, index) {
+                             print(snapshot.data[index]['id']);
+                             return order_user(index,snapshot.data[index]['namefirst'],snapshot.data[index]['namelast'],snapshot.data[index]['image'],snapshot.data[index]['timestart'],snapshot.data[index]['timeend'],snapshot.data[index]['Am_Pm'],snapshot.data[index]['phone'],snapshot.data[index]['id']);
+                           },);
+                       }
+                       return Center(child: CircularProgressIndicator());
+                     },
+                   ),
+                 ),
                ],
              ),
            ):
            Container(
-             margin: EdgeInsets.only(top:20),
+             margin: EdgeInsets.only(top:160),
              transform: Matrix4.translationValues(0.0, -0.0, 0.0),
              child:Center(
                child:Column(
@@ -997,6 +970,96 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       ),
     );
   }
+
+
+
 }
 
 
+
+class finishorder extends StatefulWidget {
+  @override
+  final id;
+  final name;
+  final phone;
+  finishorder({this.name,this.id,this.phone});
+  _finishorder createState() => new _finishorder();
+
+}
+class _finishorder extends State<finishorder> {
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: Colors.white,
+      actionsPadding: EdgeInsets.zero,
+      content: new SingleChildScrollView(
+        child: new ListBody(
+          children: <Widget>[
+            Column(
+              children: [
+
+                Container(
+                  margin: EdgeInsets.only(left:110,top:10),
+                  child: Text('هل تم إنهاء هذا الطلب ؟',
+                    style: TextStyle(
+                      fontFamily: 'Changa',
+                      color: Colors.black45,
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold,
+                    ),),
+                ),
+                SizedBox(height: 50,),
+                Row(
+                  children: [
+                    GestureDetector(
+                      onTap: ()async{
+                        await delete(widget.id);
+                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => orderpperson_map(name_Me:widget.name,phone_Me:widget.phone,)));
+                        // Navigator.pop(context);
+                        // Navigator.push(context, MaterialPageRoute(builder: (context) => not_conferm__order(time: widget.time,phone: widget.phone,)),);
+                      },
+                      child: Container(
+                          margin: EdgeInsets.only(right: 170),
+                          child:Text('حسنا',
+                            style: TextStyle(
+                              fontFamily: 'Changa',
+                              color: Y,
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                          margin: EdgeInsets.only(right: 48),
+                          child:Text('إلغاء',
+                            style: TextStyle(
+                              fontFamily: 'Changa',
+                              color:Y,
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                      ),
+                    ),
+                  ],
+                ),
+                // SizedBox(width: 10,),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+  Future<void> delete(String id) async {
+    int i = 0;
+    var url ='http://'+IP4+'/testlocalhost/finished.php';
+    var ressponse = await http.post(url, body: {
+      "id": id,
+    });
+  }
+}

@@ -27,7 +27,7 @@ String namefirst="";
 String namelast="";
 String Country="";
 String  token="";
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class current_user_statues extends StatefulWidget {
   final country;
@@ -150,7 +150,7 @@ class  _current_user_statues extends State<current_user_statues> {
                           decoration: BoxDecoration(
                             color:Colors.white,
                             borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.image),
+                            image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.image),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -686,7 +686,7 @@ class _delete_order extends State<delete_order> {
     DateTime date=DateTime.now();
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
     var formattedTime = DateFormat('HH:mm:ss').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/delete_order.php';
+    var url = 'http://' + IP4 + '/testlocalhost/delete_order.php';
     var ressponse = await http.post(url, body: {
       "id": widget.id,
       "datecancel":formattedDate,

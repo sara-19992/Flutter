@@ -19,7 +19,7 @@ import 'dart:convert';
 import 'Comment.dart';
 import 'WORKER_PROFILE.dart';
 
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 String _verificationCode;
 String radioItem = '';

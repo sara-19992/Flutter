@@ -26,7 +26,7 @@ String namefirst="";
 String namelast="";
 String Country="";
 String  token="";
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class All_Service extends StatefulWidget {
   final name_Me;
@@ -57,7 +57,7 @@ class  _All_Service extends State<All_Service> {
     // getChat();
   }
   Future getpost()async{
-    var url='https://'+IP4+'/testlocalhost/post_profile.php';
+    var url='http://'+IP4+'/testlocalhost/post_profile.php';
     var ressponse=await http.get(url);
     // // ignore: deprecated_member_use
     // ignore: deprecated_member_use
@@ -65,7 +65,7 @@ class  _All_Service extends State<All_Service> {
 
   }
   Future getdata()async{
-    var url='https://'+IP4+'/testlocalhost/all_worker.php';
+    var url='http://'+IP4+'/testlocalhost/all_worker.php';
     var ressponse=await http.get(url);
     var responsepody= json.decode(ressponse.body);
     return responsepody;
@@ -91,14 +91,29 @@ class  _All_Service extends State<All_Service> {
                 // crossAxisAlignment: CrossAxisAlignment.stretch,
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+          Container(
+          height: 170,
+          width: 500,
+          decoration: BoxDecoration(
+            color: Colors.black87.withOpacity(0.9),
+            image: new DecorationImage(
+              fit: BoxFit.cover,
+              colorFilter:
+              ColorFilter.mode(Colors.black87.withOpacity(0.4),
+                  BlendMode.dstATop),
+              image: new AssetImage('assets/work/cvtop.jpg',),
+            ),),
+            child:Container(
+              child:Column(
+                children: [
                   GestureDetector(
-                    onTap: (){
-                      Navigator.pop(context);
-                    },
-                    child:Container(
-                      margin:EdgeInsets.only(top:70,left: 370),
-                      child:Icon(Icons.arrow_back,color: Colors.black,),
-                    )
+                      onTap: (){
+                        Navigator.pop(context);
+                      },
+                      child:Container(
+                        margin:EdgeInsets.only(top:70,left: 370),
+                        child:Icon(Icons.arrow_back,color: Colors.white,),
+                      )
                   ),
                   Container(
                     margin:EdgeInsets.only(top:20),
@@ -111,7 +126,7 @@ class  _All_Service extends State<All_Service> {
                               fontSize: 15.0,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Changa',
-                              color: Colors.black87,
+                              color: Colors.white,
                             ),
                           ),
                         ),
@@ -145,52 +160,60 @@ class  _All_Service extends State<All_Service> {
                       ],
                     ),
                   ),
+                ],
+              ),
+            ),
+          ),
                   // Image.asset(
                   //   "assets/icons/ho.jpg",
                   //   height:250,
                   //   width:450,
                   //   fit: BoxFit.fill,
                   // ),
-                  methode? Servis(token:widget.token,country:widget.country,image:widget.image,namelast:widget.namelast,namefirst:widget.namefirst,phone:widget.phone,name_Me:widget.name_Me,):  Container(
-                    height: 655,
-                    margin: EdgeInsets.only(top: 0),
-                    decoration: BoxDecoration(
-                      color:  Colors.white,
-                      // color:Color(0xFF1C1C1C),
-                      // borderRadius: BorderRadius.only(
-                      //   topLeft: Radius.circular(50),
-                      //   topRight: Radius.circular(50),
-                      // ),
-                    ),
-                    child: FutureBuilder(
-                      future: getCount(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView.builder(
-                            itemCount: 1,
-                            itemBuilder: (context, index) {
-                              String najarnum="0";
-                              String elecnum="0";
-                              String balnum="0";
-                              String sabaknum="0";
-                              String dahannum="0";
-                              String mecnum="0";
-                              for(int i=0;i<snapshot.data.length;i++){
-                                if(snapshot.data[i]['work']=="نجار"){najarnum=snapshot.data[i]['count'].toString();}
-                                else if(snapshot.data[i]['work']=="كهربائي"){elecnum=snapshot.data[i]['count'].toString();}
-                              }
-                              return Servish(token:widget.token,country:widget.country,image:widget.image,namelast:widget.namelast,namefirst:widget.namefirst,phone:widget.phone,name_Me:widget.name_Me,najarnum:najarnum,elecnum:elecnum,sabaknum:sabaknum,dahannum:dahannum,mecnum:mecnum,balnum:balnum,);
-                            },
-                          );
-                        }
-                        return Center(child: CircularProgressIndicator());
-                      },
+                  methode? Servis(token:widget.token,country:widget.country,image:widget.image,namelast:widget.namelast,namefirst:widget.namefirst,phone:widget.phone,name_Me:widget.name_Me,):
+                  SingleChildScrollView(
+                    child: Container(
+                      height: 610,
+                      margin: EdgeInsets.only(top: 0),
+                      decoration: BoxDecoration(
+                        color:  Colors.white,
+                        // color:Color(0xFF1C1C1C),
+                        // borderRadius: BorderRadius.only(
+                        //   topLeft: Radius.circular(50),
+                        //   topRight: Radius.circular(50),
+                        // ),
+                      ),
+                      child: FutureBuilder(
+                        future: getCount(),
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                          if (snapshot.hasData) {
+                            return ListView.builder(
+                              itemCount: 1,
+                              itemBuilder: (context, index) {
+                                String najarnum="0";
+                                String elecnum="0";
+                                String balnum="0";
+                                String sabaknum="0";
+                                String dahannum="0";
+                                String mecnum="0";
+                                for(int i=0;i<snapshot.data.length;i++){
+                                  if(snapshot.data[i]['work']=="نجار"){najarnum=snapshot.data[i]['count'].toString();}
+                                  else if(snapshot.data[i]['work']=="كهربائي"){elecnum=snapshot.data[i]['count'].toString();}
+                                  else if(snapshot.data[i]['work']=="سباك"){sabaknum=snapshot.data[i]['count'].toString();}
+                                }
+                                return Servish(token:widget.token,country:widget.country,image:widget.image,namelast:widget.namelast,namefirst:widget.namefirst,phone:widget.phone,name_Me:widget.name_Me,najarnum:najarnum,elecnum:elecnum,sabaknum:sabaknum,dahannum:dahannum,mecnum:mecnum,balnum:balnum,);
+                              },
+                            );
+                          }
+                          return Center(child: CircularProgressIndicator());
+                        },
+                      ),
                     ),
                   ),
                 ],),),),],),);
   }
   Future getCount() async {
-    var url = 'https://' + IP4 + '/testlocalhost/countservice.php';
+    var url = 'http://' + IP4 + '/testlocalhost/countservice.php';
     var ressponse = await http.post(url, body: {
       "name": widget.name_Me,
     });
@@ -241,12 +264,12 @@ class  _Servis extends State<Servis> {
   Widget build(BuildContext context) {
    return SingleChildScrollView(
      child:Container(
-       height: 615,
+       height: 600,
        width: 450,
-       // color:  Color(0xFFF3D657),
-       margin: EdgeInsets.only(top:40),
+       margin: EdgeInsets.only(top:20),
        padding:EdgeInsets.only(right:25,left: 25),
        decoration: BoxDecoration(
+         // color:  Color(0xFFF3D657),
          // color:Color(0xFF1C1C1C),
          // borderRadius: BorderRadius.only(
          //   topLeft: Radius.circular(50),
@@ -266,7 +289,7 @@ class  _Servis extends State<Servis> {
                  ),
                  RecomendPlantCard2(
                    image: "assets/work/najar.png",
-                   title: "نجّار",
+                   title: "نجار",
                    press: () {
                      Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'نجار',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
                      },
@@ -277,7 +300,7 @@ class  _Servis extends State<Servis> {
                children: [
                  RecomendPlantCard3(
                    image: "assets/work/dahan.png",
-                   title: "دهّان",
+                   title: "دهان",
                    press: () {
                      Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'دهان',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
                    },
@@ -295,7 +318,7 @@ class  _Servis extends State<Servis> {
                children: [
                  RecomendPlantCard5(
                    image: "assets/work/sabak.png",
-                   title: "سبّاك",
+                   title: "سباك",
                    press: () {
                      Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'سباك',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
                    },
@@ -312,15 +335,15 @@ class  _Servis extends State<Servis> {
              Row(
                children: [
                  RecomendPlantCard5(
-                   image: "assets/work/sabak.png",
-                   title: "سبّاك",
+                   image: "assets/work/takeef.png",
+                   title: "فني تكييف",
                    press: () {
                      Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'سباك',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
                    },
                  ),
                  RecomendPlantCard6(
-                   image: "assets/work/ele.png",
-                   title: "كهربائي",
+                   image: "assets/work/tasleeh.png",
+                   title: "تصليح أجهزة",
                    press: () {
                      Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'كهربائي',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
                    },
@@ -383,15 +406,15 @@ class  _Servish extends State<Servish> {
                 ),
                 RecomendPlantCardh2(
                   image: "assets/work/najar.png",
-                  title: "نجّار",
+                  title: "نجار",
                   num:widget.najarnum,
                   press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'نجار',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'نجّار',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
                   },
                 ),
                 RecomendPlantCardh3(
                   image: "assets/work/dahan.png",
-                  title: "دهّان",
+                  title: "دهان",
                   num:widget.dahannum,
                   press: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'دهان',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
@@ -407,7 +430,7 @@ class  _Servish extends State<Servish> {
                 ),
                 RecomendPlantCardh5(
                   image: "assets/work/sabak.png",
-                  title: "سبّاك",
+                  title: "سباك",
                   num:widget.sabaknum,
                   press: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'سباك',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
@@ -421,23 +444,23 @@ class  _Servish extends State<Servish> {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'كهربائي',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
                   },
                 ),
-                RecomendPlantCardh5(
-                  image: "assets/work/sabak.png",
-                  title: "سبّاك",
-                  num:widget.sabaknum,
-                  press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'سباك',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
-                  },
-                ),
-                RecomendPlantCardh6(
-                  image: "assets/work/ele.png",
-                  title: "كهربائي",
-                  num:widget.elecnum,
-                  press: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'كهربائي',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
-                  },
-                ),
-            SizedBox(height: 30,),
+            RecomendPlantCardh8(
+              image: "assets/work/takeef.png",
+              title: "فني تكييف",
+              num:widget.elecnum,
+              press: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'سباك',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
+              },
+            ),
+            RecomendPlantCardh7(
+              image: "assets/work/tasleeh.png",
+              title: "تصليح أجهزة",
+              num:widget.elecnum,
+              press: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => Search_user(country:widget.country,token_Me:widget.token,work: 'كهربائي',name_Me: widget.name_Me,location: widget.country,namefirst_Me:widget.namefirst,nameLast_Me:widget.namelast,phone_Me: widget.phone,image_Me: widget.image,),),);
+              },
+            ),
+            SizedBox(height: 100,),
 
         ],),
       ),
@@ -481,12 +504,12 @@ class RecomendPlantCard1 extends StatelessWidget {
                       bottomRight:  Radius.circular(10),
                       bottomLeft:  Radius.circular(10),
                     ),
-                    color: Colors.grey[100],
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [Y,Y5]
-                    ),
+                    color: Colors.grey.withOpacity(0.06),
+                    // gradient: LinearGradient(
+                    //     begin: Alignment.topLeft,
+                    //     end: Alignment.bottomRight,
+                    //     colors: [Y,Y5]
+                    // ),
                   ),
                   child:  Center(
                     child:Column(
@@ -510,7 +533,7 @@ class RecomendPlantCard1 extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Changa',
-                                color: Colors.white,
+                                color: Colors.black87,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -559,12 +582,13 @@ class RecomendPlantCard2 extends StatelessWidget {
                   bottomRight:  Radius.circular(10),
                   bottomLeft:  Radius.circular(10),
                 ),
-                    color: Colors.grey[100],
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [red1,red2]
-                    ),
+                    // color: Colors.grey[100],
+                    color: Colors.grey.withOpacity(0.06),
+                    // gradient: LinearGradient(
+                    //     begin: Alignment.topLeft,
+                    //     end: Alignment.bottomRight,
+                    //     colors: [red1,red2]
+                    // ),
                   ),
                   child:Center(
                     child:Column(
@@ -588,7 +612,7 @@ class RecomendPlantCard2 extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Changa',
-                                color: Colors.white,
+                                color: Colors.black87,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -637,12 +661,12 @@ class RecomendPlantCard3 extends StatelessWidget {
                       bottomRight:  Radius.circular(10),
                       bottomLeft:  Radius.circular(10),
                     ),
-                    color: Colors.grey[100],
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [blue1,blue2]
-                    ),
+                    color: Colors.grey.withOpacity(0.06),
+                    // gradient: LinearGradient(
+                    //     begin: Alignment.topLeft,
+                    //     end: Alignment.bottomRight,
+                    //     colors: [blue1,blue2]
+                    // ),
                   ),
                   child:Center(
                     child:Column(
@@ -666,7 +690,7 @@ class RecomendPlantCard3 extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Changa',
-                                color: Colors.white,
+                                color: Colors.black87,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -715,12 +739,12 @@ class RecomendPlantCard4 extends StatelessWidget {
                       bottomRight:  Radius.circular(10),
                       bottomLeft:  Radius.circular(10),
                     ),
-                    color: Colors.grey[100],
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [green1,green2]
-                    ),
+                    color: Colors.grey.withOpacity(0.06),
+                    // gradient: LinearGradient(
+                    //     begin: Alignment.topLeft,
+                    //     end: Alignment.bottomRight,
+                    //     colors: [green1,green2]
+                    // ),
                   ),
                   child:Center(
                     child:Column(
@@ -744,7 +768,7 @@ class RecomendPlantCard4 extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Changa',
-                                color: Colors.white,
+                                color: Colors.black87,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -793,12 +817,12 @@ class RecomendPlantCard5 extends StatelessWidget {
                       bottomRight:  Radius.circular(10),
                       bottomLeft:  Radius.circular(10),
                     ),
-                    color: Colors.grey[100],
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [perp1,perp2]
-                    ),
+                    color: Colors.grey.withOpacity(0.06),
+                    // gradient: LinearGradient(
+                    //     begin: Alignment.topLeft,
+                    //     end: Alignment.bottomRight,
+                    //     colors: [perp1,perp2]
+                    // ),
                   ),
                   child:Center(
                     child:Column(
@@ -822,7 +846,7 @@ class RecomendPlantCard5 extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Changa',
-                                color: Colors.white,
+                                color: Colors.black87,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -872,12 +896,13 @@ class RecomendPlantCard6 extends StatelessWidget {
                       bottomRight:  Radius.circular(10),
                       bottomLeft:  Radius.circular(10),
                     ),
-                    color: Colors.grey[100],
-                    gradient: LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: [X1,X3]
-                    ),
+                    color: Colors.grey.withOpacity(0.06),
+                    // color: Colors.grey[100],
+                    // gradient: LinearGradient(
+                    //     begin: Alignment.topLeft,
+                    //     end: Alignment.bottomRight,
+                    //     colors: [X1,X3]
+                    // ),
                   ),
                   child:  Center(
                     child:Column(
@@ -901,7 +926,7 @@ class RecomendPlantCard6 extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Changa',
-                                color: Colors.white,
+                                color: Colors.black87,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -915,7 +940,84 @@ class RecomendPlantCard6 extends StatelessWidget {
     );
   }
 }
+class RecomendPlantCard7 extends StatelessWidget {
+  RecomendPlantCard7({
+    Key key,
+    this.image,
+    this.title,
+    this.press,
+  }) : super(key: key);
 
+  final String image, title;
+  final Function press;
+
+  @override
+  Widget build(BuildContext context) {
+    List<Colors> Color=[];
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      margin: EdgeInsets.only(left: 0, top: 10, bottom: 10,right: 0),
+      child: Column(
+        children: <Widget>[
+          GestureDetector(
+            onTap: press,
+            child:Stack(
+              children:<Widget>[
+                // Icon(Icons.paint),
+                Container(
+                  width: 170,
+                  height: 130,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                      bottomRight:  Radius.circular(10),
+                      bottomLeft:  Radius.circular(10),
+                    ),
+                    color: Colors.grey.withOpacity(0.06),
+                    // color: Colors.grey[100],
+                    // gradient: LinearGradient(
+                    //     begin: Alignment.topLeft,
+                    //     end: Alignment.bottomRight,
+                    //     colors: [X1,X3]
+                    // ),
+                  ),
+                  child:  Center(
+                    child:Column(
+                      children: [
+                        Container(
+                          height: 60,
+                          width: 70,
+                          margin: EdgeInsets.only(top: 20),
+                          child:ClipRRect(
+                            borderRadius: BorderRadius.circular(5),
+                            child: Image.asset(
+                              image, height: 90,
+                              width: 100,
+                              // color: Colors.white,
+                              fit: BoxFit.contain,),
+                          ),),
+                        Container(
+                          margin: EdgeInsets.only(top: 5),
+                          child:Center(
+                            child:Text(title,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: 'Changa',
+                                color: Colors.black87,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),),),
+                      ],
+                    ),),
+                ),
+              ],),
+          ),
+        ],),
+    );
+  }
+}
 
 class RecomendPlantCardh1 extends StatelessWidget {
   RecomendPlantCardh1({
@@ -943,11 +1045,12 @@ class RecomendPlantCardh1 extends StatelessWidget {
           bottomRight:  Radius.circular(10),
           bottomLeft:  Radius.circular(10),
         ),
-        gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [X3,X1]
-        ),
+        color: Colors.grey.withOpacity(0.06),
+        // gradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     colors: [X3,X1]
+        // ),
       ),
       margin: EdgeInsets.only(left: 10, top: 0, bottom: 20,right: 10),
       child: Column(
@@ -978,8 +1081,8 @@ class RecomendPlantCardh1 extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Changa',
-                                color: Colors.white,
-                                fontSize: 17.0,
+                                color: Colors.black87,
+                                fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),),),
@@ -990,7 +1093,7 @@ class RecomendPlantCardh1 extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontFamily: 'Changa',
-                                color: Colors.white,
+                                color: Colors.black87,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -1029,11 +1132,12 @@ class RecomendPlantCardh2 extends StatelessWidget {
           bottomRight:  Radius.circular(10),
           bottomLeft:  Radius.circular(10),
         ),
-        gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [red2,red1]
-        ),
+        color: Colors.grey.withOpacity(0.06),
+        // gradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     colors: [red2,red1]
+        // ),
       ),
       margin: EdgeInsets.only(left: 10, top: 0, bottom: 20,right: 10),
       child: Column(
@@ -1064,8 +1168,8 @@ class RecomendPlantCardh2 extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Changa',
-                        color: Colors.white,
-                        fontSize: 17.0,
+                        color: Colors.black87,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),),),
@@ -1076,7 +1180,7 @@ class RecomendPlantCardh2 extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Changa',
-                      color: Colors.white,
+                      color: Colors.black87,
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -1115,11 +1219,12 @@ class RecomendPlantCardh3 extends StatelessWidget {
           bottomRight:  Radius.circular(10),
           bottomLeft:  Radius.circular(10),
         ),
-        gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [blue2,blue1]
-        ),
+        color: Colors.grey.withOpacity(0.06),
+        // gradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     colors: [blue2,blue1]
+        // ),
       ),
       margin: EdgeInsets.only(left: 10, top: 0, bottom: 20,right: 10),
       child: Column(
@@ -1150,8 +1255,8 @@ class RecomendPlantCardh3 extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Changa',
-                        color: Colors.white,
-                        fontSize: 17.0,
+                        color: Colors.black87,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),),),
@@ -1162,7 +1267,7 @@ class RecomendPlantCardh3 extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Changa',
-                      color: Colors.white,
+                      color: Colors.black87,
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -1201,11 +1306,12 @@ class RecomendPlantCardh4 extends StatelessWidget {
           bottomRight:  Radius.circular(10),
           bottomLeft:  Radius.circular(10),
         ),
-        gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [green2,green1]
-        ),
+        color: Colors.grey.withOpacity(0.06),
+        // gradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     colors: [green2,green1]
+        // ),
       ),
       margin: EdgeInsets.only(left: 10, top: 0, bottom: 20,right: 10),
       child: Column(
@@ -1236,8 +1342,8 @@ class RecomendPlantCardh4 extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Changa',
-                        color: Colors.white,
-                        fontSize: 17.0,
+                        color: Colors.black87,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),),),
@@ -1248,7 +1354,7 @@ class RecomendPlantCardh4 extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Changa',
-                      color: Colors.white,
+                      color: Colors.black87,
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -1286,11 +1392,12 @@ class RecomendPlantCardh5 extends StatelessWidget {
           bottomRight:  Radius.circular(10),
           bottomLeft:  Radius.circular(10),
         ),
-        gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [perp2,perp1]
-        ),
+        color: Colors.grey.withOpacity(0.06),
+        // gradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     colors: [perp2,perp1]
+        // ),
       ),
       margin: EdgeInsets.only(left: 10, top: 0, bottom: 20,right: 10),
       child: Column(
@@ -1321,8 +1428,8 @@ class RecomendPlantCardh5 extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Changa',
-                        color: Colors.white,
-                        fontSize: 17.0,
+                        color: Colors.black87,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),),),
@@ -1333,7 +1440,7 @@ class RecomendPlantCardh5 extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Changa',
-                      color: Colors.white,
+                      color: Colors.black87,
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
@@ -1372,11 +1479,12 @@ class RecomendPlantCardh6 extends StatelessWidget {
           bottomRight:  Radius.circular(10),
           bottomLeft:  Radius.circular(10),
         ),
-        gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [X3,X1]
-        ),
+        color: Colors.grey.withOpacity(0.06),
+        // gradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     colors: [X3,X1]
+        // ),
       ),
       margin: EdgeInsets.only(left: 10, top: 0, bottom: 20,right: 10),
       child: Column(
@@ -1407,8 +1515,8 @@ class RecomendPlantCardh6 extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: 'Changa',
-                        color: Colors.white,
-                        fontSize: 17.0,
+                        color: Colors.black87,
+                        fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),),),
@@ -1419,7 +1527,179 @@ class RecomendPlantCardh6 extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'Changa',
-                      color: Colors.white,
+                      color: Colors.black87,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),),
+        ],),
+    );
+  }
+}
+class RecomendPlantCardh7 extends StatelessWidget {
+  RecomendPlantCardh7({
+    Key key,
+    this.image,
+    this.title,
+    this.num,
+    this.press,
+  }) : super(key: key);
+
+  final String image, title,num;
+  final Function press;
+
+  @override
+  Widget build(BuildContext context) {
+    List<Colors> Color=[];
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      width: 365,
+      height: 90,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+          bottomRight:  Radius.circular(10),
+          bottomLeft:  Radius.circular(10),
+        ),
+        color: Colors.grey.withOpacity(0.06),
+        // gradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     colors: [X3,X1]
+        // ),
+      ),
+      margin: EdgeInsets.only(left: 10, top: 0, bottom: 20,right: 5),
+      child: Column(
+        children: <Widget>[
+          GestureDetector(
+            onTap: press,
+            child:Row(
+              children:<Widget>[
+                // Icon(Icons.paint),
+                SizedBox(width:10,),
+                Container(
+                  height: 60,
+                  width: 60,
+                  margin: EdgeInsets.only(top: 20),
+                  child:ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image.asset(
+                      image, height: 90,
+                      width: 100,
+                      // color: Colors.white,
+                      fit: BoxFit.contain,),
+                  ),),
+                SizedBox(width:25,),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child:Center(
+                    child:Text(title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Changa',
+                        color: Colors.black87,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),),),
+                SizedBox(width:145,),
+                Container(
+                  margin:EdgeInsets.only(top:10),
+                  child:Text("("+num+")",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Changa',
+                      color: Colors.black87,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),),
+        ],),
+    );
+  }
+}
+class RecomendPlantCardh8 extends StatelessWidget {
+  RecomendPlantCardh8({
+    Key key,
+    this.image,
+    this.title,
+    this.num,
+    this.press,
+  }) : super(key: key);
+
+  final String image, title,num;
+  final Function press;
+
+  @override
+  Widget build(BuildContext context) {
+    List<Colors> Color=[];
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      width: 365,
+      height: 90,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+          bottomRight:  Radius.circular(10),
+          bottomLeft:  Radius.circular(10),
+        ),
+        color: Colors.grey.withOpacity(0.06),
+        // gradient: LinearGradient(
+        //     begin: Alignment.topLeft,
+        //     end: Alignment.bottomRight,
+        //     colors: [X3,X1]
+        // ),
+      ),
+      margin: EdgeInsets.only(left: 10, top: 0, bottom: 20,right: 0),
+      child: Column(
+        children: <Widget>[
+          GestureDetector(
+            onTap: press,
+            child:Row(
+              children:<Widget>[
+                // Icon(Icons.paint),
+                SizedBox(width:15,),
+                Container(
+                  height: 60,
+                  width: 60,
+                  margin: EdgeInsets.only(top: 20),
+                  child:ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Image.asset(
+                      image, height: 90,
+                      width: 100,
+                      // color: Colors.white,
+                      fit: BoxFit.contain,),
+                  ),),
+                SizedBox(width:25,),
+                Container(
+                  margin: EdgeInsets.only(top: 10),
+                  child:Center(
+                    child:Text(title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontFamily: 'Changa',
+                        color: Colors.black87,
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),),),
+                SizedBox(width:145,),
+                Container(
+                  margin:EdgeInsets.only(top:10),
+                  child:Text("("+num+")",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: 'Changa',
+                      color: Colors.black87,
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),

@@ -8,7 +8,7 @@ import 'dart:convert';
 import '../constants.dart';
 import 'menue_Page.dart';
 import 'Profile.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 String _verificationCode;
 String smscode ;
 FocusNode myFocusNode = new FocusNode();
@@ -89,7 +89,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   ),),
                 Container(
-                  margin:EdgeInsets.only(top:70,right: 10),
+                  margin:EdgeInsets.only(top:60,right: 10),
                   child: GestureDetector(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => MenuePage(Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst,)));
@@ -98,13 +98,43 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     child:Icon(Icons.arrow_back,color: Colors.white,),
                   ),
                 ),
+                // Container(
+                //   width: 500,
+                //   height: 110,
+                //   color: Colors.white,
+                //   child: Row(
+                //     children: [
+                //       Container(
+                //         margin: EdgeInsets.only(top:60,right: 10),
+                //         child:GestureDetector(
+                //           onTap: (){
+                //             Navigator.pop(context);
+                //           },
+                //           child:Icon(Icons.arrow_back,color: Colors.black,),
+                //         ),
+                //       ),
+                //       // Container(
+                //       //   margin: EdgeInsets.only(top:60,right: 11),
+                //       //   child:Text('تعديل المعلومات الشخصية',
+                //       //     style: TextStyle(
+                //       //       fontSize: 17,
+                //       //       fontWeight: FontWeight.bold,
+                //       //       color: Colors.white,
+                //       //       fontFamily: 'Changa',
+                //       //       //fontStyle: FontStyle.italic,
+                //       //     ),),
+                //       // ),
+                //
+                //     ],
+                //   ),
+                // ),
                 GestureDetector(
                   child: AnimatedContainer(
                     duration: Duration(milliseconds: 500),
                     curve: Curves.ease,
                     child: Container(
-                      height: 600,
-                      margin: EdgeInsets.fromLTRB(0,180,0,0),
+                      height: 690,
+                      margin: EdgeInsets.fromLTRB(0,150,0,0),
                       color: Colors.transparent,
                       padding: EdgeInsets.only(top: 5),
                       child: Padding(
@@ -133,22 +163,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                           controller: nameController1,
                                           cursorColor: Colors.grey[600],
                                           style: TextStyle(
-                                            fontSize: 14.0,
+                                            fontSize: 13.0,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'Changa',
                                             color:Colors.black87,
                                           ),
                                           decoration: InputDecoration(
                                             filled: true,
-                                            fillColor:Colors.grey[100],
+                                            fillColor:Colors.grey[50],
                                             enabledBorder: new OutlineInputBorder(
                                               borderRadius: new BorderRadius.circular(28.0),
-                                              borderSide:  BorderSide(color:Colors.grey[100]),
+                                              borderSide:  BorderSide(color:Colors.grey[50]),
 
                                             ),
                                             focusedBorder: new OutlineInputBorder(
                                               borderRadius: new BorderRadius.circular(28.0),
-                                              borderSide:  BorderSide(color:Colors.grey[100]),
+                                              borderSide:  BorderSide(color:Colors.grey[50]),
 
                                             ),
                                             labelText: ('الاسم الأول'),
@@ -169,22 +199,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                           cursorColor: Colors.grey[600],
                                           textAlign: TextAlign.right,
                                           style: TextStyle(
-                                            fontSize: 14.0,
+                                            fontSize: 13.0,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'Changa',
                                             color:Colors.black87,
                                           ),
                                           decoration: InputDecoration(
                                             filled: true,
-                                            fillColor:Colors.grey[100],
+                                            fillColor:Colors.grey[50],
                                             enabledBorder: new OutlineInputBorder(
                                               borderRadius: new BorderRadius.circular(28.0),
-                                              borderSide:  BorderSide(color:Colors.grey[100]),
+                                              borderSide:  BorderSide(color:Colors.grey[50]),
 
                                             ),
                                             focusedBorder: new OutlineInputBorder(
                                               borderRadius: new BorderRadius.circular(28.0),
-                                              borderSide:  BorderSide(color:Colors.grey[100]),
+                                              borderSide:  BorderSide(color:Colors.grey[50]),
 
                                             ),
                                             labelText: ('اسم العائلة '),
@@ -207,22 +237,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       cursorColor: Colors.grey[600],
                                       textAlign: TextAlign.right,
                                       style: TextStyle(
-                                        fontSize: 14.0,
+                                        fontSize: 13.0,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Changa',
                                         color:Colors.black87,
                                       ),
                                       decoration: InputDecoration(
                                         filled: true,
-                                        fillColor: Colors.grey[100],
+                                        fillColor: Colors.grey[50],
                                         enabledBorder: new OutlineInputBorder(
                                           borderRadius: new BorderRadius.circular(30.0),
-                                          borderSide:  BorderSide(color:Colors.grey[100]),
+                                          borderSide:  BorderSide(color:Colors.grey[50]),
 
                                         ),
                                         focusedBorder: new OutlineInputBorder(
                                           borderRadius: new BorderRadius.circular(30.0),
-                                          borderSide:  BorderSide(color:Colors.grey[100]),
+                                          borderSide:  BorderSide(color:Colors.grey[50]),
 
                                         ),
                                         labelText: ('المعلومات'),
@@ -243,22 +273,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       textAlign: TextAlign.right,
                                       controller: experController,
                                       style: TextStyle(
-                                        fontSize: 15.0,
+                                        fontSize: 13.0,
                                         fontWeight: FontWeight.bold,
                                         fontFamily: 'Changa',
                                         color:Colors.black87,
                                       ),
                                       decoration: InputDecoration(
                                         filled: true,
-                                        fillColor: Colors.grey[100],
+                                        fillColor: Colors.grey[50],
                                         enabledBorder: new OutlineInputBorder(
                                           borderRadius: new BorderRadius.circular(40.0),
-                                          borderSide:  BorderSide(color:Colors.grey[100]),
+                                          borderSide:  BorderSide(color:Colors.grey[50]),
 
                                         ),
                                         focusedBorder: new OutlineInputBorder(
                                           borderRadius: new BorderRadius.circular(40.0),
-                                          borderSide:  BorderSide(color:Colors.grey[100]),
+                                          borderSide:  BorderSide(color:Colors.grey[50]),
 
                                         ),
                                         labelText: ('خبرة وتجارب سابقة'),
@@ -310,7 +340,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ),);
   }
   Future editpersonalinfo ()async {
-    var url = 'https://' + IP4 + '/testlocalhost/edit.php';
+    var url = 'http://' + IP4 + '/testlocalhost/edit.php';
     var response = await http.post(url, body: {
 
       "phone":widget.phone,
@@ -329,7 +359,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     return Center(
       child:Stack (children: <Widget>[
         CircleAvatar(
-          backgroundImage: image_file==null? NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.image):FileImage(File(image_file.path)),
+          backgroundImage: image_file==null? NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.image):FileImage(File(image_file.path)),
           radius: 60.0,
         ),
         Positioned(

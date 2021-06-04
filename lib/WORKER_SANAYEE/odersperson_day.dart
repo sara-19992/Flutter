@@ -25,12 +25,12 @@ String namelast="";
 String lat="";
 String lng="";
 
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class Home_Page extends StatefulWidget {
   final name;
-
-  Home_Page({this.name});
+  final phone;
+  Home_Page({this.phone,this.name});
 
   _Home_Page createState() =>  _Home_Page();
 }
@@ -72,7 +72,7 @@ class  _Home_Page extends State<Home_Page> {
   }
 
   Future getWorker() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getworker.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getworker.php';
     var ressponse = await http.post(url, body: {
       "name": widget.name,
     });
@@ -82,11 +82,24 @@ class  _Home_Page extends State<Home_Page> {
   today() async {
     DateTime date=DateTime.now();
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/userlocation.php';
+    var url = 'http://' + IP4 + '/testlocalhost/userlocation.php';
     // for(int i=0;i<list_.length;i++){
     var ressponse = await http.post(url, body: {
       //"phone":list_ [i],
-      "phoneworker":phone,
+      "phoneworker":widget.phone,
+      "date":formattedDate,
+
+    });
+    return json.decode(ressponse.body);
+  }
+  todaywar() async {
+    DateTime date=DateTime.now();
+    var formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    var url = 'http://' + IP4 + '/testlocalhost/todaywarshat.php';
+    // for(int i=0;i<list_.length;i++){
+    var ressponse = await http.post(url, body: {
+      //"phone":list_ [i],
+      "phoneworker": widget.phone,
       "date":formattedDate,
 
     });
@@ -252,7 +265,8 @@ class  _Home_Page extends State<Home_Page> {
                          margin: EdgeInsets.only(right: 10),
                          child: GestureDetector(
                            onTap: (){
-                             Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => orderpperson_map(lat:lat,lng:lng,countorder:Length,name_Me: widget.name,phone_Me:phone,Information:Information,Experiance:Experiance,token_Me:token,namefirst_Me:namefirst,nameLast_Me: namelast,image_Me:image,)));
+                             Navigator.pop(context);
+                             // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => orderpperson_map(lat:lat,lng:lng,countorder:Length,name_Me: widget.name,phone_Me:phone,Information:Information,Experiance:Experiance,token_Me:token,namefirst_Me:namefirst,nameLast_Me: namelast,image_Me:image,)));
                            },
                            child: Icon(
                              Icons.arrow_back_ios,
@@ -306,7 +320,7 @@ class  _Home_Page extends State<Home_Page> {
                                        transform: Matrix4.translationValues(0.0, -28.0, 0.0),
                                        child: Row(
                                          children: [
-                                           Text(Length.toString()+'  '+text,
+                                           Text("3"+'  '+text,
                                              style: TextStyle(
                                                color:Y,
                                                fontSize: 16.0,

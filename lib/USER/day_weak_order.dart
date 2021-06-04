@@ -21,7 +21,7 @@ String namefirst="";
 String namelast="";
 String Country="";
 String  token="";
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class day_order_weak extends StatefulWidget {
   // final name_Me;

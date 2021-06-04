@@ -54,7 +54,7 @@ class _chooseState extends State<choose> {
           //     }), ),
 //}
           Scaffold(
-            backgroundColor: Colors.grey[50],
+            backgroundColor: Colors.white,
             //backgroundColor:Colors.white,
             body: Form(
               child: SingleChildScrollView(
@@ -88,7 +88,7 @@ class _chooseState extends State<choose> {
                               Navigator.push(context, MaterialPageRoute(builder: (context) => user_worker(fav:widget.fav,client_num: widget.client_num,comment: widget.comment,country:widget.country,phoneuser:widget.phone,tokenuser:widget.tokenuser,Work:widget.work,image:widget.image,phone:widget.phoneworker,name: widget.name,namelast:widget.namelast,name_Me: widget.username,namefirst: widget.namefirst,token: widget.tokenworker,Information: widget.Information,Experiance:widget.Experiance,)));
                             },
                             child:Container(
-                              margin: EdgeInsets.only(top: 70,left: 370),
+                              margin: EdgeInsets.only(top: 60,left: 380),
                               child:Icon(Icons.arrow_forward,color: Colors.black,),
                             )
                         ),
@@ -111,7 +111,7 @@ class _chooseState extends State<choose> {
                                     children: [
                                       Container(
                                           alignment: Alignment.center,
-                                          margin: EdgeInsets.only(top: 50,),
+                                          margin: EdgeInsets.only(top: 60,),
                                           child:Text('الخدمة التي تريدها ',
                                             style: TextStyle(
                                               fontSize: 35,
@@ -261,7 +261,7 @@ class _chooseState extends State<choose> {
                                       ),
                                     Container(
                                       height: 55,
-                                      margin: EdgeInsets.only(top:649,),
+                                      margin: EdgeInsets.only(top:659,),
                                       color:Y,
                                       width:600,
                                       // margin: EdgeInsets.only(left: 8,right: 15),
@@ -272,6 +272,7 @@ class _chooseState extends State<choose> {
                                           if(c2){
                                             if(widget.work=="نجار")
                                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => user(tokenworker:widget.tokenworker,token_Me:widget.tokenuser,comment:widget.comment,client_count:widget.client_num,Experiance:widget.Experiance,Information:widget.Information,date:widget.time,country:widget.country,namelast:widget.namelast,namefirst:widget.namefirst,image:widget.image,nameworker:widget.name,work:widget.work,name_Me:widget.username,phoneworker: widget.phoneworker,phone: widget.phone)));
+
                                             else  if(widget.work=="كهربائي")
                                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) => sabak()));
 

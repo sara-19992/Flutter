@@ -13,7 +13,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'login_screen.dart';
 import 'welcome.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 String _verificationCode;
 String smscode ;
 
@@ -45,7 +45,7 @@ class _Body extends State<SignuserScreen> {
 
   bool codeSent = false;
   Future getdata()async{
-    var url='https://'+IP4+'/testlocalhost/getNameforusers.php';
+    var url='http://'+IP4+'/testlocalhost/getNameforusers.php';
     var ressponse=await http.get(url);
     String massage= json.decode(ressponse.body);
     if(massage=='userlogin'){
@@ -860,7 +860,7 @@ class _Body extends State<SignuserScreen> {
 
                                           ),),
                                       ),
-                                      invalid_OTP?GestureDetector(
+                                      codeSent?GestureDetector(
                                         onTap: (){
                                           if (formKey.currentState.validate()) {print('validate');}
                                           else{print('not validate');}
@@ -906,7 +906,7 @@ class _Body extends State<SignuserScreen> {
                                       codeSent?Center(
                                         child:Directionality(textDirection: TextDirection.ltr,
                                         child:Container(
-                                          margin: EdgeInsets.only(top:0,bottom: 89,left: 15,right:5),
+                                          margin: EdgeInsets.only(top:10,bottom: 70,left: 15,right:5),
                                           // padding: EdgeInsets.only(top:0.05),
                                           height: 55,
                                           // color:Colors.grey.withOpacity(0.1),
@@ -1298,7 +1298,7 @@ class _Body extends State<SignuserScreen> {
   Future senddata()async{
     if(image_file==null){
       print("image null");
-      var url = 'https://'+IP4+'/testlocalhost/signup.php';
+      var url = 'http://'+IP4+'/testlocalhost/signup.php';
       var ressponse = await http.post(url, body: {
         "name": nameController.text,
         "namefirst": namefirstController.text,
@@ -1318,7 +1318,7 @@ class _Body extends State<SignuserScreen> {
     _file = File(image_file.path);
     base64 = base64Encode(_file.readAsBytesSync());
     imagename = _file.path.split('/').last;
-    var url = 'https://'+IP4+'/testlocalhost/signup.php';
+    var url = 'http://'+IP4+'/testlocalhost/signup.php';
     var ressponse = await http.post(url, body: {
       "name": nameController.text,
       "namefirst": namefirstController.text,

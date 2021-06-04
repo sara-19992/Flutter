@@ -13,7 +13,7 @@ import 'dart:convert';
 import 'welcome.dart';
 
 import 'login_screen.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 String _verificationCode;
 String smscode ;
 FocusNode myFocusNode = new FocusNode();
@@ -37,7 +37,7 @@ class _Body extends State<SignWorker> {
   TextEditingController Experiance = TextEditingController();
 
   Future getdata()async{
-    var url='https://'+IP4+'/testlocalhost/getNameforusers.php';
+    var url='http://'+IP4+'/testlocalhost/getNameforusers.php';
     var ressponse=await http.get(url);
     String massage= json.decode(ressponse.body);
     if(massage=='userlogin'){
@@ -1137,7 +1137,7 @@ class _Body extends State<SignWorker> {
 
                                           ),),
                                       ),
-                                      invalid_OTP?GestureDetector(
+                                      codeSent?GestureDetector(
                                         onTap: (){
                                           if (formKey.currentState.validate()) {print('validate');}
                                           else{print('not validate');}
@@ -1194,7 +1194,7 @@ class _Body extends State<SignWorker> {
                                       codeSent?Center(
                                         child:Directionality(textDirection: TextDirection.ltr,
                                           child:Container(
-                                            margin: EdgeInsets.only(top:0,bottom: 68,left: 15,right:5),
+                                            margin: EdgeInsets.only(top:10,bottom: 68,left: 15,right:5),
                                             // padding: EdgeInsets.only(top:0.05),
                                             height: 55,
                                             // color:Colors.grey.withOpacity(0.1),
@@ -1243,6 +1243,7 @@ class _Body extends State<SignWorker> {
                                           card2=false;card3=true;
                                         }}
                                       else{
+                                        _showMyDialog();
                                         if(country_id=="اختيار مهنة"){Country=false;}
                                         else{Country=true;}
                                         if(Phone && codeSent&& Country){
@@ -1422,13 +1423,14 @@ class _Body extends State<SignWorker> {
             child:SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  DropDownItem("نجّار"),
-                  DropDownItem("حدّاد"),
-                  DropDownItem("سبّاك"),
+                  DropDownItem("نجار"),
+                  DropDownItem("حداد"),
+                  DropDownItem("سباك"),
                   DropDownItem("ميكانيكي"),
                   DropDownItem("كهربائي"),
-                  DropDownItem("تصليح أقفال"),
-                  DropDownItem("دهّان"),
+                  DropDownItem("تصليح أجهزة"),
+                  DropDownItem("فني تكييف"),
+                  DropDownItem("دهان"),
                   DropDownItem("بلييط"),
                 ],
               ),
@@ -1617,7 +1619,7 @@ class _Body extends State<SignWorker> {
   Future senddata()async{
     if(image_file==null){
       print("image null");
-      var url = 'https://'+IP4+'/testlocalhost/request.php';
+      var url = 'http://'+IP4+'/testlocalhost/request.php';
       var ressponse = await http.post(url, body: {
         "name": nameController.text,
         "pass": passController.text,
@@ -1638,7 +1640,7 @@ class _Body extends State<SignWorker> {
     _file = File(image_file.path);
     base64 = base64Encode(_file.readAsBytesSync());
     imagename = _file.path.split('/').last;
-    var url = 'https://'+IP4+'/testlocalhost/request.php';
+    var url = 'http://'+IP4+'/testlocalhost/request.php';
     var ressponse = await http.post(url, body: {
       "name": nameController.text,
       "pass": passController.text,
@@ -1661,30 +1663,39 @@ class _Body extends State<SignWorker> {
       //this means the user must tap a button to exit the Alert Dialog
       builder: (BuildContext context) {
         return AlertDialog(
-          contentPadding: EdgeInsets.only(right: 50,left:10,top: 30),
-          titlePadding: EdgeInsets.only(right: 50,left:50,top: 30),
-          content: Text('نشكرك على تسجيلك في صنايعي سنبعت لك إشعار موافقة او اشعار رفض بعد ذلك تستطيع الدخول والتسجيل في التطبيق',
-            style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-              color: Colors.grey[600],
-              fontFamily: 'Changa',
-            ),),
           actions: <Widget>[
-            Container(
-              margin: EdgeInsets.only(left: 10,bottom: 20,top: 30),
-              child:FlatButton(
-                child: Text('حسنا',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey[600],
-                    fontFamily: 'Changa',
-                  ),),
-                onPressed: () {
-                  Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) =>WelcomeScreen()));
-                },
-              ),),
+            Directionality(textDirection: TextDirection.rtl,
+              child:Container(
+                child:Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 20,right:20,left:20),
+                      child: Text(' نشكرك على تسجيلك في صنايعي سنبعت لك إشعار موافقة أو إشعار رفض بعد ذلك إذا تم قبولك تستطيع الدخول إلى التطبيق واستخدام مميزات التطبيق',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey[600],
+                          fontFamily: 'Changa',
+                        ),),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right:250,bottom: 5,top: 30),
+                      child:FlatButton(
+                        child: Text('حسنا',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color:Y,
+                            fontFamily: 'Changa',
+                          ),),
+                        onPressed: () {
+                          Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) =>WelcomeScreen()));
+                        },
+                      ),),
+                  ],
+                ),
+              ),
+            ),
           ],
         );
       },

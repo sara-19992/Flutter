@@ -12,6 +12,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'wait_order.dart';
 import 'dart:convert';
 import 'package:flutterphone/constants.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -23,7 +24,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterphone/USER/user_slot.dart';
 import '../constants.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 String imagePath;
 Image image;
 
@@ -92,7 +93,7 @@ class _description extends State<description> {
           //     }), ),
 //}
           Scaffold(
-            backgroundColor: Colors.grey[50],
+            backgroundColor: Colors.white,
             //backgroundColor:Colors.white,
             body: Form(
               child: SingleChildScrollView(
@@ -109,7 +110,7 @@ class _description extends State<description> {
                             width: 500,
                             margin: EdgeInsets.only(top:0,),
                             decoration: BoxDecoration(
-                              color: Colors.grey.withOpacity(0.3),
+                              color: Colors.white,
                               image: new DecorationImage(
                                 fit: BoxFit.cover,
                                 // colorFilter:
@@ -125,7 +126,7 @@ class _description extends State<description> {
                               Navigator.pop(context);
                             },
                             child:Container(
-                              margin: EdgeInsets.only(top: 70,left: 380),
+                              margin: EdgeInsets.only(top: 60,left: 380),
                               child:Icon(Icons.arrow_forward,color: Colors.black,),
                             )
                         ),
@@ -143,23 +144,23 @@ class _description extends State<description> {
                             //fontStyle: FontStyle.italic,
                           ),)
                     ),
-                    Container(
-                      width: 400,
-                      alignment: Alignment.topRight,
-                      margin: EdgeInsets.only(top: 30,right: 35),
-                      child: Text('تفاصيل عملية الصيانة التي تريد طلبها',
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: 14.5,
-                          fontFamily: 'Changa',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                    // Container(
+                    //   width: 400,
+                    //   alignment: Alignment.topRight,
+                    //   margin: EdgeInsets.only(top: 30,right: 35),
+                    //   child: Text('تفاصيل عملية الصيانة التي تريد طلبها',
+                    //     style: TextStyle(
+                    //       color: Colors.black54,
+                    //       fontSize: 14.5,
+                    //       fontFamily: 'Changa',
+                    //       fontWeight: FontWeight.bold,
+                    //     ),
+                    //   ),
+                    // ),
                     Container(
                       width:340,
-                      height: 120,
-                      margin: EdgeInsets.only(top: 8),
+                      height: 150,
+                      margin: EdgeInsets.only(top: 30),
                       child: TextFormField(
                         textAlign: TextAlign.right,
                         onChanged: (content) {
@@ -176,11 +177,11 @@ class _description extends State<description> {
 
                         },
                         //controller: text_post,
-                        maxLines: 20,
+                        maxLines: 30,
                         controller: description,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 15.0,
+                          fontSize: 14.0,
                           fontFamily: 'Changa',
                           fontWeight: FontWeight.bold,
                         ),
@@ -190,13 +191,20 @@ class _description extends State<description> {
                           fillColor: Colors.white,
                           enabledBorder: new OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(5.0),
-                            borderSide:  BorderSide(color:Colors.white),
+                            borderSide:  BorderSide(color:Colors.grey[400],),
 
                           ),
                           focusedBorder: new OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(5.0),
-                            borderSide:  BorderSide(color:Colors.white),
+                            borderSide:  BorderSide(color:Colors.grey[400],),
 
+                          ),
+                          hintText:'تفاصيل عملية الصيانة التي تريد طلبها',
+                          helperStyle:TextStyle(
+                            color: Colors.black26,
+                            fontSize: 11.0,
+                            fontFamily: 'Changa',
+                            fontWeight: FontWeight.bold,
                           ),
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                         ),
@@ -286,7 +294,7 @@ class _description extends State<description> {
                     ),
                     Container(
                       height: 55,
-                      margin: EdgeInsets.only(top:6,),
+                      margin: EdgeInsets.only(top:11,),
                       color:Y,
                       width:600,
                       // margin: EdgeInsets.only(left: 8,right: 15),
@@ -388,8 +396,7 @@ class _MyDialogState extends State<MyDialog> {
                         onTap: () async{
                           await reserve();
                          // Navigator.pop(context);
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => not_conferm_user_statues(country:widget.country,work:widget.work,name_Me:widget.username,id:widget.id,phoneworker:widget.phoneworker,description:widget.description,namefirst: widget.namefirst,namelast: widget.namelast,phoneuser: widget.phone,image: widget.image,),),);
-
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => waitorder_statues(country:widget.country,work:widget.work,name_Me:widget.username,id:widget.id,phoneworker:widget.phoneworker,description:widget.description,namefirst: widget.namefirst,namelast: widget.namelast,phoneuser: widget.phone,image: widget.image,),),);
                         },
                         child: Container(
                             margin: EdgeInsets.only(right: 170),
@@ -444,8 +451,8 @@ class _MyDialogState extends State<MyDialog> {
     print("hiiii");
     print(imagename);
     print(base64);
-    var url = 'https://'+IP4+'/testlocalhost/EXP_Image.php';
-    // final uri=Uri.parse("https://192.168.2.111/testlocalhost/signup.php");
+    var url = 'http://'+IP4+'/testlocalhost/EXP_Image.php';
+    // final uri=Uri.parse("http://192.168.2.111/testlocalhost/signup.php");
     var response = await http.post(url, body: {
 
       "phone": '9564122',
@@ -467,13 +474,20 @@ Future reserve()async{
   var url;
   var ressponse;
   if(widget.im_file==null) {
-    url = 'https://'+IP4+'/testlocalhost/reserve.php';
+    print(widget.description);
+    print(widget.id);
+    print(widget.phone);
+    print(widget.token);
+    print(widget.tokenworker);
+    print(widget.username);
+
+    url = 'http://'+IP4+'/testlocalhost/reserve.php';
      ressponse = await http.post(url, body: {
       "description": widget.description,
       "phone": widget.phone,
       "id": widget.id,
-      "tokenuser": widget.token,
-      "tokenworker": widget.tokenworker,
+      "tokenuser": "",
+      "tokenworker": "",
       "phoneworker": widget.phoneworker,
       "username": widget.username,
       "datesend": formattedDate,
@@ -482,7 +496,7 @@ Future reserve()async{
   }
   else{
     _file = File(widget.im_file.path);
-    url = 'https://'+IP4+'/testlocalhost/reserve_imge.php';
+    url = 'http://'+IP4+'/testlocalhost/reserve_imge.php';
     String base64 = base64Encode(_file.readAsBytesSync());
     String imagename = _file.path.split('/').last;
     print("baseeeeeeeeeeeeee");
@@ -492,8 +506,8 @@ Future reserve()async{
       "description": widget.description,
       "phone": widget.phone,
       "id": widget.id,
-      "tokenuser": widget.token,
-      "tokenworker": widget.tokenworker,
+      "tokenuser":  "",
+      "tokenworker":  "",
       "phoneworker": widget.phoneworker,
       "username": widget.username,
       "datesend": formattedDate,

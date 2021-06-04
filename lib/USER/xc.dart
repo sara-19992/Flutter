@@ -7,8 +7,7 @@ import 'package:http/http.dart' as http;
 
 import 'Comment.dart';
 import 'WORKER_PROFILE.dart';
-String IP4="192.168.1.8";
-
+String IP4="192.168.1.8:8080";
 
 //Our MyApp class. Represents our application
 //Represents the Homepage widget
@@ -52,7 +51,7 @@ class _HomeState extends State<Search_user> {
   }
   var Listsearch=[];
   Future getdata()async{
-    var url='https://'+IP4+'/testlocalhost/all_worker.php';
+    var url='http://'+IP4+'/testlocalhost/all_worker.php';
     var ressponse=await http.get(url);
     var responsepody= json.decode(ressponse.body);
     return responsepody;
@@ -75,7 +74,7 @@ class _HomeState extends State<Search_user> {
     });
   }
   Future getSearchall()async{
-    var url='https://'+IP4+'/testlocalhost/search_all_work.php';
+    var url='http://'+IP4+'/testlocalhost/search_all_work.php';
     var ressponse=await http.post(url,body: {
       "Work":widget.work,
     });
@@ -83,7 +82,7 @@ class _HomeState extends State<Search_user> {
     return json.decode(ressponse.body);
   }
   Future getSearchavalibel()async{
-    var url='https://'+IP4+'/testlocalhost/searchavalibel.php';
+    var url='http://'+IP4+'/testlocalhost/searchavalibel.php';
     var ressponse=await http.post(url,body: {
       "Work":widget.work,
     });
@@ -454,7 +453,7 @@ class _Group extends State<Group> {
   }
 
   Future getImages() async {
-    var url = 'https://' + IP4 + '/testlocalhost/Show_EXP.php';
+    var url = 'http://' + IP4 + '/testlocalhost/Show_EXP.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -503,7 +502,7 @@ class _Group extends State<Group> {
                     decoration: BoxDecoration(
                       color:Colors.white,
                       borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.image),
+                      image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.image),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -601,7 +600,7 @@ class _Group extends State<Group> {
               // Container(
               //   margin: EdgeInsets.only(top: 30, right: 10),
               //   child: CircleAvatar(backgroundImage: NetworkImage(
-              //       'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+              //       'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
               //     radius: 29.0,),),
               //Container (margin: EdgeInsets.only(top: 20,left: 150),child:Text(widget.name),),
               // Row(

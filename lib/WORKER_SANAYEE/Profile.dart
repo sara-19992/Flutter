@@ -1,5 +1,6 @@
 import 'dart:math';
-
+import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +14,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
+import 'dart:ui' as ui;
 import 'package:flutterphone/constants.dart';
 import '../constants.dart';
 import '../database.dart';
@@ -26,6 +28,8 @@ import 'orders_workers.dart';
 
 String  name="";
 String  phone="";
+String lat= "";
+String lng= "";
 String  image="";
 String  Work="";
 String  Experiance="";
@@ -33,7 +37,7 @@ String  Information="";
 String  token="";
 String namefirst="";
 String namelast="";
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class PROFILE extends StatefulWidget {
   final name;
@@ -48,7 +52,7 @@ class  _PROFILE extends State< PROFILE> {
   // AnimationController _animationController;
   int _page = 0;
   Future getRate() async {
-    var url = 'https://'+IP4+'/testlocalhost/show_Rate.php';
+    var url = 'http://'+IP4+'/testlocalhost/show_Rate.php';
     var ressponse = await http.post(url, body: {
       "phoneworker": widget.phone,
     });
@@ -89,11 +93,15 @@ class  _PROFILE extends State< PROFILE> {
   }
   void initState() {
     super.initState();
+    name=widget.name;
+    lat=widget.lat;
+    lng=widget.lng;
+    phone=widget.phone;
     getChat();
 
   }
   Future getWorker()async{
-    var url='https://'+IP4+'/testlocalhost/getworker.php';
+    var url='http://'+IP4+'/testlocalhost/getworker.php';
     var ressponse=await http.post(url,body: {
       "name": widget.name,
     });
@@ -101,7 +109,7 @@ class  _PROFILE extends State< PROFILE> {
       return json.decode(ressponse.body);
     }
   Future getComment() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getcomment.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getcomment.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -116,7 +124,7 @@ class  _PROFILE extends State< PROFILE> {
     return ((value * mod).round().toDouble() / mod);
   }
   Future getpost()async{
-    var url='https://'+IP4+'/testlocalhost/getpost.php';
+    var url='http://'+IP4+'/testlocalhost/getpost.php';
     var ressponse=await http.post(url,body: {
       "phone": widget.phone,
     });
@@ -130,7 +138,7 @@ class  _PROFILE extends State< PROFILE> {
   Stream chatsRoom;
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    return  Directionality( textDirection: TextDirection.rtl,
+    return  Directionality( textDirection: ui.TextDirection.rtl,
       child:Scaffold(
         key: _scaffoldKey,
 
@@ -269,7 +277,7 @@ class  _PROFILE extends State< PROFILE> {
         //     )
         // ),
         body: Form(
-          // child:SingleChildScrollView(
+          child:SingleChildScrollView(
           child:Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -341,7 +349,7 @@ class  _PROFILE extends State< PROFILE> {
 
 
               Container(
-                height:730,
+                height:737,
                 margin: EdgeInsets.only(top:0),
                 decoration: BoxDecoration(
                   color:Colors.grey[50],
@@ -373,13 +381,12 @@ class  _PROFILE extends State< PROFILE> {
                     return Center(child: CircularProgressIndicator());
                   },
                 ),
-              ),],),),),);
+              ),],),),),),);
 
 
 
   }}
 
-TextEditingController text_post =TextEditingController();
 class Profile_worker  extends StatefulWidget {
   final  name;
   final  namefirst;
@@ -439,7 +446,7 @@ class _Profile_woeker extends State<Profile_worker> {
   bool Show_firstPost=true;
   var List_Another_Post=[];
   Future getImages() async {
-    var url = 'https://' + IP4 + '/testlocalhost/Show_EXP.php';
+    var url = 'http://' + IP4 + '/testlocalhost/Show_EXP.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -449,7 +456,7 @@ class _Profile_woeker extends State<Profile_worker> {
     return json.decode(ressponse.body);
   }
   Future getComment() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getcomment.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getcomment.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -460,13 +467,22 @@ class _Profile_woeker extends State<Profile_worker> {
     return json.decode(ressponse.body);
   }
   Future getpost()async{
-    var url='https://'+IP4+'/testlocalhost/getpost.php';
+    var url='http://'+IP4+'/testlocalhost/getpost.php';
     var ressponse=await http.post(url,body: {
       "phone": widget.phone,
     });
     // ignore: deprecated_member_use
     return json.decode(ressponse.body);
   }
+  Future client()async{
+    var url='http://'+IP4+'/testlocalhost/getcountclient.php';
+    var ressponse=await http.post(url,body: {
+      "phone": widget.phone,
+    });
+    // ignore: deprecated_member_use
+    return json.decode(ressponse.body);
+  }
+  var ma;
   @override
   Widget build(BuildContext context) {
     // getChat();
@@ -474,7 +490,7 @@ class _Profile_woeker extends State<Profile_worker> {
     print(widget.List_Post.toString());
     return SingleChildScrollView(
       child:Container(
-      height: 1400,
+      height: 1500,
       
       color: Colors.white,
       child:Column(
@@ -496,7 +512,7 @@ class _Profile_woeker extends State<Profile_worker> {
           transform: Matrix4.translationValues(0.0, -50.0, 0.0),
           height: 240,
           width: 420,
-          child:Image(image:NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.image,),fit: BoxFit.cover,),
+          child:Image(image:NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.image,),fit: BoxFit.cover,),
         ),
 
         SingleChildScrollView(
@@ -514,20 +530,23 @@ class _Profile_woeker extends State<Profile_worker> {
                 //   //transform: Matrix4.translationValues(0, -40.0, 0),
                 //   child: Center(
                 //     child: CircleAvatar(backgroundImage: NetworkImage(
-                //         'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+                //         'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
                 //       radius: 45.0,),),
                 // ),
                 Container(
                   transform: Matrix4.translationValues(0, -55.0, 0),
                   margin: EdgeInsets.only(right: 30),
                   alignment: Alignment.topRight,
-                  child: Container(
-                    child: Text(widget.namefirst + " " + widget.namelast,
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 18.0,
-                        fontFamily: 'Changa',
-                        fontWeight: FontWeight.bold,),),
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Text(widget.namefirst + " " + widget.namelast,
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 17.0,
+                            fontFamily: 'Changa',
+                            fontWeight: FontWeight.bold,),),
+                      ),],
                   ),),
 
                 Container(
@@ -543,179 +562,43 @@ class _Profile_woeker extends State<Profile_worker> {
                   ),
                 ),
                 Container(
+                  height:70,
+                  transform: Matrix4.translationValues(0, -60.0, 0),
+                  child: FutureBuilder(
+                      future: client(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          print(
+                              "SARAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhhhhhhhhh");
+                          //_MyHomePageState c= new _MyHomePageState();
+                          return ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              ma = snapshot.data['count'].toString();
+                              return Container_number();
+                            },);
+                        }
+                        return Container(
+                          child: Text(''),
+                        );
+                      }
+                  ),
+                ),
+                Container(
                   width: 370,
                   transform: Matrix4.translationValues(0, -50.0, 0),
-                  margin: EdgeInsets.only(right:20,),
+                  margin: EdgeInsets.only(right:15,),
                   child:Text(widget.Information + ', ' + widget.Experiance +'.',style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15,
+                    fontSize: 14,
                     fontFamily: 'Changa',
                     fontWeight: FontWeight.bold,),),
                 ),
-                Center(
-                  child:Container(
-                    height: 60,
-                    width: 380,
-                    transform: Matrix4.translationValues(0, -30.0, 0),
-                    padding: EdgeInsets.only(top: 5,right:5),
-                    decoration: BoxDecoration(
-                      //color: Colors.white,
-                      // border: Border.all(
-                      //   color: Colors.white,
-                      // ),
-                    ),
-                    child: Row (
-                      children: [
-                        SizedBox(width: 20,),
-                        GestureDetector(
-                          child:Column(
-                            children: [
-                              // Container(
-                              //   height: 0,
-                              //   margin: EdgeInsets.only(top: 0),
-                              //   color: Colors.white,
-                              //   child:FutureBuilder(
-                              //     future: getComment(),
-                              //     builder: (BuildContext context, AsyncSnapshot snapshot) {
-                              //       if(snapshot.hasData){
-                              //         return ListView.builder(
-                              //             itemCount: 1,
-                              //             itemBuilder: (context, index) {
-                              //               commentnumber=snapshot.data.length;
-                              //               return Container();
-                              //             }
-                              //         );
-                              //       }
-                              //       return Center(child: CircularProgressIndicator());
-                              //     },
-                              //   ),
-                              // ),
-                              Text('عملاء',style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 14,
-                                fontFamily: 'Changa',
-                                fontWeight: FontWeight.bold,),),
-                              Text(widget.client_num,style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14.0,
-                                fontFamily: 'Changa',
-                                fontWeight: FontWeight.bold,),),
-
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 50,),
-                        GestureDetector(
-                          child:Column(
-                            children: [
-                              Text('تعليقات',style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 14,
-                                fontFamily: 'Changa',
-                                fontWeight: FontWeight.bold,),),
-                              Text(widget.commentnumber.toString(),style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14.0,
-                                fontFamily: 'Changa',
-                                fontWeight: FontWeight.bold,),),
-
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 50,),
-                        GestureDetector(
-                          child:Column(
-                            children: [
-                              Text('منشورات',style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 14,
-                                fontFamily: 'Changa',
-                                fontWeight: FontWeight.bold,),),
-                              Text(widget.postnumber.toString(),style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14.0,
-                                fontFamily: 'Changa',
-                                fontWeight: FontWeight.bold,),),
-
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 50,),
-                        GestureDetector(
-                          child:Column(
-                            children: [
-                              Text('الريت',style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 14,
-                                fontFamily: 'Changa',
-                                fontWeight: FontWeight.bold,),),
-                              Container(
-                                //margin: EdgeInsets.only(top:320,left: 290),
-                                child:Row(
-                                  children: [
-                                    Text(widget.Rate.toString(),
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14.0,
-                                        fontFamily: 'Changa',
-                                        fontWeight: FontWeight.bold,),),
-                                    Icon(Icons.star,color: Colors.yellow,size: 25.0,),
-                                  ],
-                                ),),
-
-                            ],
-                          ),
-                        ),
-
-                      ],
-                    ),
-                  ),),
-                // Row(
-                //   children: [
-                //     GestureDetector(
-                //             onTap: (){
-                //       Navigator.push(context, MaterialPageRoute(
-                //       builder: (BuildContext context) =>
-                //       Get_Images(
-                //       phone: widget.phone, name: widget.name)));
-                //       },
-                //         child:Container(
-                //           height: 30,
-                //           width: 75,
-                //           margin: EdgeInsets.only(right: 190, top: 40),
-                //           child: Text('إضافة صورة',
-                //             style: TextStyle(
-                //               color: Colors.black,
-                //               fontSize: 14,
-                //               fontFamily: 'Changa',
-                //               fontWeight: FontWeight.bold,
-                //             ),),
-                //         ),),
-                //     GestureDetector(
-                //               onTap: (){
-                //                 _dialogCall(context);
-                //               },
-                //               child: Container(
-                //                 height: 30,
-                //                 width: 110,
-                //                 margin: EdgeInsets.only(left:20,right: 0, top: 40),
-                //                 child: Column(
-                //                   children: [
-                //                     Text('/  إضافة منشور',
-                //                       style: TextStyle(
-                //                         color: Colors.black87,
-                //                         fontSize: 15.0,
-                //                         fontFamily: 'Changa',
-                //                         fontWeight: FontWeight.bold,
-                //                       ),),
-                //                   ],
-                //                 ),
-                //               ),
-                //             )
-                //   ],
-                // ),
-                Container(
-                  margin: EdgeInsets.only(top: 5),
+                widget.AVG1&&widget.AVG2&&widget.AVG3&&widget.AVG4&&widget.AVG5?Container(
+                  height: 70,
+                  width: 400,
+                  transform: Matrix4.translationValues(0, -20.0, 0),
+                  margin: EdgeInsets.only(top: 5,right: 20),
                   child:Wrap(children:[
                     _MyButton(name:'جودة',IS: widget.AVG1,),
                     _MyButton(name:'سرعة وإتقان',IS: widget.AVG2,),
@@ -723,8 +606,56 @@ class _Profile_woeker extends State<Profile_worker> {
                     _MyButton(name:'سعر جيد',IS: widget.AVG4,),
                     _MyButton(name:'التزام بالوقت',IS: widget.AVG5,),
                   ]),
+                ):Container(height:0.0,),
+                widget.AVG1||widget.AVG2||widget.AVG3||widget.AVG4||widget.AVG5?Container(
+                  height: 40,
+                  width: 400,
+                  transform: Matrix4.translationValues(0, -20.0, 0),
+                  margin: EdgeInsets.only(top: 5,right: 20),
+                  child:Wrap(children:[
+                    _MyButton(name:'جودة',IS: widget.AVG1,),
+                    _MyButton(name:'سرعة وإتقان',IS: widget.AVG2,),
+                    _MyButton(name:'احترام',IS: widget.AVG3,),
+                    _MyButton(name:'سعر جيد',IS: widget.AVG4,),
+                    _MyButton(name:'التزام بالوقت',IS: widget.AVG5,),
+                  ]),
+                ):Container(height:0.0,),
+                Container(
+                  width: 350,
+                  height: 5,
+                  margin: EdgeInsets.only(top:10),
+                  child: Divider(
+                    thickness: 1.0,
+                    color: Colors.black26.withOpacity(0.1),
+                  ),
                 ),
-                      Container(
+                GestureDetector(
+                    onTap: ()async{
+                      await _dialogCall(context);
+                    },
+                    child: Container(
+                        margin: EdgeInsets.only(right: 120,left: 10,top:15),
+                      child:Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(right: 180,left: 3,top:0),
+                          child:Text("إضافة منشور",
+                            style: TextStyle(
+                              color: Y,
+                              fontSize: 13.0,
+                              fontFamily: 'Changa',
+                              fontWeight: FontWeight.bold,
+                            ),
+
+                          ),),
+
+                        Container(
+                          margin: EdgeInsets.only(left: 5,top:0),
+                          child:Icon(Icons.add,size: 18,color: Y,),
+                        ),
+                      ],)),),
+
+                Container(
                         height: 150,
                         margin:EdgeInsets.only(top:20),
                         child:FutureBuilder(
@@ -747,29 +678,6 @@ class _Profile_woeker extends State<Profile_worker> {
                         ),
                       ),
 
-                        // GestureDetector(
-                        //   onTap: ()async{
-                        //     await _dialogCall(context, phone);
-                        //   },
-                        //   child:Row(
-                        //     children: [
-                        //       Container(
-                        //         margin: EdgeInsets.only(right: 250,left: 10,top:0),
-                        //         child:Text("إضافة منشور",
-                        //           style: TextStyle(
-                        //             color: MY_YELLOW,
-                        //             fontSize: 16.0,
-                        //             fontFamily: 'Changa',
-                        //             fontWeight: FontWeight.bold,
-                        //           ),
-                        //
-                        //         ),),
-                        //
-                        //       Container(
-                        //         margin: EdgeInsets.only(left: 10,top:0),
-                        //         child:Icon(Icons.add,size: 25,color: MY_YELLOW,),
-                        //       ),
-                        //     ],
 
                 widget.List_Post.length==0?Container(height:0.0,):Container(height:0.0,),
                 widget.List_Post.length==1 && widget.List_Post[0]['image']=='null'? myPosttext(widget.List_Post[0]['text'],widget.List_Post[0]['date']):Container(height:0.0,),
@@ -838,16 +746,115 @@ class _Profile_woeker extends State<Profile_worker> {
                     ),
                   ),);
   }
+  Widget Container_number(){
+    return  Center(
+      child:Container(
+        height: 60,
+        width: 410,
+        margin: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(top: 5,left: 0),
+        decoration: BoxDecoration(
+          //color: Colors.white,
+          // border: Border.all(
+          //   color: Colors.white,
+          // ),
+        ),
+        child: Row (
+          children: [
+            SizedBox(width: 30,),
+            GestureDetector(
+              child:Column(
+                children: [
+                  Text('منشورات ',style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 14,
+                    fontFamily: 'Changa',
+                    fontWeight: FontWeight.bold,),),
+                  Text(widget.postnumber.toString()+'   ',style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 14.0,
+                    fontFamily: 'Changa',
+                    fontWeight: FontWeight.bold,),),
 
+                ],
+              ),
+            ),
+            SizedBox(width: 50,),
+            GestureDetector(
+              child:Column(
+                children: [
+                  Text('   تعليقات',style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 14,
+                    fontFamily: 'Changa',
+                    fontWeight: FontWeight.bold,),),
+                  Text('   '+widget.commentnumber,style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 14.0,
+                    fontFamily: 'Changa',
+                    fontWeight: FontWeight.bold,),),
+
+                ],
+              ),
+            ),
+            SizedBox(width: 50,),
+            GestureDetector(
+              child:Column(
+                children: [
+                  Text('   عملاء',style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 14,
+                    fontFamily: 'Changa',
+                    fontWeight: FontWeight.bold,),),
+                  Text('   '+ma.toString(),style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 14.0,
+                    fontFamily: 'Changa',
+                    fontWeight: FontWeight.bold,),),
+
+                ],
+              ),
+            ),
+            SizedBox(width: 50,),
+            GestureDetector(
+              child:Column(
+                children: [
+                  Text('  الريت',style: TextStyle(
+                    color: Colors.black54,
+                    fontSize: 14,
+                    fontFamily: 'Changa',
+                    fontWeight: FontWeight.bold,),),
+                  Container(
+                    //margin: EdgeInsets.only(top:320,left: 290),
+                    child:Row(
+                      children: [
+                        Text('   '+widget.Rate.toString(),
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 14.0,
+                            fontFamily: 'Changa',
+                            fontWeight: FontWeight.bold,),),
+                        Icon(Icons.star,color: Colors.yellow,size: 25.0,),
+                      ],
+                    ),),
+
+                ],
+              ),
+            ),
+
+          ],
+        ),
+      ),);
+  }
   Container Images(List<dynamic>Images){
     return Container(
         height:Images.length==0?0:140,
         padding: EdgeInsets.only(top: 10),
         child:Column(
           children: [
-            Images.length==1?myAlbum1('https://'+IP4+'/testlocalhost/upload/'+ Images[0]['images']):Container(height: 0.0,),
-            Images.length==2?myAlbum2('https://'+IP4+'/testlocalhost/upload/'+ Images[0]['images'],'https://'+IP4+'/testlocalhost/upload/'+ Images[1]['images']):Container(height: 0.0,),
-            Images.length>=3?worker_Images('https://'+IP4+'/testlocalhost/upload/'+ Images[0]['images'],'https://'+IP4+'/testlocalhost/upload/'+ Images[1]['images'],'https://'+IP4+'/testlocalhost/upload/'+ Images[2]['images']):Container(height: 0.0,),
+            Images.length==1?myAlbum1('http://'+IP4+'/testlocalhost/upload/'+ Images[0]['images']):Container(height: 0.0,),
+            Images.length==2?myAlbum2('http://'+IP4+'/testlocalhost/upload/'+ Images[0]['images'],'http://'+IP4+'/testlocalhost/upload/'+ Images[1]['images']):Container(height: 0.0,),
+            Images.length>=3?worker_Images('http://'+IP4+'/testlocalhost/upload/'+ Images[0]['images'],'http://'+IP4+'/testlocalhost/upload/'+ Images[1]['images'],'http://'+IP4+'/testlocalhost/upload/'+ Images[2]['images']):Container(height: 0.0,),
           ],
         )
     );
@@ -1049,8 +1056,8 @@ class _Profile_woeker extends State<Profile_worker> {
         .last;
     print("hiiii");
     print(imagename);
-    var url = 'https://' + IP4 + '/testlocalhost/EXP_Image.php';
-    // final uri=Uri.parse("https://192.168.2.111/testlocalhost/signup.php");
+    var url = 'http://' + IP4 + '/testlocalhost/EXP_Image.php';
+    // final uri=Uri.parse("http://192.168.2.111/testlocalhost/signup.php");
     var response = await http.post(url, body: {
 
       "phone": widget.phone,
@@ -1473,7 +1480,7 @@ class _Profile_woeker extends State<Profile_worker> {
                 //transform: Matrix4.translationValues(0, -40.0, 0),
                 child: Center(
                   child: CircleAvatar(backgroundImage: NetworkImage(
-                      'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+                      'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
                     radius: 18.0,),),
               ),
               Column(
@@ -1550,7 +1557,7 @@ class _Profile_woeker extends State<Profile_worker> {
                 //transform: Matrix4.translationValues(0, -40.0, 0),
                 child: Center(
                   child: CircleAvatar(backgroundImage: NetworkImage(
-                      'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+                      'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
                     radius: 18.0,),),
               ),
               Column(
@@ -1599,7 +1606,7 @@ class _Profile_woeker extends State<Profile_worker> {
             alignment: Alignment.centerRight,
             // margin:  EdgeInsets.only(left:10,),
             child: ClipRRect(
-              child: Image.network('https://'+IP4+'/testlocalhost/upload/'+  image, height: 204, width: 380, fit: BoxFit.cover,),
+              child: Image.network('http://'+IP4+'/testlocalhost/upload/'+  image, height: 204, width: 380, fit: BoxFit.cover,),
             ),):Container(height:0,),
         ],
       ),
@@ -1851,7 +1858,7 @@ class _MyDialogState extends State<MyDialog> {
   String imagePath;
   Image image;
   File image_file;
-
+  TextEditingController text_post =TextEditingController();
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -1880,7 +1887,7 @@ class _MyDialogState extends State<MyDialog> {
                 controller: text_post,
                 maxLines: 20,
                 style: TextStyle(
-                  color: Colors.grey.withOpacity(0.5),
+                  color: Colors.black54,
                   fontSize: 16.0,
                   fontFamily: 'Changa',
                   fontWeight: FontWeight.bold,
@@ -1958,8 +1965,7 @@ class _MyDialogState extends State<MyDialog> {
                   ),
                   onTap: () async {
                     senddata();
-                    setState(() {
-                    });
+                    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => PROFILE(lat:lat,lng:lng,name:name,phone:phone,)));
                   }),),
           ],
         ),
@@ -1978,27 +1984,33 @@ class _MyDialogState extends State<MyDialog> {
   Future senddata()async{
     if(image==null){
       print("image null");
-      var url = 'https://'+IP4+'/testlocalhost/add_post.php';
+      DateTime date=DateTime.now();
+      var formattedDate = DateFormat('yyyy-MM-dd').format(date);
+      var url = 'http://'+IP4+'/testlocalhost/add_post.php';
       var ressponse = await http.post(url, body: {
         "text": text_post.text,
         "phone": widget.phone,
         "imagename": 'null',
         "image64": '',
+        "date":formattedDate,
       });
-      String massage= json.decode(ressponse.body);
-      print(massage);
+      // String massage= json.decode(ressponse.body);
+      // print(massage);
     }
     else{ String base64;
+    DateTime date=DateTime.now();
+    var formattedDate = DateFormat('yyyy-MM-dd').format(date);
     String imagename;
     File _file = File(image_file.path);
     base64 = base64Encode(_file.readAsBytesSync());
     imagename = _file.path.split('/').last;
-    var url = 'https://'+IP4+'/testlocalhost/add_post.php';
+    var url = 'http://'+IP4+'/testlocalhost/add_post.php';
     var ressponse = await http.post(url, body: {
       "text": text_post.text,
       "phone": widget.phone,
       "imagename": imagename,
       "image64": base64,
+      "date":formattedDate,
     });
     String massage= json.decode(ressponse.body);
     print(massage);
@@ -2132,28 +2144,28 @@ class _MyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IS?Container(
-      margin: EdgeInsets.all(5),
-      padding: EdgeInsets.symmetric(horizontal:10,vertical:5),
+      margin: EdgeInsets.all(6),
+      padding: EdgeInsets.symmetric(horizontal:15,vertical:5),
       decoration: BoxDecoration(
-        //color: Colors.yellow,
-        // border: Border.all(
-        //   color: Colors.yellow,
-        //   width: 1.2,
-        // ),
-        borderRadius: BorderRadius.circular(20),
         color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.5),
-            blurRadius: 2.0,
-            spreadRadius: 0.0,
-            offset: Offset(1.0,1.0), // shadow direction: bottom right
-          )
-        ],
+        border: Border.all(
+          color: Y,
+          width: 0.8,
+        ),
+        borderRadius: BorderRadius.circular(10),
+        // color: Colors.white,
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withOpacity(0.5),
+        //     blurRadius: 2.0,
+        //     spreadRadius: 0.0,
+        //     offset: Offset(1.0,1.0), // shadow direction: bottom right
+        //   )
+        // ],
       ),
       child: Text(name,style: TextStyle(
         color: Colors.black.withOpacity(0.7),
-        fontSize: 16,
+        fontSize: 14,
         fontFamily: 'Changa',
         fontWeight: FontWeight.bold,),),
     ):Text('');

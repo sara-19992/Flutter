@@ -17,7 +17,7 @@ import 'package:http/http.dart' as http;
 
 import '../constants.dart';
 
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 bool showmap=true;
 // var url = "http://maps.google.com/mapfiles/ms/icons/";
 // url + = "blue";
@@ -52,10 +52,15 @@ class order_map extends StatefulWidget {
 
 class _mState extends State<order_map> {
 
+  @override
+  void initState() {
+    super.initState();
+    todaywar();
+  }
   today() async {
     DateTime date=DateTime.now();
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/userlocation.php';
+    var url = 'http://' + IP4 + '/testlocalhost/userlocation.php';
     // for(int i=0;i<list_.length;i++){
     var ressponse = await http.post(url, body: {
       //"phone":list_ [i],
@@ -63,6 +68,21 @@ class _mState extends State<order_map> {
       "date":formattedDate,
 
     });
+    return json.decode(ressponse.body);
+  }
+  var List_W=[];
+  todaywar() async {
+    DateTime date=DateTime.now();
+    var formattedDate = DateFormat('yyyy-MM-dd').format(date);
+    var url = 'http://' + IP4 + '/testlocalhost/todaywarshat.php';
+    // for(int i=0;i<list_.length;i++){
+    var ressponse = await http.post(url, body: {
+      //"phone":list_ [i],
+      "phoneworker": widget.phone_Me,
+      "date":formattedDate,
+
+    });
+    List_W=await json.decode(ressponse.body);
     return json.decode(ressponse.body);
   }
 
@@ -76,14 +96,16 @@ class _mState extends State<order_map> {
             child: FutureBuilder(
                 future: today(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
+                  if (snapshot.hasData){
                     print(snapshot.data.length);
                     //_MyHomePageState c= new _MyHomePageState();
                     return ListView.builder(
                       itemCount: 1,
                       itemBuilder: (context, index) {
                         var Listr=snapshot.data;
-                        return w(lng:widget.lng,lat:widget.lat,Location:Listr,work:widget.work,name_Me:widget.name_Me,country:widget.country,token_Me:widget.token_Me,image_Me:widget.image_Me,phone_Me:widget.phone_Me,nameLast_Me:widget.nameLast_Me,namefirst_Me:widget.namefirst_Me);
+                        print(Listr.length);
+                        print("SARAHHHHHHHHHHHHHHHHHHHHHHHHHHhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+                        return w(Location_w:List_W,lng:widget.lng,lat:widget.lat,Location:Listr,work:widget.work,name_Me:widget.name_Me,country:widget.country,token_Me:widget.token_Me,image_Me:widget.image_Me,phone_Me:widget.phone_Me,nameLast_Me:widget.nameLast_Me,namefirst_Me:widget.namefirst_Me);
                       },);
                   }
                   return Container(
@@ -99,6 +121,7 @@ class _mState extends State<order_map> {
 }
 class w extends StatefulWidget {
   List<dynamic>Location;
+  List<dynamic>Location_w;
   final work;
   final name_Me;
   final namefirst_Me;
@@ -109,7 +132,7 @@ class w extends StatefulWidget {
   final lat;
   final lng;
   final country;
-  w({this.lat,this.lng,this.country,this.token_Me,this.image_Me,this.namefirst_Me,this.nameLast_Me,this.phone_Me,this.work,this.name_Me,this.Location});
+  w({this.Location_w,this.lat,this.lng,this.country,this.token_Me,this.image_Me,this.namefirst_Me,this.nameLast_Me,this.phone_Me,this.work,this.name_Me,this.Location});
   //w({this.Location,this.work});
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -122,6 +145,7 @@ class _MyHomePageState extends State<w> {
   PermissionStatus _permissionGranted;
   bool serviceEnabled;
   int i = 0;
+  int j = 0;
   var List_Worker = [];
   var list_ = [];
   var list_distance = [];
@@ -147,6 +171,9 @@ class _MyHomePageState extends State<w> {
     await addworker();
     for (; i < widget.Location.length; i++) {
       await add();
+    }
+    for (; j < widget.Location_w.length; j++) {
+      await addw();
     }
     setState(() {
 
@@ -200,21 +227,6 @@ class _MyHomePageState extends State<w> {
       child:Column(
         children: <Widget>[
           order_user(index,namefirst,namelast,image,timestart,timeend,Am_Pm,id),
-          //   ListTile(
-          //   leading: Icon(Icons.ac_unit),
-          //   title: Text('Flutter'),
-          //   onTap: () => _selectItem('Flutter'),
-          // ),
-          // ListTile(
-          //   leading: Icon(Icons.accessibility_new),
-          //   title: Text('Android'),
-          //   onTap: () => _selectItem('Android'),
-          // ),
-          // ListTile(
-          //   leading: Icon(Icons.assessment),
-          //   title: Text('Kotlin'),
-          //   onTap: () => _selectItem('Kotlin'),
-          // ),
         ],
       ),);
   }
@@ -270,7 +282,7 @@ class _MyHomePageState extends State<w> {
     DateTime date=DateTime.now();
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
     var formattedTime = DateFormat('HH:mm:ss').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/finishedorder.php';
+    var url = 'http://' + IP4 + '/testlocalhost/finishedorder.php';
     var ressponse = await http.post(url, body: {
       //"phone":list_ [i],
       "id":id,
@@ -284,7 +296,7 @@ class _MyHomePageState extends State<w> {
     DateTime date=DateTime.now();
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
     var formattedTime = DateFormat('HH:mm:ss').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/delete_accept_order.php';
+    var url = 'http://' + IP4 + '/testlocalhost/delete_accept_order.php';
     var ressponse = await http.post(url, body: {
       "id": id,
       "datecancel":formattedDate,
@@ -319,7 +331,7 @@ class _MyHomePageState extends State<w> {
                   decoration: BoxDecoration(
                     color:Colors.white,
                     borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+image),
+                    image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+image),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -469,20 +481,39 @@ class _MyHomePageState extends State<w> {
 
   // @override
   Future <double> add() async {
+         print("ADDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+         print(widget.Location[i]['lng']);
         final Uint8List markerIconuser= await getBytesFromAsset('assets/icons/worker.png',150);
       int index = i;
       Marker m = new Marker(markerId: MarkerId(index.toString()),
         infoWindow: InfoWindow(title: widget.Location[i]['namefirst'] + " " +
-            widget.Location[i]['namelast'],onTap: (){
-          _onButtonPressed(index,widget.Location[index]['namefirst'],widget.Location[index]['namelast'],widget.Location[index]['image'],widget.Location[index]['timestart'],widget.Location[index]['timeend'],widget.Location[index]['Am_Pm'],widget.Location[index]['id'],);
-        }),
-        position: LatLng(double.parse(widget.Location[i]['lat'],),
+            widget.Location[i]['namelast']),
+            position: LatLng(double.parse(widget.Location[i]['lat'],),
             double.parse(widget.Location[i]['lng'])), icon:BitmapDescriptor.fromBytes(markerIconuser),
       );
       markers.add(m);
       print("marker=================================================");
 
     }
+  Future <double> addw() async {
+    print("111111111111111111111111112222222222222222222222222222222222");
+    print(widget.Location_w[j]['lng']);
+    final Uint8List markerIconuser= await getBytesFromAsset('assets/icons/worker.png',150);
+    var randomGenerator = Random();
+    var positive = randomGenerator.nextBool();
+    int index =randomGenerator.nextInt(1000);
+    Marker m = new Marker(markerId: MarkerId(index.toString()),
+      infoWindow: InfoWindow(title: widget.Location_w[j]['namefirst'] + " " +
+          widget.Location_w[j]['namelast'],onTap: (){
+        _onButtonPressed(index,widget.Location_w[index]['namefirst'],widget.Location_w[index]['namelast'],widget.Location_w[index]['image'],widget.Location_w[index]['timestart'],widget.Location_w[index]['timeend'],widget.Location_w[index]['Am_Pm'],widget.Location_w[index]['id'],);
+      }),
+      position: LatLng(double.parse(widget.Location_w[j]['lat'],),
+          double.parse(widget.Location_w[j]['lng'])), icon:BitmapDescriptor.fromBytes(markerIconuser),
+    );
+    markers.add(m);
+    print("marker=================================================");
+
+  }
 
 }
 //}

@@ -12,6 +12,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'wait_workshop.dart';
 import 'dart:convert';
 import 'package:flutterphone/constants.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -23,8 +24,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterphone/USER/user_slot.dart';
 import '../constants.dart';
-String IP4="192.168.1.8";
-
+String IP4="192.168.1.8:8080";
 class war_description extends StatefulWidget {
   final name_Me;
   final country;
@@ -77,7 +77,7 @@ class _war_description extends State<war_description> {
   }
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
+      backgroundColor: Colors.white,
       // appBar: AppBar(
       //   elevation: 0.0,
       //   backgroundColor:Colors.black.withOpacity(0.75),
@@ -99,7 +99,7 @@ class _war_description extends State<war_description> {
           //     }), ),
 //}
           Scaffold(
-            backgroundColor:Colors.grey[50],
+            backgroundColor:Colors.white,
             //backgroundColor:Colors.white,
             body: Form(
               child: SingleChildScrollView(
@@ -123,7 +123,7 @@ class _war_description extends State<war_description> {
                                 // ColorFilter.mode(Colors.blue.withOpacity(0.3),
                                 //     BlendMode.dstATop),
                                 image: new AssetImage(
-                                  'assets/work/intro3.jpg',
+                                  'assets/work/intro1.jpg',
                                 ),
                               ),
                             )),
@@ -132,7 +132,7 @@ class _war_description extends State<war_description> {
                               Navigator.pop(context);
                             },
                             child:Container(
-                              margin: EdgeInsets.only(top: 70,left: 370),
+                              margin: EdgeInsets.only(top: 60,left: 380),
                               child:Icon(Icons.arrow_forward,color: Colors.black,),
                             )
                         ),
@@ -152,23 +152,23 @@ class _war_description extends State<war_description> {
                           ),)
                     ),
                     //Image.asset('assets/icons/ho.jpg',fit: BoxFit.cover,) ,
-                    Container(
-                      width: 400,
-                      alignment: Alignment.topRight,
-                      margin: EdgeInsets.only(top: 30,right: 45),
-                      child: Text('تفاصيل أخرى عن الورشة التي تريد طلبها',
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontSize: 14.5,
-                          fontFamily: 'Changa',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
+                    // Container(
+                    //   width: 400,
+                    //   alignment: Alignment.topRight,
+                    //   margin: EdgeInsets.only(top: 30,right: 45),
+                    //   child: Text('',
+                    //     style: TextStyle(
+                    //       color: Colors.black54,
+                    //       fontSize: 14.5,
+                    //       fontFamily: 'Changa',
+                    //       fontWeight: FontWeight.bold,
+                    //     ),
+                    //   ),
+                    // ),
                     Container(
                       width:340,
-                      height: 120,
-                      margin: EdgeInsets.only(top: 8),
+                      height: 150,
+                      margin: EdgeInsets.only(top: 30),
                       child: TextFormField(
                         textAlign: TextAlign.right,
                         onChanged: (content) {
@@ -185,11 +185,11 @@ class _war_description extends State<war_description> {
 
                         },
                         //controller: text_post,
-                        maxLines: 20,
+                        maxLines: 30,
                         controller: description,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 15.0,
+                          fontSize: 14.0,
                           fontFamily: 'Changa',
                           fontWeight: FontWeight.bold,
                         ),
@@ -199,13 +199,20 @@ class _war_description extends State<war_description> {
                           fillColor: Colors.white,
                           enabledBorder: new OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(5.0),
-                            borderSide:  BorderSide(color:Colors.white),
+                            borderSide:  BorderSide(color:Colors.grey[400]),
 
                           ),
                           focusedBorder: new OutlineInputBorder(
                             borderRadius: new BorderRadius.circular(5.0),
-                            borderSide:  BorderSide(color:Colors.white),
+                            borderSide:  BorderSide(color:Colors.grey[400]),
 
+                          ),
+                          hintText:'تفاصيل أخرى عن الورشة التي تريد طلبها',
+                          helperStyle:TextStyle(
+                            color: Colors.black26,
+                            fontSize: 11.0,
+                            fontFamily: 'Changa',
+                            fontWeight: FontWeight.bold,
                           ),
                           floatingLabelBehavior: FloatingLabelBehavior.always,
                         ),
@@ -295,7 +302,7 @@ class _war_description extends State<war_description> {
                     ),
                     Container(
                       height: 55,
-                      margin: EdgeInsets.only(top:6,),
+                      margin: EdgeInsets.only(top:11,),
                       color:Y,
                       width:600,
                       // margin: EdgeInsets.only(left: 8,right: 15),
@@ -384,7 +391,7 @@ class _MyDialogState extends State<MyDialog> {
                       onTap: () async{
                         await reserve();
                          Navigator.pop(context);
-                         Navigator.push(context, MaterialPageRoute(builder: (context) => not_conferm_user_statues(country:widget.country,work:widget.work,name_Me:widget.username,id:widget.id,phoneworker:widget.phoneworker,description:widget.description,namefirst: widget.namefirst,namelast: widget.namelast,phoneuser: widget.phone,image: widget.image,),),);
+                         Navigator.push(context, MaterialPageRoute(builder: (context) => waitwar_statues(country:widget.country,work:widget.work,name_Me:widget.username,id:widget.id,phoneworker:widget.phoneworker,description:widget.description,namefirst: widget.namefirst,namelast: widget.namelast,phoneuser: widget.phone,image: widget.image,),),);
                          },
                       child: Container(
                           margin: EdgeInsets.only(right: 170),
@@ -442,7 +449,7 @@ class _MyDialogState extends State<MyDialog> {
     var ressponse;
     if(widget.im_file==null && widget.description=='') {
       print("nnnnnnnnnnnnnnnnnnnnnnnnuuuuuuuuuuuuuuuuuullll");
-      url = 'https://'+IP4+'/testlocalhost/reserve_war_without.php';
+      url = 'http://'+IP4+'/testlocalhost/reserve_war_without.php';
       ressponse = await http.post(url, body: {
         "phoneuser": widget.phone,
         "workerphone": widget.phoneworker,
@@ -451,7 +458,7 @@ class _MyDialogState extends State<MyDialog> {
       });
     }
     else  if(widget.im_file==null && widget.description!='') {
-      url = 'https://'+IP4+'/testlocalhost/reserve_war_des.php';
+      url = 'http://'+IP4+'/testlocalhost/reserve_war_des.php';
       ressponse = await http.post(url, body: {
         "phoneuser": widget.phone,
         "workerphone": widget.phoneworker,
@@ -462,7 +469,7 @@ class _MyDialogState extends State<MyDialog> {
     }
     else if(widget.im_file!=null && widget.description=='') {
       _file = File(widget.im_file.path);
-      url = 'https://'+IP4+'/testlocalhost/reserve_war_im.php';
+      url = 'http://'+IP4+'/testlocalhost/reserve_war_im.php';
       String base64 = base64Encode(_file.readAsBytesSync());
       String imagename = _file.path.split('/').last;
       print("baseeeeeeeeeeeeee");
@@ -480,7 +487,7 @@ class _MyDialogState extends State<MyDialog> {
     }
     else  if(widget.im_file!=null && widget.description!='') {
       _file = File(widget.im_file.path);
-      url = 'https://'+IP4+'/testlocalhost/reserve_war.php';
+      url = 'http://'+IP4+'/testlocalhost/reserve_war.php';
       String base64 = base64Encode(_file.readAsBytesSync());
       String imagename = _file.path.split('/').last;
       print("baseeeeeeeeeeeeee");

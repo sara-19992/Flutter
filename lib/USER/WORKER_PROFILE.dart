@@ -28,8 +28,8 @@ String  Work="";
 String  Experiance="";
 String  Information="";
 String  token="";
-String IP4="192.168.1.8";
 
+String IP4="192.168.1.8:8080";
 
 class  user_worker extends StatefulWidget {
   final  name_Me;
@@ -68,7 +68,7 @@ class  _user_worker extends State<user_worker> {
     return ((value * mod).round().toDouble() / mod);
   }
   Future getpost()async{
-    var url='https://'+IP4+'/testlocalhost/getpost.php';
+    var url='http://'+IP4+'/testlocalhost/getpost.php';
     var ressponse=await http.post(url,body: {
       "phone": widget.phone,
     });
@@ -77,14 +77,14 @@ class  _user_worker extends State<user_worker> {
     return json.decode(ressponse.body);
   }
   Future getRate() async {
-    var url = 'https://'+IP4+'/testlocalhost/show_Rate.php';
+    var url = 'http://'+IP4+'/testlocalhost/show_Rate.php';
     var ressponse = await http.post(url, body: {
       "phoneworker": widget.phone,
     });
     return json.decode(ressponse.body);
   }
   Future getImages() async {
-    var url = 'https://'+IP4+'/testlocalhost/Show_EXP.php';
+    var url = 'http://'+IP4+'/testlocalhost/Show_EXP.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -108,9 +108,9 @@ class  _user_worker extends State<user_worker> {
          children:[
            Container(
              //transform: Matrix4.translationValues(0.0, -70.0, 0.0),
-             child:Image(image:NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.image,),),
+             child:Image(image:NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.image,),),
            ),
-           // Image(image:NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.image,),),
+           // Image(image:NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.image,),),
             Scaffold(
           backgroundColor:Colors.transparent,
           // key: _scaffoldKey,
@@ -381,7 +381,7 @@ class  _worker extends State<worker> {
   double f=2.2.floorToDouble();
   bool faverate;
   Future getImages() async {
-    var url = 'https://'+IP4+'/testlocalhost/Show_EXP.php';
+    var url = 'http://'+IP4+'/testlocalhost/Show_EXP.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -428,7 +428,7 @@ class  _worker extends State<worker> {
   int Length_Post;
   var List_Postanother=[];
   Future delete_faverate() async {
-    var url = 'https://' + IP4 + '/testlocalhost/delete_faverate.php';
+    var url = 'http://' + IP4 + '/testlocalhost/delete_faverate.php';
     var ressponse = await http.post(url, body: {
       "phoneuser":widget.userphone,
       "phoneworker":widget.phone,
@@ -440,7 +440,7 @@ class  _worker extends State<worker> {
     print(widget.userphone);
     print(widget.phone);
     print("PHONE");
-    var url = 'https://' + IP4 + '/testlocalhost/addfaverate.php';
+    var url = 'http://' + IP4 + '/testlocalhost/addfaverate.php';
     var ressponse = await http.post(url, body: {
       "phoneuser":widget.userphone,
       "phoneworker":widget.phone,
@@ -461,7 +461,7 @@ class  _worker extends State<worker> {
                   Container(
                     margin: EdgeInsets.only(top: 10,),
                     color:Colors.white,
-                    height: 400,
+                    height: 410,
                     width: 700,
                     child:Column(
                       children: [
@@ -470,13 +470,13 @@ class  _worker extends State<worker> {
                           child:Row(
                             children: [
                               Container(
-                                margin: EdgeInsets.only(right:35,top:8),
+                                margin: EdgeInsets.only(right:30,top:8),
                                 width: 280,
                                 alignment: Alignment.topRight,
                                 child:Text(widget.namefirst+ " "+widget.namelast,
                                   style: TextStyle(
                                     color: Colors.black,
-                                    fontSize: 18.0,
+                                    fontSize: 17.0,
                                     fontFamily: 'Changa',
                                     fontWeight: FontWeight.bold,),),
                               ),
@@ -487,7 +487,7 @@ class  _worker extends State<worker> {
                                 child:IconButton(icon:Icon(faverate?Icons.favorite:Icons.favorite_border,color: faverate?Colors.red:Colors.black,),
                                     onPressed: ()async{
                                      faverate?await delete_faverate():await add_faverate();
-                                      faverate?Fluttertoast.showToast(msg: " تم الحذف من مفضلتك  ",fontSize: 16,textColor:Colors.white,backgroundColor: Colors.black87.withOpacity(0.5)):Fluttertoast.showToast(msg: " تمت الإضافة إلى قائمة المفضلة لديك ",fontSize: 16,textColor:Colors.white,backgroundColor: Colors.black87.withOpacity(0.5));
+                                      faverate?Fluttertoast.showToast(msg: " تم الحذف من مفضلتك  ",fontSize: 16,textColor:Colors.black87):Fluttertoast.showToast(msg: " تمت الإضافة إلى قائمة المفضلة لديك ",fontSize: 16,textColor:Colors.black87,);
                                       faverate=!faverate;
                                       setState(() {
 
@@ -498,7 +498,7 @@ class  _worker extends State<worker> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(right:20,),
+                          margin: EdgeInsets.only(right:15,),
                           width: 360,
                           height: 25,
                           alignment: Alignment.topRight,
@@ -509,16 +509,7 @@ class  _worker extends State<worker> {
                             fontWeight: FontWeight.bold,),),
                         ),
                         Container(
-                          width: 370,
-                          margin: EdgeInsets.only(right:20,top:15),
-                          child:Text(widget.Information + ', ' + widget.Experiance +'.',style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15,
-                            fontFamily: 'Changa',
-                            fontWeight: FontWeight.bold,),),
-                        ),
-                        Container(
-                          height:90,
+                          height:70,
                           child: FutureBuilder(
                               future: getPost(),
                               builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -540,7 +531,41 @@ class  _worker extends State<worker> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.only(right: 30,top: 20),
+                          width: 370,
+                          margin: EdgeInsets.only(right:15,top:15),
+                          child:Text(widget.Information + ', ' + widget.Experiance +'.',style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontFamily: 'Changa',
+                            fontWeight: FontWeight.bold,),),
+                        ),
+                        widget.AVG1&&widget.AVG2&&widget.AVG3&&widget.AVG4&&widget.AVG5?Container(
+                          height: 70,
+                          width: 400,
+                          margin: EdgeInsets.only(top: 15,right: 20),
+                          child:Wrap(children:[
+                            _MyButton(name:'جودة',IS: widget.AVG1,),
+                            _MyButton(name:'سرعة وإتقان',IS: widget.AVG2,),
+                            _MyButton(name:'احترام',IS: widget.AVG3,),
+                            _MyButton(name:'سعر جيد',IS: widget.AVG4,),
+                            _MyButton(name:'التزام بالوقت',IS: widget.AVG5,),
+                          ]),
+                        ):Container(height:0.0,),
+                        widget.AVG1||widget.AVG2||widget.AVG3||widget.AVG4||widget.AVG5?Container(
+                          height: 40,
+                          width: 400,
+                          margin: EdgeInsets.only(top: 15,right: 20),
+                          child:Wrap(children:[
+                            _MyButton(name:'جودة',IS: widget.AVG1,),
+                            _MyButton(name:'سرعة وإتقان',IS: widget.AVG2,),
+                            _MyButton(name:'احترام',IS: widget.AVG3,),
+                            _MyButton(name:'سعر جيد',IS: widget.AVG4,),
+                            _MyButton(name:'التزام بالوقت',IS: widget.AVG5,),
+                          ]),
+                        ):Container(height:0.0,),
+
+                        Container(
+                          margin: EdgeInsets.only(right: 20,top: 40),
                           child: Row(
                             children: [
                               Container(
@@ -581,28 +606,24 @@ class  _worker extends State<worker> {
                           ),
                         ),
                         Container(
+
                           width: 350,
-                         margin: EdgeInsets.only(top:15),
+                         height: 10,
+                         margin: EdgeInsets.only(top:7),
                          child: Divider(
                            thickness: 1.0,
                            color: Colors.black26.withOpacity(0.1),
                          ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 5),
-                          child:Wrap(children:[
-                            _MyButton(name:'جودة',IS: widget.AVG1,),
-                            _MyButton(name:'سرعة وإتقان',IS: widget.AVG2,),
-                            _MyButton(name:'احترام',IS: widget.AVG3,),
-                            _MyButton(name:'سعر جيد',IS: widget.AVG4,),
-                            _MyButton(name:'التزام بالوقت',IS: widget.AVG5,),
-                          ]),
-                        ),
                        // Container(height: 200,color: Colors.white,)
                       ],
                     ),
                     ),
-                  Images(widget.List_Images),
+                  Container(
+                    margin: EdgeInsets.only(top:10,bottom: 20),
+                    height: 100,
+                    child: Images(widget.List_Images),
+                  ),
                   widget.List_Post.length==0?Container(height:0.0,):Container(height:0.0,),
                   widget.List_Post.length==1 && widget.List_Post[0]['image']=='null'? myPosttext(widget.List_Post[0]['text'],widget.List_Post[0]['date']):Container(height:0.0,),
                   widget.List_Post.length==1 && widget.List_Post[0]['image']!='null'? myPost(widget.List_Post[0]['text'],widget.List_Post[0]['image'],widget.List_Post[0]['date']):Container(height:0.0,),
@@ -637,27 +658,42 @@ class  _worker extends State<worker> {
                       ),
                     ),
                    ):Container(),
-
                   Container(
                     height: 220,
                     color: Colors.white,
-                    margin: EdgeInsets.only(top: 90),
+                    margin: EdgeInsets.only(top: 40),
                     child: Container(
                       child:FutureBuilder(
-                        future: getcom(),
+                        future: getcompos(),
                         builder: (BuildContext context, AsyncSnapshot snapshot) {
                           if(snapshot.hasData){
-                            int l=4;
-                            if(snapshot.data.length==0) {
-                              return Container(height:0,);
-                            }
-                            if(snapshot.data.length<4){
-                              l=snapshot.data.length;
-                            }
+
                             return ListView.builder(
-                              itemCount:l,
+                              itemCount:snapshot.data.length,
                               itemBuilder: (context, index) {
-                                return Rate1(snapshot.data[index]['phone'],snapshot.data[index]['namefirst'],snapshot.data[index]['namelast'],snapshot.data[index]['image'],snapshot.data[index]['comment']);
+                                return Com(snapshot.data[index]['namefirst'],snapshot.data[index]['namelast'],snapshot.data[index]['image'],snapshot.data[index]['comment'],snapshot.data[index]['Rate']);
+                              },
+                            );
+                          }
+                          return Center(child: Container());
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 210,
+                    color: Colors.white,
+                    margin: EdgeInsets.only(top: 0),
+                    child: Container(
+                      child:FutureBuilder(
+                        future: getcomneg(),
+                        builder: (BuildContext context, AsyncSnapshot snapshot) {
+                          if(snapshot.hasData){
+
+                            return ListView.builder(
+                              itemCount:snapshot.data.length,
+                              itemBuilder: (context, index) {
+                                return Com(snapshot.data[index]['namefirst'],snapshot.data[index]['namelast'],snapshot.data[index]['image'],snapshot.data[index]['comment'],snapshot.data[index]['Rate']);
                               },
                             );
                           }
@@ -671,9 +707,9 @@ class  _worker extends State<worker> {
                       Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => getMyComment(phone: widget.phone,name:widget.name,)));
                     },
                    child:Container(
-                     height: 55,
+                     height: 45,
                      alignment: Alignment.center,
-                     margin: EdgeInsets.only(top:15,),
+                     margin: EdgeInsets.only(top:15,left:30,right: 30),
                      //color:Y,
                      width:370,
                      decoration: BoxDecoration(
@@ -700,28 +736,51 @@ class  _worker extends State<worker> {
                 ],
           ),);
   }
-  Container Rate1(String phone,String namefirst,String namelast,String image,String comment){
-    String value;
-    return  Container(
-      height: 107,
-      child: FutureBuilder(
-          future: getRate(phone),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                itemCount: 1,
-                itemBuilder: (context, index) {
-                  value=snapshot.data[index]['total'];
-                  return Com(namefirst,namelast,image,comment,value);
-                },);
-            }
-            return Container(
-              child:Text(''),
-            );
-
-          }
-      ),
-    );
+  // Container Rate1(String phone,String namefirst,String namelast,String image,String comment){
+  //   String value;
+  //   return  Container(
+  //     // color:Colors.yellowAccent,
+  //     height: 107,
+  //     width: 250,
+  //     child: FutureBuilder(
+  //         future: getRate(phone),
+  //         builder: (BuildContext context, AsyncSnapshot snapshot) {
+  //           if (snapshot.hasData) {
+  //             return ListView.builder(
+  //               itemCount: 1,
+  //               itemBuilder: (context, index) {
+  //                 value=snapshot.data[index]['total'];
+  //                 return Com(namefirst,namelast,image,comment,value);
+  //               },);
+  //           }
+  //           return Container(
+  //             child:Text(''),
+  //           );
+  //
+  //         }
+  //     ),
+  //   );
+  // }
+  Future getcomall() async {
+    var url = 'http://'+IP4+'/testlocalhost/allcomment.php';
+    var ressponse = await http.post(url, body: {
+      "phone": widget.phone,
+    });
+    return json.decode(ressponse.body);
+  }
+  Future getcompos() async {
+    var url = 'http://'+IP4+'/testlocalhost/getmycommint.php';
+    var ressponse = await http.post(url, body: {
+      "phone": widget.phone,
+    });
+    return json.decode(ressponse.body);
+  }
+  Future getcomneg() async {
+    var url = 'http://'+IP4+'/testlocalhost/getcommentneg.php';
+    var ressponse = await http.post(url, body: {
+      "phone": widget.phone,
+    });
+    return json.decode(ressponse.body);
   }
   Container Com(String namefirst,String namelast,String image,String comment,String value){
     return Container(
@@ -741,23 +800,23 @@ class  _worker extends State<worker> {
           ),
         ],),
       //color: PURPEL,
-      margin: EdgeInsets.only(top: 10,bottom: 5,left: 20,right: 20),
+      margin: EdgeInsets.only(top: 10,bottom: 5,left: 30,right: 30),
       child: Row(
         children: [
           Container(
             margin: EdgeInsets.only(top: 5,bottom: 5,right: 10),
             child:CircleAvatar(backgroundImage: NetworkImage(
-                'https://' + IP4 + '/testlocalhost/upload/' + image),
+                'http://' + IP4 + '/testlocalhost/upload/' + image),
               radius: 30.0,),
           ),
           Container(
             child: Column(
               children: [
                 Container(
-                  width: 280,
+                  width: 250,
                   //color: Colors.green,
                   alignment: Alignment.topRight,
-                  margin: EdgeInsets.only(top: 8,bottom: 0,left: 0,right:5),
+                  margin: EdgeInsets.only(top: 8,bottom: 0,left: 0,right:0),
                   child:Row(
                     children: [
                       Container(
@@ -766,14 +825,14 @@ class  _worker extends State<worker> {
                         child: Text(namefirst + " " + namelast,
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15.0,
+                            fontSize: 14.0,
                             fontFamily: 'Changa',
                             fontWeight: FontWeight.bold,),
                         ),),
                       Directionality(textDirection: ui.TextDirection.ltr,
 
                         child: Container(
-                            width: 180,
+                            width: 150,
                             height: 25,
                             alignment: Alignment.topLeft,
                             child: RatingBar.builder(
@@ -805,7 +864,7 @@ class  _worker extends State<worker> {
                   ),
                 ),
                 Container(
-                  width: 280,
+                  width: 250,
                   color: Colors.white,
                   alignment: Alignment.topRight,
                   margin: EdgeInsets.only(top: 2,bottom: 2,left: 0,right:10),
@@ -827,15 +886,9 @@ class  _worker extends State<worker> {
       ),
     );
   }
-  Future getcom() async {
-    var url = 'https://'+IP4+'/testlocalhost/getmycommint.php';
-    var ressponse = await http.post(url, body: {
-      "phone": widget.phone,
-    });
-    return json.decode(ressponse.body);
-  }
+
   Future getRate(String phone) async {
-    var url = 'https://'+IP4+'/testlocalhost/getRate.php';
+    var url = 'http://'+IP4+'/testlocalhost/getRate.php';
     var ressponse = await http.post(url, body: {
       "phone": phone,
       "workerphone":widget.phone,
@@ -844,19 +897,21 @@ class  _worker extends State<worker> {
   }
   Container Images(List<dynamic>Images){
    return Container(
-     height:Images.length==0?0:140,
-     padding: EdgeInsets.only(top: 10),
+     width: 420,
+     color:Colors.white,
+     height:Images.length==0?0:100,
+     margin: EdgeInsets.only(top: 0),
      child:Column(
        children: [
-         Images.length==1?myAlbum1('https://'+IP4+'/testlocalhost/upload/'+ Images[0]['images']):Container(height: 0.0,),
-         Images.length==2?myAlbum2('https://'+IP4+'/testlocalhost/upload/'+ Images[0]['images'],'https://'+IP4+'/testlocalhost/upload/'+ Images[1]['images']):Container(height: 0.0,),
-         Images.length>=3?worker_Images('https://'+IP4+'/testlocalhost/upload/'+ Images[0]['images'],'https://'+IP4+'/testlocalhost/upload/'+ Images[1]['images'],'https://'+IP4+'/testlocalhost/upload/'+ Images[2]['images']):Container(height: 0.0,),
+         Images.length==1?myAlbum1('http://'+IP4+'/testlocalhost/upload/'+ Images[0]['images']):Container(height: 0.0,),
+         Images.length==2?myAlbum2('http://'+IP4+'/testlocalhost/upload/'+ Images[0]['images'],'http://'+IP4+'/testlocalhost/upload/'+ Images[1]['images']):Container(height: 0.0,),
+         Images.length>=3?worker_Images('http://'+IP4+'/testlocalhost/upload/'+ Images[0]['images'],'http://'+IP4+'/testlocalhost/upload/'+ Images[1]['images'],'http://'+IP4+'/testlocalhost/upload/'+ Images[2]['images']):Container(height: 0.0,),
        ],
      )
    );
   }
   Future getCount() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getcCount.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getcCount.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -867,7 +922,7 @@ class  _worker extends State<worker> {
     return json.decode(ressponse.body);
   }
   Future getpost()async{
-    var url='https://'+IP4+'/testlocalhost/getpost.php';
+    var url='http://'+IP4+'/testlocalhost/getpost.php';
     var ressponse=await http.post(url,body: {
       "phone": widget.phone,
     });
@@ -905,7 +960,7 @@ class  _worker extends State<worker> {
                 //transform: Matrix4.translationValues(0, -40.0, 0),
                 child: Center(
                   child: CircleAvatar(backgroundImage: NetworkImage(
-                      'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+                      'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
                     radius: 18.0,),),
               ),
               Column(
@@ -982,7 +1037,7 @@ class  _worker extends State<worker> {
                 //transform: Matrix4.translationValues(0, -40.0, 0),
                 child: Center(
                   child: CircleAvatar(backgroundImage: NetworkImage(
-                      'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+                      'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
                     radius: 18.0,),),
               ),
               Column(
@@ -1031,7 +1086,7 @@ class  _worker extends State<worker> {
             alignment: Alignment.centerRight,
             // margin:  EdgeInsets.only(left:10,),
             child: ClipRRect(
-              child: Image.network('https://'+IP4+'/testlocalhost/upload/'+  image, height: 204, width: 380, fit: BoxFit.cover,),
+              child: Image.network('http://'+IP4+'/testlocalhost/upload/'+  image, height: 204, width: 380, fit: BoxFit.cover,),
             ),):Container(height:0,),
         ],
       ),
@@ -1050,7 +1105,7 @@ class  _worker extends State<worker> {
 
             ],
           ),
-        ):Container(height:10.0,color: Colors.yellowAccent,),
+        ):Container(height:10.0,),
         Post_num<Length_Post?Container(
           child: Column(
             children: [
@@ -1121,8 +1176,8 @@ class  _worker extends State<worker> {
     return  Center(
       child:Container(
         height: 60,
-        width: 380,
-        margin: EdgeInsets.only(top: 28),
+        width: 410,
+        margin: EdgeInsets.only(top: 10),
         padding: EdgeInsets.only(top: 5,left: 0),
         decoration: BoxDecoration(
           //color: Colors.white,
@@ -1136,12 +1191,12 @@ class  _worker extends State<worker> {
             GestureDetector(
               child:Column(
                 children: [
-                  Text('منشورات',style: TextStyle(
+                  Text('منشورات ',style: TextStyle(
                     color: Colors.black54,
                     fontSize: 14,
                     fontFamily: 'Changa',
                     fontWeight: FontWeight.bold,),),
-                  Text(ma.toString(),style: TextStyle(
+                  Text(ma.toString()+'   ',style: TextStyle(
                     color: Colors.black87,
                     fontSize: 14.0,
                     fontFamily: 'Changa',
@@ -1154,12 +1209,12 @@ class  _worker extends State<worker> {
             GestureDetector(
               child:Column(
                 children: [
-                  Text('تعليقات',style: TextStyle(
+                  Text('   تعليقات',style: TextStyle(
                     color: Colors.black54,
                     fontSize: 14,
                     fontFamily: 'Changa',
                     fontWeight: FontWeight.bold,),),
-                  Text(widget.comment,style: TextStyle(
+                  Text('   '+widget.comment,style: TextStyle(
                     color: Colors.black87,
                     fontSize: 14.0,
                     fontFamily: 'Changa',
@@ -1172,12 +1227,12 @@ class  _worker extends State<worker> {
             GestureDetector(
               child:Column(
                 children: [
-                  Text('عملاء',style: TextStyle(
+                  Text('   عملاء',style: TextStyle(
                     color: Colors.black54,
                     fontSize: 14,
                     fontFamily: 'Changa',
                     fontWeight: FontWeight.bold,),),
-                  Text(widget.client_num,style: TextStyle(
+                  Text('   '+widget.client_num,style: TextStyle(
                     color: Colors.black87,
                     fontSize: 14.0,
                     fontFamily: 'Changa',
@@ -1190,7 +1245,7 @@ class  _worker extends State<worker> {
             GestureDetector(
               child:Column(
                 children: [
-                  Text('الريت',style: TextStyle(
+                  Text('  الريت',style: TextStyle(
                     color: Colors.black54,
                     fontSize: 14,
                     fontFamily: 'Changa',
@@ -1199,7 +1254,7 @@ class  _worker extends State<worker> {
                     //margin: EdgeInsets.only(top:320,left: 290),
                     child:Row(
                       children: [
-                        Text(widget.Rate.toString(),
+                        Text('   '+widget.Rate.toString(),
                           style: TextStyle(
                             color: Colors.black87,
                             fontSize: 14.0,
@@ -1218,7 +1273,7 @@ class  _worker extends State<worker> {
       ),);
   }
   Future getPost() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getpostcount.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getpostcount.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -1529,28 +1584,28 @@ class _MyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IS?Container(
-      margin: EdgeInsets.all(5),
-      padding: EdgeInsets.symmetric(horizontal:10,vertical:5),
+      margin: EdgeInsets.all(6),
+      padding: EdgeInsets.symmetric(horizontal:15,vertical:5),
       decoration: BoxDecoration(
-        //color: Colors.yellow,
-        // border: Border.all(
-        //   color: Colors.yellow,
-        //   width: 1.2,
-        // ),
-        borderRadius: BorderRadius.circular(20),
         color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.5),
-            blurRadius: 2.0,
-            spreadRadius: 0.0,
-            offset: Offset(1.0,1.0), // shadow direction: bottom right
-          )
-        ],
+        border: Border.all(
+          color: Y,
+          width: 0.8,
+        ),
+        borderRadius: BorderRadius.circular(10),
+        // color: Colors.white,
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withOpacity(0.5),
+        //     blurRadius: 2.0,
+        //     spreadRadius: 0.0,
+        //     offset: Offset(1.0,1.0), // shadow direction: bottom right
+        //   )
+        // ],
       ),
       child: Text(name,style: TextStyle(
         color: Colors.black.withOpacity(0.7),
-        fontSize: 16,
+        fontSize: 14,
         fontFamily: 'Changa',
         fontWeight: FontWeight.bold,),),
     ):Text('');
@@ -1618,7 +1673,7 @@ class _MyButton extends StatelessWidget {
 //                 //transform: Matrix4.translationValues(0, -40.0, 0),
 //                 child: Center(
 //                   child: CircleAvatar(backgroundImage: NetworkImage(
-//                       'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+//                       'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
 //                     radius: 18.0,),),
 //               ),
 //               Column(
@@ -1667,7 +1722,7 @@ class _MyButton extends StatelessWidget {
 //             alignment: Alignment.centerRight,
 //             // margin:  EdgeInsets.only(left:10,),
 //             child: ClipRRect(
-//               child: Image.network('https://'+IP4+'/testlocalhost/upload/'+  image, height: 204, width: 380, fit: BoxFit.cover,),
+//               child: Image.network('http://'+IP4+'/testlocalhost/upload/'+  image, height: 204, width: 380, fit: BoxFit.cover,),
 //             ),):Container(height:0,),
 //         ],
 //       ),
@@ -1733,7 +1788,7 @@ class _MyButton extends StatelessWidget {
 //                 //transform: Matrix4.translationValues(0, -40.0, 0),
 //                 child: Center(
 //                   child: CircleAvatar(backgroundImage: NetworkImage(
-//                       'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+//                       'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
 //                     radius: 18.0,),),
 //               ),
 //               Column(

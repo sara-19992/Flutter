@@ -20,7 +20,7 @@ String  Work="";
 String  Experiance="";
 String  Information="";
 String  token="";
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 bool press=true;
 double hight=150;
 class Warshat extends StatefulWidget {
@@ -53,7 +53,7 @@ class _viewWarshaState extends State<Warshat> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Future getreservation()async{
-    var url='https://'+IP4+'/testlocalhost/seereservations.php';
+    var url='http://'+IP4+'/testlocalhost/seereservations.php';
     var ressponse=await http.post(url,body: {
       "phone": widget.phone,
     });
@@ -69,35 +69,63 @@ class _viewWarshaState extends State<Warshat> {
         body:Form(
           child:Stack(
             children: [
-
               Container(
-                  margin: EdgeInsets.only(top:70,right: 10),
-                  child: GestureDetector(
-                    onTap: (){
-                      Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) => order_worker(lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));},
+                width: 500,
+                height: 110,
+                child: Row(
+                  children: [
+                    Container(
+                    margin: EdgeInsets.only(top:60,right: 10),
+                    child:GestureDetector(
+                      onTap: (){
+                        Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) => order_worker(lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));},
 
-                    child:Icon(Icons.arrow_back,color: Colors.grey[600],),
-                  )
+                      child:Icon(Icons.arrow_back,color: Colors.black,),
+                    ),
+                    ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top:60,right: 11),
+                    //   child:Text('ورشاتي',
+                    //     style: TextStyle(
+                    //       fontSize: 18,
+                    //       fontWeight: FontWeight.bold,
+                    //       color: Colors.white,
+                    //       fontFamily: 'Changa',
+                    //       //fontStyle: FontStyle.italic,
+                    //     ),),
+                    // ),
+
+                  ],
+                ),
               ),
-              Container(
-                  height: 50,
-                  color: Colors.white,
-                  margin: EdgeInsets.only(top:100,right:0),
-                  alignment: Alignment.center,
-                  // transform: Matrix4.translationValues(0, -120.0, 0),
-                  child:Text('ورشاتي',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                      fontFamily: 'vibes',
-                      //fontStyle: FontStyle.italic,
-                    ),)
-              ),
+              // Container(
+              //     margin: EdgeInsets.only(top:70,right: 10),
+              //     child: GestureDetector(
+              //       onTap: (){
+              //         Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) => order_worker(lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));},
+              //
+              //       child:Icon(Icons.arrow_back,color: Colors.grey[600],),
+              //     )
+              // ),
+              // Container(
+              //     height: 50,
+              //     color: Colors.white,
+              //     margin: EdgeInsets.only(top:100,right:0),
+              //     alignment: Alignment.center,
+              //     // transform: Matrix4.translationValues(0, -120.0, 0),
+              //     child:Text('ورشاتي',
+              //       style: TextStyle(
+              //         fontSize: 30,
+              //         fontWeight: FontWeight.w400,
+              //         color: Colors.black,
+              //         fontFamily: 'vibes',
+              //         //fontStyle: FontStyle.italic,
+              //       ),)
+              // ),
               Container(
                 color: Colors.white,
                 height: 647.5,
-                margin: EdgeInsets.only(top:150),
+                margin: EdgeInsets.only(top:100),
                 child: FutureBuilder(
                   future: getreservation(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -105,6 +133,29 @@ class _viewWarshaState extends State<Warshat> {
                       return ListView.builder(
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
+                          if(snapshot.data.length==0){
+                            return Container(
+                                width: 500,
+                                height: 400,
+                                padding: EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                ),
+                                child: Column(
+                                  children: [
+                                    SizedBox(height: 150,),
+                                    Center(
+                                      child: Text('لا توجد لديك مواعيد في هذا اليوم',
+                                        style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 15.0,
+                                          fontFamily: 'Changa',
+                                          fontWeight: FontWeight.bold,
+                                        ),),
+                                    ),
+                                  ],
+                                ),);
+                          }
                           print(snapshot.data[index]['workerphone']);
                           // return Container(height: 200,);
                           return view (name:snapshot.data[index]['name'],Information:widget.Information,Experiance:widget.Information,from:snapshot.data[index]['Fromdate'],to:snapshot.data[index]['Todate'],lnguser:snapshot.data[index]['lnguser'],latuser:snapshot.data[index]['latuser'],lat:widget.lat,lng:widget.lng,tokenworker:widget.token,work:widget.Work,imageworker:widget.image,namelastworker:widget.namelast,namefirstworker:widget.namefirst,orderimage:snapshot.data[index]['orderimage'],city:snapshot.data[index]['city'],country:snapshot.data[index]['country'],start:snapshot.data[index]['Fromdate'],end:snapshot.data[index]['Todate'],id:snapshot.data[index]['id'],type:snapshot.data[index]['type'],image:snapshot.data[index]['image'],describes:snapshot.data[index]['describes'],nameofwork :widget.name,workerphone : snapshot.data[index]['workerphone'], namefirst: snapshot.data[index]['namefirst'], namelast: snapshot.data[index]['namelast'], phoneuser: snapshot.data[index]['phoneuser']);
@@ -145,7 +196,7 @@ class _viewWarshaState extends State<Warshat> {
 
   Future getlongtimeorder() async {
 
-    var url = 'https://'+IP4+'/testlocalhost/seereservations.php';
+    var url = 'http://'+IP4+'/testlocalhost/seereservations.php';
     print("ssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"+widget.phone);
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
@@ -211,6 +262,7 @@ class _viewState extends State<view> {
     child:Container (
       height:160,
       width: 380,
+      transform: Matrix4.translationValues(0.0, -20.0, 0.0),
       margin: EdgeInsets.only(top:5,bottom: 15),
       padding: EdgeInsets.all(5),
       alignment: Alignment.topRight,
@@ -514,7 +566,7 @@ class _viewState extends State<view> {
     //   print('hi hi hi');
     //   // print(widget.nameofwork);
     //   //print(widget.namefirst);
-    //   var url ='https://'+IP4+'/testlocalhost/reservations.php';
+    //   var url ='http://'+IP4+'/testlocalhost/reservations.php';
     //   var ressponse = await http.post(url, body: {
     //     "nameofwork": widget.nameofworkd,
     //     "namefirst": widget.namefirstd,
@@ -556,7 +608,7 @@ class _viewState extends State<view> {
     //   //if(picked.first [i]>= dt)
     //   var mesaage;
     //   print('hi hi hi');
-    //   var url = 'https://'+IP4+'/testlocalhost/reservations.php';
+    //   var url = 'http://'+IP4+'/testlocalhost/reservations.php';
     //   var ressponse = await http.post(url, body: {
     //     "nameofwork": widget.nameofworkd,
     //     "namefirst": widget.namefirstd,
@@ -719,7 +771,7 @@ class _datepState extends State<datep> {
       print('hi hi hi');
       // print(widget.nameofwork);
       //print(widget.namefirst);
-      var url ='https://'+IP4+'/testlocalhost/reservations.php';
+      var url ='http://'+IP4+'/testlocalhost/reservations.php';
       var ressponse = await http.post(url, body: {
         "nameofwork": widget.nameofworkd,
         "namefirst": widget.namefirstd,
@@ -761,7 +813,7 @@ class _datepState extends State<datep> {
       //if(picked.first [i]>= dt)
       var mesaage;
       print('hi hi hi');
-      var url = 'https://'+IP4+'/testlocalhost/reservations.php';
+      var url = 'http://'+IP4+'/testlocalhost/reservations.php';
       var ressponse = await http.post(url, body: {
         "nameofwork": widget.nameofworkd,
         "namefirst": widget.namefirstd,

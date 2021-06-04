@@ -8,7 +8,7 @@ import 'dart:convert';
 
 import '../constants.dart';
 import 'IMG_BIG.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 List<Images> imagesFromJson(String str) => List<Images>.from(json.decode(str).map((x) => Images.fromJson(x)));
 
 String imagesToJson(List<Images> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -56,7 +56,7 @@ class  _Get_Images extends State< Get_Images> {
   final picker = ImagePicker();
   @override
   Future getImages() async {
-    var url = 'https://'+IP4+'/testlocalhost/Show_EXP.php';
+    var url = 'http://'+IP4+'/testlocalhost/Show_EXP.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -68,8 +68,8 @@ class  _Get_Images extends State< Get_Images> {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(40.0), // here the desired height
           child: AppBar(
-            backgroundColor:Y2,
             elevation: 0.0,
+            backgroundColor: Colors.white,
             //leading: I,
           )
       ),
@@ -80,12 +80,11 @@ class  _Get_Images extends State< Get_Images> {
           children: <Widget>[
             Stack(
                 children:[
-
                   Container(
                     margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
                     height: 180,
                      decoration: BoxDecoration(
-                     color:Y2,
+                       color:Colors.white,
                      ),
                   ),
 
@@ -122,14 +121,13 @@ class  _Get_Images extends State< Get_Images> {
                     child:Column(
                       children: <Widget>[
                       Container(
-                      height:617.5,
-                      margin: EdgeInsets.only(top:91),
+                      height:685,
+                      margin: EdgeInsets.only(top:20),
                       padding: EdgeInsets.only(top:30,right: 15,left: 15,),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(50),
-                          topRight: Radius.circular(50),
+
                         ),
                       ),
                       child:FutureBuilder(
@@ -171,7 +169,7 @@ class  _Get_Images extends State< Get_Images> {
                                       //  child: Text(_image[inde),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
-                                        image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+snapshot.data[index]['images']),
+                                        image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+snapshot.data[index]['images']),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -233,8 +231,8 @@ class  _Get_Images extends State< Get_Images> {
     String imagename = _file.path.split('/').last;
     print("hiiii");
     print(imagename);
-    var url = 'https://'+IP4+'/testlocalhost/EXP_Image.php';
-    // final uri=Uri.parse("https://192.168.2.111/testlocalhost/signup.php");
+    var url = 'http://'+IP4+'/testlocalhost/EXP_Image.php';
+    // final uri=Uri.parse("http://192.168.2.111/testlocalhost/signup.php");
     var response = await http.post(url, body: {
 
       "phone": widget.phone,

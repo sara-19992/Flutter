@@ -12,7 +12,7 @@ import 'dart:convert';
 
 import 'Profile.dart';
 import 'orders_workers.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 //import 'edit_profile.dart';
 //import 'changePassword.dart';
 FocusNode myFocusNode = new FocusNode();
@@ -481,7 +481,7 @@ class _SettingsPageState extends State<SettingPage> {
     print(widget.name);
     print(password.text);
     print(newpass.text);
-    var url = 'https://'+IP4+'/testlocalhost/edit_pass.php';
+    var url = 'http://'+IP4+'/testlocalhost/edit_pass.php';
     var response = await http.post(url, body: {
       "name":widget.name,
       "pass":password.text,
@@ -875,7 +875,7 @@ class _SettingsPageState extends State<SettingPage> {
 
 
   Future updatestate()async{
-    var url='https://'+IP4+'/testlocalhost/updatestate.php';
+    var url='http://'+IP4+'/testlocalhost/updatestate.php';
     var ressponse=await http.post(url,body: {
       "state": isSwitched1.toString(),
       "phoneworker":'+970595320479',

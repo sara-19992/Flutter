@@ -39,7 +39,8 @@ String namefirst="";
 String namelast="";
 String Country="";
 String  token="";
-String IP4="192.168.1.8";
+
+String IP4="192.168.1.8:8080";
 
 class user_reserve_order extends StatefulWidget {
   final phoneuser;
@@ -49,8 +50,9 @@ class user_reserve_order extends StatefulWidget {
   final namefirst;
   final token;
   final image;
+  final index;
   List<dynamic>Lsist_Post;
-  user_reserve_order({this.Lsist_Post,this.token,this.image,this.namefirst,this.namelast,this.country,this.username,this.phoneuser,});
+  user_reserve_order({this.index,this.Lsist_Post,this.token,this.image,this.namefirst,this.namelast,this.country,this.username,this.phoneuser,});
   _user_reserve_order createState() =>  _user_reserve_order();
 }
 class  _user_reserve_order extends State<user_reserve_order> {
@@ -63,14 +65,14 @@ class  _user_reserve_order extends State<user_reserve_order> {
   var ListBlock=["8.00 - 9.00","9.00 - 10.00","","","",];
   var Listsearch=[];
   bool button1=false;
-  bool button2=true;
+  bool button2=false;
   bool button3=false;
   bool button4=false;
   bool step3=false;
 
 
   Future getwarshate()async{
-    var url='https://'+IP4+'/testlocalhost/user_current_warshat.php';
+    var url='http://'+IP4+'/testlocalhost/user_current_warshat.php';
     var ressponse=await http.post(url,body: {
       "phone": widget.phoneuser,
     });
@@ -79,7 +81,7 @@ class  _user_reserve_order extends State<user_reserve_order> {
     return json.decode(ressponse.body);
   }
   Future getMyorder()async{
-    var url='https://'+IP4+'/testlocalhost/user_current_order.php';
+    var url='http://'+IP4+'/testlocalhost/user_current_order.php';
     var ressponse=await http.post(url,body: {
       "username": widget.username,
     });
@@ -87,7 +89,7 @@ class  _user_reserve_order extends State<user_reserve_order> {
     return json.decode(ressponse.body);
   }
   Future getallorders()async{
-    var url='https://'+IP4+'/testlocalhost/user_current_order_not_conferm.php';
+    var url='http://'+IP4+'/testlocalhost/user_current_order_not_conferm.php';
     var ressponse=await http.post(url,body: {
       "username": widget.username,
     });
@@ -95,7 +97,7 @@ class  _user_reserve_order extends State<user_reserve_order> {
     return json.decode(ressponse.body);
   }
   Future get_delete_current()async{
-    var url='https://'+IP4+'/testlocalhost/user_current_delete_order.php';
+    var url='http://'+IP4+'/testlocalhost/user_current_delete_order.php';
     var ressponse=await http.post(url,body: {
       "username": widget.username,
     });
@@ -117,6 +119,9 @@ class  _user_reserve_order extends State<user_reserve_order> {
   @override
   void initState() {
     super.initState();
+    if(widget.index=='0')button2=true;
+    if(widget.index=='1')button3=true;
+    if(widget.index=='2')button4=true;
     getChat();
   }
   int _selectedItem = 1;
@@ -484,11 +489,15 @@ class  _user_reserve_order extends State<user_reserve_order> {
                               var Listslot=snapshot.data;
                               bool dayend=false;
                               DateTime now=DateTime.now();
-                              DateTime date=DateTime.parse(snapshot.data[index]['dateaccept']);
-                              if(date.compareTo(now)<0 && snapshot.data[index]['states']=='notfinished'){
-                                print('ooooooooooops date finished');
-                                dayend=true;
+                              if(snapshot.data[index]['accept']=='yes') {
+                                DateTime date = DateTime.parse(snapshot.data[index]['date']);
+                                if (date.compareTo(now) < 0 && snapshot.data[index]['state'] == 'notfinished') {
+                                  print('ooooooooooops date finished');
+                                  dayend = true;
+                                  return Container(height:0.0);
+                                }
                               }
+
                               bool cancelpermition=true;
                               final birthday = DateTime.parse(snapshot.data[index]['dateaccept']);
                               final date2 = DateTime.now();
@@ -646,20 +655,28 @@ class  _user_reserve_order extends State<user_reserve_order> {
                                   var Listslot=snapshot.data;
                                   bool dayend=false;
                                   DateTime now=DateTime.now();
-                                  DateTime date=DateTime.parse(snapshot.data[index]['dateaccept']);
-                                  if(date.compareTo(now)<0 && snapshot.data[index]['state']=='notfinished'){
-                                    print('ooooooooooops date finished');
-                                    dayend=true;
+                                  if(snapshot.data[index]['accept']=='yes') {
+                                    DateTime date = DateTime.parse(snapshot.data[index]['date']);
+                                    if (date.compareTo(now) < 0 && snapshot.data[index]['state'] == 'notfinished') {
+                                      print('ooooooooooops date finished');
+                                      dayend = true;
+                                    }
                                   }
+
                                   bool cancelpermition=true;
-                                  final birthday = DateTime.parse(snapshot.data[index]['dateaccept']);
-                                  final date2 = DateTime.now();
-                                  final difference = date2.difference(birthday).inHours;
-                                  if(difference>=24){
-                                    cancelpermition=false;
-                                    print('more than 24 hour');
+                                  if(snapshot.data[index]['accept']=='yes'){
+                                    final birthday = DateTime.parse(snapshot.data[index]['dateaccept']);
+                                    final date2 = DateTime.now();
+                                    final difference = date2.difference(birthday).inHours;
+                                    if(difference>=24){
+                                      cancelpermition=false;
+                                      print('more than 24 hour');
+                                    }
                                   }
-                                  if(snapshot.data[index]['state']!='finished'&&snapshot.data[index]['deleteornot']!='yes') {
+                                  if(dayend==true){
+                                    return Container(height:0,);
+                                  }
+                                  else if(snapshot.data[index]['state']!='finished'&&snapshot.data[index]['deleteornot']!='yes') {
                                     return Dismissible(
                                       background: Container(
 
@@ -784,20 +801,27 @@ class  _user_reserve_order extends State<user_reserve_order> {
                               var Listslot=snapshot.data;
                               bool dayend=false;
                               DateTime now=DateTime.now();
-                              DateTime date=DateTime.parse(snapshot.data[index]['dateaccept']);
-                              if(date.compareTo(now)<0 && snapshot.data[index]['state']=='notfinished'){
-                                print('ooooooooooops date finished');
-                                dayend=true;
+                              if(snapshot.data[index]['accept']=='yes') {
+                                DateTime date = DateTime.parse(
+                                    snapshot.data[index]['date']);
+                                if (date.compareTo(now) < 0 &&
+                                    snapshot.data[index]['state'] ==
+                                        'notfinished') {
+                                  print('ooooooooooops date finished');
+                                  dayend = true;
+                                }
                               }
+
                               bool cancelpermition=true;
+                              if(snapshot.data[index]['accept']=='yes'){
                               final birthday = DateTime.parse(snapshot.data[index]['dateaccept']);
                               final date2 = DateTime.now();
                               final difference = date2.difference(birthday).inHours;
                               if(difference>=24){
                                 cancelpermition=false;
                                 print('more than 24 hour');
-                              }
-                              if(snapshot.data[index]['state']=='finished'||snapshot.data[index]['deleteornot']=='yes') {
+                              }}
+                              if(snapshot.data[index]['state']=='finished'||dayend ==true|| snapshot.data[index]['deleteornot']=='yes') {
                                 return Dismissible(
                                   background: Container(
 
@@ -832,7 +856,7 @@ class  _user_reserve_order extends State<user_reserve_order> {
                                   key: ObjectKey(snapshot.data[index]),
                                   child: Container(
                                     margin: EdgeInsets.only(right: 20,left:20,bottom: 20,),
-                                    child:end_order(start:snapshot.data[index]['start'], accept:snapshot.data[index]['accept'], deleteornot:snapshot.data[index]['deleteornot'],workername:snapshot.data[index]['name'],token:snapshot.data[index]['token'],country:snapshot.data[index]['country'],cancelpermition:cancelpermition,dayend:dayend,Rate:snapshot.data[index]['Rate'],username:widget.username,ststes:snapshot.data[index]['state'],id:snapshot.data[index]['id'],timeaccept:snapshot.data[index]['timeaccept'],timesend:snapshot.data[index]['timesend'],dateaccept:snapshot.data[index]['dateaccept'],datesend:snapshot.data[index]['datesend'],description:snapshot.data[index]['description'],phone:snapshot.data[index]['phoneuser'],phoneworker:snapshot.data[index]['phone'],work:snapshot.data[index]['Work'],image:snapshot.data[index]['image'],namefirst:snapshot.data[index]['namefirst'],namelast:snapshot.data[index]['namelast'],date:snapshot.data[index]['date'],timestart:snapshot.data[index]['timestart'] ,timeend:['timeend'],),
+                                    child:end_order(Lsit_Post:widget.Lsist_Post,imageuser:widget.image,token:widget.image,index:'2',namelastuser:widget.namelast,namefirstuser:widget.namelast,start:snapshot.data[index]['start'], accept:snapshot.data[index]['accept'], deleteornot:snapshot.data[index]['deleteornot'],workername:snapshot.data[index]['name'],workertoken:snapshot.data[index]['token'],country:snapshot.data[index]['country'],cancelpermition:cancelpermition,dayend:dayend,Rate:snapshot.data[index]['Rate'],username:widget.username,ststes:snapshot.data[index]['state'],id:snapshot.data[index]['id'],timeaccept:snapshot.data[index]['timeaccept'],timesend:snapshot.data[index]['timesend'],dateaccept:snapshot.data[index]['dateaccept'],datesend:snapshot.data[index]['datesend'],description:snapshot.data[index]['description'],phone:snapshot.data[index]['phoneuser'],phoneworker:snapshot.data[index]['phone'],work:snapshot.data[index]['Work'],image:snapshot.data[index]['image'],namefirst:snapshot.data[index]['namefirst'],namelast:snapshot.data[index]['namelast'],date:snapshot.data[index]['date'],timestart:snapshot.data[index]['timestart'] ,timeend:['timeend'],),
 
                                   ),
                                   onDismissed: (direction) {
@@ -1200,7 +1224,7 @@ class _warshat extends State<warshat> {
                             GestureDetector(
                               onTap: (){
                                 print(widget.username);
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => Rate(phoneuser: widget.phone,phoneworker: widget.phoneworker,id: widget.id,username: widget.username,),),);
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Rate(index:widget.index,namelast:widget.namelast,phoneuser: widget.phone,phoneworker: widget.phoneworker,id: widget.id,username: widget.username,),),);
                               },
                               child:Container(
                                 width: 105,
@@ -1392,7 +1416,7 @@ class _warshat extends State<warshat> {
     );
   }
   Future delete (final id)async{
-    var url = 'https://'+IP4+'/testlocalhost/deleteorder.php';
+    var url = 'http://'+IP4+'/testlocalhost/deleteorder.php';
     var response = await http.post(url, body: {
       "id":id,
     });
@@ -1403,7 +1427,7 @@ class _warshat extends State<warshat> {
     });
   }
   Future accept (final id)async{
-    var url = 'https://'+IP4+'/testlocalhost/acceptorder.php';
+    var url = 'http://'+IP4+'/testlocalhost/acceptorder.php';
     var response = await http.post(url, body: {
       "id":id,
     });
@@ -1479,7 +1503,7 @@ class _delete_order extends State<delete_order> {
           Navigator.push(context, MaterialPageRoute(builder: (context) => not_conferm_user_statues(name:widget.name,country:widget.country,name_Me:widget.username,id:widget.id,AVG:widget.AVG,work:widget.work,timesend:widget.timesend,datesend:widget.datesend,date:widget.date,time:timestart+"-"+timeend,phoneworker:widget.phoneworker,description:widget.description,namefirst: widget.namefirst,namelast: widget.namelast,phoneuser: widget.phone,image: widget.image,),),);
         }
 
-        if(widget.ststes=='notfinished'&& widget.accept=='yes'&&widget.start=='no'&&widget.deleteornot=='no'){
+        if(widget.ststes=='notfinished'&& widget.accept=='yes'&&widget.start=='no'&&widget.deleteornot=='no'&&widget.dayend==false){
           Navigator.push(context, MaterialPageRoute(builder: (context) => current_user_statues(name:widget.name,cancelpermition:widget.cancelpermition,country:widget.country,name_Me:widget.username,id:widget.id,work:widget.work,date:widget.date,time:timestart+"-"+timeend,phoneworker:widget.phoneworker,description:widget.description,namefirst: widget.namefirst,namelast: widget.namelast,phoneuser: widget.phone,image: widget.image,),),);
         }
 
@@ -1923,7 +1947,7 @@ class _delete_order extends State<delete_order> {
     );
   }
   Future delete (final id)async{
-    var url = 'https://'+IP4+'/testlocalhost/deleteorder.php';
+    var url = 'http://'+IP4+'/testlocalhost/deleteorder.php';
     var response = await http.post(url, body: {
       "id":id,
     });
@@ -1934,7 +1958,7 @@ class _delete_order extends State<delete_order> {
     });
   }
   Future accept (final id)async{
-    var url = 'https://'+IP4+'/testlocalhost/acceptorder.php';
+    var url = 'http://'+IP4+'/testlocalhost/acceptorder.php';
     var response = await http.post(url, body: {
       "id":id,
     });
@@ -1946,6 +1970,12 @@ class _delete_order extends State<delete_order> {
 
 
 class end_order  extends StatefulWidget {
+  final namefirstuser;
+  final namelastuser;
+  final token;
+  final index;
+  final countryuser;
+  final imageuser;
   final workername;
   final date;
   final timeend;
@@ -1969,7 +1999,6 @@ class end_order  extends StatefulWidget {
   final timeaccept;
   final datecancel;
   final timecancel;
-  final  token;
   final workertoken;
   final ststes;
   final Rate;
@@ -1978,8 +2007,9 @@ class end_order  extends StatefulWidget {
   final start;
   final deleteornot;
   final accept;
+  List<dynamic>Lsit_Post;
   //
-  end_order({this.start,this.deleteornot,this.accept,this.workername,this.cancelpermition,this.dayend,this.Rate,this.ststes,this.datecancel,this.timecancel,this.AVG,this.token,this.workertoken,this.timeaccept,this.dateaccept,this.datesend,this.timesend,this.description,this.id,this.country,this.phoneworker,this.work,this.image,this.namefirst,this.namelast,this.username,this.date, this.timeend, this.timestart, this.Am_Pm,this.phone, this.time});
+  end_order({this.Lsit_Post,this.index,this.countryuser,this.namefirstuser,this.namelastuser,this.token,this.imageuser,this.start,this.deleteornot,this.accept,this.workername,this.cancelpermition,this.dayend,this.Rate,this.ststes,this.datecancel,this.timecancel,this.AVG,this.workertoken,this.timeaccept,this.dateaccept,this.datesend,this.timesend,this.description,this.id,this.country,this.phoneworker,this.work,this.image,this.namefirst,this.namelast,this.username,this.date, this.timeend, this.timestart, this.Am_Pm,this.phone, this.time});
 
   @override
   _end_order createState() => _end_order();
@@ -2009,6 +2039,9 @@ class _end_order extends State<end_order> {
         }
         else if(widget.ststes=='notfinished'&&widget.accept=='yes'&&widget.deleteornot=='yes'&&widget.start=='no'){
           Navigator.push(context, MaterialPageRoute(builder: (context) => delete_user_statues2(name:widget.username,id:widget.id,country:widget.country,work:widget.work,date:widget.date,time:timestart+"-"+timeend,phoneworker:widget.phoneworker,description:widget.description,namefirst: widget.namefirst,namelast: widget.namelast,phoneuser: widget.phone,image: widget.image,),),);
+        }
+        else if(widget.ststes=='notfinished'&&widget.accept=='yes'&&widget.deleteornot=='no'&&widget.dayend==true){
+          Navigator.push(context, MaterialPageRoute(builder: (context) => daycancel_user_statues(name_Me:widget.username,id:widget.id,country:widget.country,work:widget.work,date:widget.date,time:timestart+"-"+timeend,phoneworker:widget.phoneworker,description:widget.description,namefirst: widget.namefirst,namelast: widget.namelast,phoneuser: widget.phone,image: widget.image,),),);
         }
       },
 
@@ -2179,37 +2212,6 @@ class _end_order extends State<end_order> {
                   ],
                 ),
               ):Container(),
-              widget.ststes=='notfinished'&&widget.accept=='yes'&&widget.start=='no'&&widget.deleteornot=='no'?
-              Container(
-                margin: EdgeInsets.only(top: 10,),
-                child:Column(
-                  children: [
-                    Container(
-                      width: 90,
-                      alignment: Alignment.topLeft,
-                      child:CircularPercentIndicator(
-                        radius: 45.0,
-                        lineWidth: 4.0,
-                        percent: 0.5,
-                        center: new Text("50%"),
-                        progressColor: Colors.green,
-                      ),
-                    ),
-                    SizedBox(height: 20,),
-                    Container(
-                      width: 100,
-                      alignment: Alignment.topLeft,
-                      margin: EdgeInsets.only(top: 0,right: 20),
-                      child: Text('موافق عليه', style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black54,
-                        fontFamily: 'Changa',
-                      ),),
-                    ),
-                  ],
-                ),
-              ):Container(),
               widget.ststes=='notfinished'&&widget.accept=='yes'&&widget.start=='no'&&widget.deleteornot=='yes'?
               Container(
                 margin: EdgeInsets.only(top: 10,),
@@ -2237,6 +2239,71 @@ class _end_order extends State<end_order> {
                         color: Colors.black54,
                         fontFamily: 'Changa',
                       ),),
+                    ),
+                  ],
+                ),
+              ):Container(),
+              widget.ststes=='notfinished'&&widget.accept=='yes'&&widget.start=='no'&&widget.deleteornot=='no'&&widget.dayend==true?
+              Container(
+                margin: EdgeInsets.only(top: 10,),
+                child:Column(
+                  children: [
+                    Container(
+                      width: 90,
+                      alignment: Alignment.topLeft,
+                      child:CircularPercentIndicator(
+                        radius: 45.0,
+                        lineWidth: 4.0,
+                        percent: 0.5,
+                        center: new Text("50%"),
+                        progressColor: Colors.red,
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                    Container(
+                      width: 100,
+                      alignment: Alignment.topLeft,
+                      margin: EdgeInsets.only(top: 0,right: 20),
+                      child:Row(
+                        children: [
+                          widget.Rate=='yes'?GestureDetector(
+                            onTap: (){
+                              // print(widget.username);
+                              // Navigator.push(context, MaterialPageRoute(builder: (context) => Rate(phoneuser: widget.phone,phoneworker: widget.phoneworker,id: widget.id,username: widget.username,),),);
+                            },
+                            child:Container(
+                              width: 100,
+                              alignment: Alignment.topLeft,
+                              child:Row(
+                                children: [
+                                  Text('          التقييم', style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black54,
+                                    fontFamily: 'Changa',
+                                  ),),
+                                  Icon(Icons.check,color:Colors.black54,size:25,),
+                                ],
+                              ),
+                            ),
+                          ):GestureDetector(
+                            onTap: (){
+                              print(widget.username);
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Rate(List_Post:widget.Lsit_Post,index:'2',namelast:widget.namelastuser,namefirst:widget.namefirstuser,token:widget.token,image:widget.imageuser,phoneuser: widget.phone,phoneworker: widget.phoneworker,id: widget.id,username: widget.username,),),);
+                            },
+                            child:Container(
+                              width: 100,
+                              alignment: Alignment.topLeft,
+                              child:Text('تقييم        ', style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black54,
+                                fontFamily: 'Changa',
+                              ),),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ],
                 ),
@@ -2295,15 +2362,35 @@ class _end_order extends State<end_order> {
                       margin: EdgeInsets.only(top: 0,right: 20),
                       child:Row(
                         children: [
-                          GestureDetector(
+                          widget.Rate=='yes'?GestureDetector(
                             onTap: (){
-                              print(widget.username);
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Rate(phoneuser: widget.phone,phoneworker: widget.phoneworker,id: widget.id,username: widget.username,),),);
+                              // print(widget.username);
+                              // Navigator.push(context, MaterialPageRoute(builder: (context) => Rate(phoneuser: widget.phone,phoneworker: widget.phoneworker,id: widget.id,username: widget.username,),),);
                             },
                             child:Container(
                               width: 100,
                               alignment: Alignment.topLeft,
-                              child:Text('تقييم       ', style: TextStyle(
+                              child:Row(
+                                children: [
+                                  Text('          التقييم', style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                    color: Colors.black54,
+                                    fontFamily: 'Changa',
+                                  ),),
+                                  Icon(Icons.check,color:Colors.black54,size:25,),
+                                ],
+                              ),
+                            ),
+                          ):GestureDetector(
+                            onTap: (){
+                              print(widget.username);
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Rate(List_Post:widget.Lsit_Post,index:'2',namelast:widget.namelastuser,namefirst:widget.namefirstuser,token:widget.token,image:widget.imageuser,phoneuser: widget.phone,phoneworker: widget.phoneworker,id: widget.id,username: widget.username,),),);
+                            },
+                            child:Container(
+                              width: 100,
+                              alignment: Alignment.topLeft,
+                              child:Text('تقييم        ', style: TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black54,
@@ -2431,7 +2518,7 @@ class _end_order extends State<end_order> {
     );
   }
   Future delete (final id)async{
-    var url = 'https://'+IP4+'/testlocalhost/deleteorder.php';
+    var url = 'http://'+IP4+'/testlocalhost/deleteorder.php';
     var response = await http.post(url, body: {
       "id":id,
     });
@@ -2442,7 +2529,7 @@ class _end_order extends State<end_order> {
     });
   }
   Future accept (final id)async{
-    var url = 'https://'+IP4+'/testlocalhost/acceptorder.php';
+    var url = 'http://'+IP4+'/testlocalhost/acceptorder.php';
     var response = await http.post(url, body: {
       "id":id,
     });

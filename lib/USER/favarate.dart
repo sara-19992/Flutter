@@ -30,7 +30,7 @@ String namefirst="";
 String namelast="";
 String Country="";
 String  token="";
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class favarate extends StatefulWidget {
   final phoneuser;
@@ -59,7 +59,7 @@ class  _favarate extends State<favarate> {
   bool step3=false;
 
   Future getMyfaverate()async{
-    var url='https://'+IP4+'/testlocalhost/faverate.php';
+    var url='http://'+IP4+'/testlocalhost/faverate.php';
     var ressponse=await http.post(url,body: {
       "phoneuser": widget.phoneuser,
     });
@@ -229,7 +229,7 @@ class  _favarate extends State<favarate> {
                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => U_PROFILE(name_Me: widget.username,Lsist_Post:widget.Lsist_Post,)));
                 }
                 if(_selectedItem==1){
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(Lsist_Post:widget.Lsist_Post,username: widget.username,phoneuser: widget.phoneuser,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(index:'0',Lsist_Post:widget.Lsist_Post,username: widget.username,phoneuser: widget.phoneuser,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
                 }
                 if(_selectedItem==2){
                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Chat(Lsist_Post:widget.Lsist_Post,name_Me:widget.username,chatsRoomList: chatsRoom,phone:widget.phoneuser,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
@@ -249,31 +249,37 @@ class  _favarate extends State<favarate> {
                 // crossAxisAlignment: CrossAxisAlignment.stretch,
                 // mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                    width: 300,
-                      height: 60,
-                      margin: EdgeInsets.only(top:70,right: 10),
-                      // transform: Matrix4.translationValues(0, -120.0, 0),
-                      child:Row(
-                        children: [
-                          SizedBox(width: 150,),
-                          Text('مفضلتي',
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black,
-                              fontFamily: 'vibes',
-                              //fontStyle: FontStyle.italic,
-                            ),),
-                          Icon(Icons.favorite_border,size: 25,color: Colors.red,),
-                        ],
-                      ),
-                  ),
+                  // Container(
+                  //   width: 500,
+                  //   height: 110,
+                  //   color: Colors.white,
+                  //   child:  Container(
+                  //     width: 300,
+                  //     height: 60,
+                  //     margin: EdgeInsets.only(top:60,right: 10),
+                  //     // transform: Matrix4.translationValues(0, -120.0, 0),
+                  //     child:Row(
+                  //       children: [
+                  //          SizedBox(width: 20,),
+                  //         Text('مفضلتي',
+                  //           style: TextStyle(
+                  //             fontSize: 18,
+                  //             fontWeight: FontWeight.bold,
+                  //             color: Colors.black,
+                  //             fontFamily: 'Changa',
+                  //             //fontStyle: FontStyle.italic,
+                  //           ),),
+                  //         Icon(Icons.favorite_border,size: 21,color: Colors.black,),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+
                  Container(
                     height: 700,
                     width: 500,
                     // color:  Color(0xFFF3D657),
-                    margin: EdgeInsets.only(top:110),
+                    margin: EdgeInsets.only(top:50),
                     //padding:EdgeInsets.only(right:25,left: 25),
                     decoration: BoxDecoration(
                       // color:Color(0xFF1C1C1C),
@@ -368,7 +374,7 @@ class _f extends State<f> {
                 Container(
                   margin: EdgeInsets.only(top: 5, right: 5),
                   child: CircleAvatar(backgroundImage: NetworkImage(
-                      'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+                      'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
                     radius: 30.0,),),
                 Container(
                   child: Column(
@@ -403,7 +409,7 @@ class _f extends State<f> {
                GestureDetector(
                  onTap: ()async{
                    await delete_faverate();
-                    Fluttertoast.showToast(msg: " تم الحذف من مفضلتك  ",fontSize: 16,textColor:Colors.black87,backgroundColor: Colors.transparent);
+                    Fluttertoast.showToast(timeInSecForIos:10,msg: " تم الحذف من مفضلتك  ",fontSize: 16,textColor:Colors.black87,);
                    //_showSnackBar(context, 'تمت الإزالة من قائمة المفضلة لديك');
                    Navigator.push(context, MaterialPageRoute(builder: (context) => favarate(phoneuser:widget.phoneuser,username:widget.username,namelast:widget.usernamelast,image:widget.userimage,token:widget.usertoken,namefirst:widget.usernamefirst),),);
                  },
@@ -429,7 +435,7 @@ class _f extends State<f> {
     DateTime date=DateTime.now();
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
     var formattedTime = DateFormat('HH:mm:ss').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/delete_faverate.php';
+    var url = 'http://' + IP4 + '/testlocalhost/delete_faverate.php';
     var ressponse = await http.post(url, body: {
       "phoneuser":widget.phoneuser,
       "phoneworker":widget.phone,

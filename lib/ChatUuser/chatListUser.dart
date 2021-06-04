@@ -17,7 +17,7 @@ import 'Conversation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class Chat extends StatefulWidget{
   final name_Me;
@@ -49,22 +49,27 @@ class  _Chat extends State<Chat> {
   Widget ChatsRoomList(){
     return Column(
       children:[
-        Container(
-          height: 170,
-          width: 500,
-          decoration: BoxDecoration(
-            color: Colors.black87.withOpacity(0.9),
-            image: new DecorationImage(
-              fit: BoxFit.cover,
-              colorFilter:
-              ColorFilter.mode(Colors.black87.withOpacity(0.4),
-                  BlendMode.dstATop),
-              image: new AssetImage('assets/work/cvtop.jpg',),
-            ),),),
+        // Container(
+        //   height: 170,
+        //   width: 500,
+        //   decoration: BoxDecoration(
+        //     color: Colors.black87.withOpacity(0.9),
+        //     image: new DecorationImage(
+        //       fit: BoxFit.cover,
+        //       colorFilter:
+        //       ColorFilter.mode(Colors.black87.withOpacity(0.4),
+        //           BlendMode.dstATop),
+        //       image: new AssetImage('assets/work/cvtop.jpg',),
+        //     ),),),
+       // Container(
+       //   width: 500,
+       //   height: 110,
+       //   color: Y,
+       // ),
         Container(
           height: 500,
-          margin: EdgeInsets.only(top: 0),
-          transform: Matrix4.translationValues(0.0, -60, 0.0),
+          margin: EdgeInsets.only(top: 30),
+          transform: Matrix4.translationValues(0.0, 0, 0.0),
           child:StreamBuilder(stream: widget.chatsRoomList,
               builder: (context,snapshot){
                 return snapshot.hasData?ListView.builder(
@@ -215,7 +220,7 @@ class  _Chat extends State<Chat> {
               Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => U_PROFILE(name_Me: widget.name_Me,Lsist_Post:widget.Lsist_Post,)));
             }
             if(_selectedItem==1){
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(Lsist_Post:widget.Lsist_Post,username: widget.name_Me,phoneuser: widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(index:'0',Lsist_Post:widget.Lsist_Post,username: widget.name_Me,phoneuser: widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
             }
             if(_selectedItem==2){
               Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Chat(Lsist_Post:widget.Lsist_Post,name_Me:widget.name_Me,chatsRoomList: chatsRoom,phone:widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
@@ -275,7 +280,7 @@ class ChatRooTile extends StatefulWidget {
 class  _ChatRooTile extends State<ChatRooTile> {
 
   Future getWorker()async{
-    var url='https://'+IP4+'/testlocalhost/getworker.php';
+    var url='http://'+IP4+'/testlocalhost/getworker.php';
     var ressponse=await http.post(url,body: {
       "name": widget.name,
     });
@@ -283,7 +288,7 @@ class  _ChatRooTile extends State<ChatRooTile> {
     return json.decode(ressponse.body);
   }
   Future getUser() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getUser.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getUser.php';
     var ressponse = await http.post(url, body: {
       "name": widget.name,
     });
@@ -379,7 +384,7 @@ class  _ChatBlock extends State<ChatBlock> {
         Container(
           margin: EdgeInsets.only(top: 5,bottom: 5,right: 30),
           child:CircleAvatar(backgroundImage: NetworkImage(
-              'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+              'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
             radius: 25.0,),
         ),
         Container(

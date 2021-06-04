@@ -7,7 +7,7 @@ import 'dart:io';
 import 'dart:convert';
 
 import '../constants.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 FocusNode myFocusNode = new FocusNode();
 bool Pass_Null=true;
 bool Pass_R=true;
@@ -33,14 +33,14 @@ class getMyComment extends StatefulWidget{
 class _getMyComment extends State<getMyComment> {
   @override
   Future getcom() async {
-    var url = 'https://'+IP4+'/testlocalhost/getmycommint.php';
+    var url = 'http://'+IP4+'/testlocalhost/allcomment.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
     return json.decode(ressponse.body);
   }
   Future getRate(String phone) async {
-    var url = 'https://'+IP4+'/testlocalhost/getRate.php';
+    var url = 'http://'+IP4+'/testlocalhost/getRate.php';
     var ressponse = await http.post(url, body: {
       "phone": phone,
       "workerphone":widget.phone,
@@ -60,11 +60,11 @@ class _getMyComment extends State<getMyComment> {
                 backgroundColor: Colors.transparent,
                 body:Container(
                   height: 800,
-                  color: Colors.grey[50],
+                  color: Colors.white,
                   child: Stack(
                     children:[
                       Container(
-                        margin: EdgeInsets.only(top: 70,left: 350,right: 10),
+                        margin: EdgeInsets.only(top: 60,left: 350,right: 10),
                         child:GestureDetector(
                           onTap: (){
                             Navigator.pop(context);
@@ -76,7 +76,7 @@ class _getMyComment extends State<getMyComment> {
 
                       Container(
                         height: 705,
-                        color: Colors.grey[50],
+                        color: Colors.white,
                         margin: EdgeInsets.only(top: 90),
                         child: Container(
                           child:FutureBuilder(
@@ -98,7 +98,7 @@ class _getMyComment extends State<getMyComment> {
                                 return ListView.builder(
                                   itemCount:snapshot.data.length,
                                   itemBuilder: (context, index) {
-                                    return Rate(snapshot.data[index]['phone'],snapshot.data[index]['namefirst'],snapshot.data[index]['namelast'],snapshot.data[index]['image'],snapshot.data[index]['comment']);
+                                    return Com(snapshot.data[index]['namefirst'],snapshot.data[index]['namelast'],snapshot.data[index]['image'],snapshot.data[index]['comment'],snapshot.data[index]['Rate']);
                                   },
                                 );
                               }
@@ -107,36 +107,36 @@ class _getMyComment extends State<getMyComment> {
                           ),
                         ),
                       ),
-                      GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => getMyComment(phone: widget.phone,name:widget.name,)));
-                        },
-                        child:Container(
-                          height: 55,
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.only(top:720,right: 21),
-                          //color:Y,
-                          width:370,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Y,
-                              style: BorderStyle.solid,
-                              width: 1.0,
-                            ),
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          // margin: EdgeInsets.only(left: 8,right: 15),
-                          child: Text("إضافة تعليق",
-                            style: TextStyle(
-                              color: Y,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.0,
-                              fontFamily: 'Changa',
-                            ),
-                          ),
-                        ),
-                      ),
+                      // GestureDetector(
+                      //   onTap: (){
+                      //     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => getMyComment(phone: widget.phone,name:widget.name,)));
+                      //   },
+                      //   child:Container(
+                      //     height: 55,
+                      //     alignment: Alignment.center,
+                      //     margin: EdgeInsets.only(top:720,right: 21),
+                      //     //color:Y,
+                      //     width:370,
+                      //     decoration: BoxDecoration(
+                      //       border: Border.all(
+                      //         color: Y,
+                      //         style: BorderStyle.solid,
+                      //         width: 1.0,
+                      //       ),
+                      //       color: Colors.transparent,
+                      //       borderRadius: BorderRadius.circular(10.0),
+                      //     ),
+                      //     // margin: EdgeInsets.only(left: 8,right: 15),
+                      //     child: Text("إضافة تعليق",
+                      //       style: TextStyle(
+                      //         color: Y,
+                      //         fontWeight: FontWeight.bold,
+                      //         fontSize: 15.0,
+                      //         fontFamily: 'Changa',
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],),
 
                 ),),],),);
@@ -203,7 +203,7 @@ class _getMyComment extends State<getMyComment> {
           Container(
             margin: EdgeInsets.only(top: 5,bottom: 5,right: 10),
             child:CircleAvatar(backgroundImage: NetworkImage(
-                'https://' + IP4 + '/testlocalhost/upload/' + image),
+                'http://' + IP4 + '/testlocalhost/upload/' + image),
               radius: 30.0,),
           ),
           Container(

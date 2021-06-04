@@ -6,10 +6,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lite_rolling_switch/lite_rolling_switch.dart';
+import 'package:multi_select_flutter/bottom_sheet/multi_select_bottom_sheet.dart';
+import 'package:multi_select_flutter/chip_field/multi_select_chip_field.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
 import '../constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
+import 'df.dart';
 import 'getComment.dart';
 import '../database.dart';
 import 'GET_IMGS.dart';
@@ -22,7 +26,7 @@ import 'odersperson_day.dart';
 import 'orders_workers.dart';
 import 'package:flutterphone/Chatworker/chatListworker.dart';
 import 'package:flutterphone/Chatworker/Conversation.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 //import 'edit_profile.dart';
 //import 'changePassword.dart';
 FocusNode myFocusNode = new FocusNode();
@@ -70,6 +74,90 @@ class _MenuePage extends State<MenuePage> {
   TextEditingController newpass = TextEditingController();
   TextEditingController confirmpass = TextEditingController();
   bool showPassword = false;
+  Future<void> _showMyDialogo1( ) async {
+    return showDialog<void>(
+      context: context,
+      builder: (context) {
+        String contentText = "Content of Dialog";
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              actions: <Widget>[
+                SizedBox(height:10,),
+                Container(
+                  margin: EdgeInsets.only(left: 260),
+                  alignment: Alignment.topRight,
+                  child: Row(
+                    children: [
+                      Text('ورشاتك',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: Y,
+                          fontFamily: 'Changa',
+                        ),),
+                    ],
+                  ),
+                ),
+                Container(
+                  transform: Matrix4.translationValues(0.0, -30.0, 0.0),
+                  child:MultiSelectChipField(
+                    items: _items,
+                    initialValue: [_animals[1], _animals[3], _animals[5]],
+                    title: Text(""),
+                    headerColor: Colors.transparent,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.transparent, width: 1.8),
+                    ),
+                    selectedChipColor: Y,
+                    selectedTextStyle: TextStyle(color: Colors.black, fontFamily: 'Changa', fontSize: 13,),
+                    onTap: (values) {
+                      //_selectedAnimals4 = values;
+                    },
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async{
+                   Navigator.pop(context);
+                    // await _showDialog();
+                  },
+                  child: Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Row(
+                      children: [
+                        Text('حسنا',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Y,
+                            fontFamily: 'Changa',
+                          ),),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+  static List<Animal> _animals = [
+    Animal(id: 1, name: "ورشة تصميم مطبخ"),
+    Animal(id: 2, name: "ورشة تفصيل أبواب"),
+    Animal(id: 3, name: "ورشة تقصيل خزانة"),
+    Animal(id: 4, name: "Horse"),
+    Animal(id: 5, name: "Tiger"),
+    Animal(id: 6, name: "Penguin"),
+    Animal(id: 7, name: "Spider"),
+    Animal(id: 8, name: "Snake"),
+    Animal(id: 9, name: "Bear"),
+    Animal(id: 10, name: "Beaver"),
+  ];
+  final _items = _animals
+      .map((animal) => MultiSelectItem<Animal>(animal, animal.name))
+      .toList();
   PickedFile image_file;
   File _file;
   final ImagePicker image_picker =ImagePicker();
@@ -112,6 +200,8 @@ class _MenuePage extends State<MenuePage> {
   final formKey = new GlobalKey<FormState>();
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Widget build(BuildContext context) {
+    print("Menueeeeeeeeeeeeee");
+    print(widget.image);
     return  Directionality(textDirection: TextDirection.rtl,
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -263,7 +353,7 @@ class _MenuePage extends State<MenuePage> {
                     //   margin: EdgeInsets.only(top:100),
                     //   child: Center(
                     //     child: CircleAvatar(backgroundImage: NetworkImage(
-                    //         'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+                    //         'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
                     //       radius: 45.0,),),
                     // ),
                     Container(
@@ -339,6 +429,36 @@ class _MenuePage extends State<MenuePage> {
       ),
     );
   }
+  GestureDetector warshat(BuildContext context, String title) {
+    return GestureDetector(
+      onTap: () async{
+        await _showMyDialogo1();
+      },
+
+      child: Padding(
+        padding: const EdgeInsets.only(left: 295,right: 30,top: 10,bottom: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Icon(
+              Icons.list_alt,
+              color: Colors.grey,
+              size: 24,
+            ),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                color: Colors.grey[600],
+                fontFamily: 'Changa',
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
   GestureDetector Post_Me(BuildContext context, String title) {
     return GestureDetector(
       onTap: () {
@@ -346,7 +466,7 @@ class _MenuePage extends State<MenuePage> {
       },
 
       child: Padding(
-        padding: const EdgeInsets.only(left: 275,right: 30,top: 10,bottom: 5),
+        padding: const EdgeInsets.only(left: 300,right: 30,top: 10,bottom: 5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -702,7 +822,7 @@ class _MenuePage extends State<MenuePage> {
     print(widget.name);
     print(password.text);
     print(newpass.text);
-    var url = 'https://'+IP4+'/testlocalhost/edit_pass.php';
+    var url = 'http://'+IP4+'/testlocalhost/edit_pass.php';
     var response = await http.post(url, body: {
       "name":widget.name,
       "pass":password.text,
@@ -1098,7 +1218,7 @@ class _MenuePage extends State<MenuePage> {
     return Center(
       child:Stack (children: <Widget>[
         CircleAvatar(
-          backgroundImage: image_file==null? NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.image):FileImage(File(image_file.path)),
+          backgroundImage: image_file==null? NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.image):FileImage(File(image_file.path)),
           radius: 35.0,
         ),
         Positioned(
@@ -1152,7 +1272,7 @@ class _MenuePage extends State<MenuePage> {
     }
   }
   Future updatestate()async{
-    var url='https://'+IP4+'/testlocalhost/updatestate.php';
+    var url='http://'+IP4+'/testlocalhost/updatestate.php';
     var ressponse=await http.post(url,body: {
       "state": isSwitched1.toString(),
       "phoneworker":widget.phone,
@@ -1164,7 +1284,7 @@ class _MenuePage extends State<MenuePage> {
     _file = File(image_file.path);
     String base64 = base64Encode(_file.readAsBytesSync());
     String imagename = _file.path.split('/').last;
-    var url = 'https://' + IP4 + '/testlocalhost/editimage.php';
+    var url = 'http://' + IP4 + '/testlocalhost/editimage.php';
     var response = await http.post(url, body: {
       "phone":widget.phone,
       "imagename": imagename,
@@ -1241,4 +1361,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
       ),
     );
   }
+
+
 }

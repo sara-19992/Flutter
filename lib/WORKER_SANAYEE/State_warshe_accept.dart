@@ -35,7 +35,8 @@ String namefirst="";
 String namelast="";
 String Country="";
 String  token="";
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
+
 
 class State_warshe_accept extends StatefulWidget {
   final country;
@@ -441,7 +442,7 @@ class  _State_warshe_accept extends State<State_warshe_accept> {
                   //           children: [
                   //             Container(
                   //               margin: EdgeInsets.only(top:10,right: 0),
-                  //               child:CircleAvatar(backgroundImage: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.image),radius: 20.0,),),
+                  //               child:CircleAvatar(backgroundImage: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.image),radius: 20.0,),),
                   //             Container(
                   //               height: 30,
                   //               margin: EdgeInsets.only(top:5,right: 10),
@@ -609,7 +610,7 @@ class  _State_warshe_accept extends State<State_warshe_accept> {
                   //         decoration: BoxDecoration(
                   //           color:Colors.white,
                   //           borderRadius: BorderRadius.circular(5),
-                  //           image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.orderimage),
+                  //           image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.orderimage),
                   //             fit: BoxFit.cover,
                   //           ),
                   //         ),
@@ -1107,7 +1108,7 @@ class  _accept extends State<accept> {
                   children: [
                     Container(
                       margin: EdgeInsets.only(top:10,right: 0),
-                      child:CircleAvatar(backgroundImage: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.image),radius: 20.0,),),
+                      child:CircleAvatar(backgroundImage: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.image),radius: 20.0,),),
                     Container(
                       height: 30,
                       margin: EdgeInsets.only(top:15,right: 10),
@@ -1220,7 +1221,7 @@ class  _accept extends State<accept> {
                 decoration: BoxDecoration(
                   color:Colors.white,
                   borderRadius: BorderRadius.circular(5),
-                  image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.orderimage),
+                  image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.orderimage),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -1701,7 +1702,7 @@ class _delete_order extends State<delete_order> {
     print(widget.id);
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
     var formattedTime = DateFormat('HH:mm:ss').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/delete_warsha.php';
+    var url = 'http://' + IP4 + '/testlocalhost/delete_warsha.php';
     var ressponse = await http.post(url, body: {
       "id": widget.id,
     });

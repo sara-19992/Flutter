@@ -10,22 +10,30 @@ import 'dart:convert';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../Map.dart';
 import 'WORKER_PROFILE.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 DateTime date=DateTime.now();
 class Rate extends StatefulWidget {
   final phoneuser;
   final username;
+  final country;
+  final namelast;
+  final namefirst;
+  final token;
+  final image;
+  final index;
   final phoneworker;
   final id;
-  Rate({this.phoneuser,this.phoneworker,this.id,this.username});
+  List<dynamic>List_Post;
+  Rate({this.List_Post,this.index,this.namefirst,this.namelast,this.country,this.token,this.image,this.phoneuser,this.phoneworker,this.id,this.username});
   @override
   _Body createState() => _Body();
 }
 
 class _Body extends State<Rate> {
   @override
+  TextEditingController comment = TextEditingController();
   Future rate()async{
-    var url='https://'+IP4+'/testlocalhost/Rate.php';
+    var url='http://'+IP4+'/testlocalhost/Rate.php';
     var ressponse = await http.post(url, body: {
       "phoneworker":widget.phoneworker,
       "phoneuser": widget.phoneuser,
@@ -38,6 +46,20 @@ class _Body extends State<Rate> {
       "total":((_rating1+_rating2+_rating3+_rating4+_rating5+(value+1))/6.0).toString(),
       "date":date.toString(),
       "id":widget.id,
+      // "comment":comment.text,
+    });
+    // ignore: deprecated_member_use
+    // return json.decode(ressponse.body);
+  }
+  Future Comment()async{
+    var url='http://'+IP4+'/testlocalhost/addcomment.php';
+    var ressponse = await http.post(url, body: {
+      "phoneworker":widget.phoneworker,
+      "phoneuser": widget.phoneuser,
+      "text":comment.text,
+      "id":widget.id,
+      "Rate":((_rating1+_rating2+_rating3+_rating4+_rating5+(value+1))/6.0).toString(),
+      // "comment":comment.text,
     });
     // ignore: deprecated_member_use
     return json.decode(ressponse.body);
@@ -70,57 +92,78 @@ class _Body extends State<Rate> {
       textDirection: ui.TextDirection.rtl,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor:Colors.white,
-          leading:   IconButton(icon: Icon(Icons.arrow_back,color: Colors.black54,), onPressed: (){
-            Navigator.pop(context);
-          }),
-        ),
-        body:Column(
+        // appBar: AppBar(
+        //   elevation: 0.0,
+        //   backgroundColor:Colors.white,
+        //   leading:   IconButton(icon: Icon(Icons.arrow_back,color: Colors.black54,), onPressed: (){
+        //     Navigator.pop(context);
+        //   }),
+        // ),
+        body:SingleChildScrollView(
+          child:Stack(
           children: [
-
+                // Container(
+                // height: 145,
+                // width: 500,
+                // decoration: BoxDecoration(
+                //   color: Colors.black87.withOpacity(0.9),
+                //   image: new DecorationImage(
+                //     fit: BoxFit.cover,
+                //     colorFilter:
+                //     ColorFilter.mode(Colors.black87.withOpacity(0.4),
+                //         BlendMode.dstATop),
+                //     image: new AssetImage('assets/work/cvtop.jpg',),
+                //   ),),),
             Container(
-              height: 100,
-              width: 500,
-              color: Colors.white,
-              child:Column(
+              margin: EdgeInsets.only(top: 50),
+              child:Row(
                 children: [
-                  Container(
-                    width:200,
-                    margin: EdgeInsets.only(left: 250,top:0,right: 30),
-                    child: Text('تقييم الصنايعي',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                        fontFamily: 'Changa',
-                      ),),
-                  ),
-
-                  Container(
-                    margin: EdgeInsets.only(left:20,top: 10,right: 30),
-                    height: 35,
-                    width: 400,
-                    alignment: Alignment.topRight,
-                    child:Row(
-                      children: [
-                        Icon(Icons.info_outline,size:30,color: Colors.black54,),
-                        Text('  نأمل منك أن تقوم بتقييم الصنايعي بناء على المصداقية',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black54,
-                            fontFamily: 'Changa',
-                          ),),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 2.0,),
-                  Container(child: Divider(
-                    thickness: 1.0,
-                    color: Colors.black54.withOpacity(0.1),
-                  ),),
+                  IconButton(icon: Icon(Icons.arrow_back,color: Colors.black87,), onPressed: (){
+                    Navigator.pop(context);
+                    //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => U_PROFILE(name_Me: widget.name_Me,)));
+                  }),
+                ],
+              ),
+            ),
+            Container(
+              width:200,
+              margin: EdgeInsets.only(top:100,left: 60,right:20),
+              child: Text('تقييم الصنايعي',
+                style: TextStyle(
+                  fontSize: 16.5,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black87,
+                  fontFamily: 'Changa',
+                ),),
+            ),
+            Container(
+              margin: EdgeInsets.only(left:20,top:140,right: 20),
+              height: 35,
+              width: 400,
+              alignment: Alignment.topRight,
+              child:Row(
+                children: [
+                  Icon(Icons.info_outline,size:25,color: Colors.black87,),
+                  Text('  نأمل منك أن تقوم بتقييم الصنايعي بناء على المصداقية',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color:Colors.black87,
+                      fontFamily: 'Changa',
+                    ),),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top:165),
+              height: 35,
+              width: 500,
+             child:Divider(
+               thickness: 0.8,
+               color:Colors.black54.withOpacity(0.1),
+             ),
+            ),
+                  SizedBox(height: 10.0,),
                   // Text('في النواحي التالية',
                   //   style: TextStyle(
                   //     fontSize: 14,
@@ -128,90 +171,153 @@ class _Body extends State<Rate> {
                   //     color: Colors.grey[600],
                   //     fontFamily: 'Changa',
                   //   ),),
-                ],
-              ),
-            ),
+
              Directionality(textDirection: ui.TextDirection.ltr,
-               child:Container(
-               child: Column(
-                 children: [
-                   SizedBox(height: 20.0,),
-                   Row(
+                 child:Container(
+                   color: Colors.white,
+                   margin: EdgeInsets.only(top: 195,),
+                   height: 600.5,
+                   child:SingleChildScrollView(
+                   child: Column(
                      children: [
-                       Container(margin:EdgeInsets.only(left:10),child: _ratingBar(_ratingBarMode1),),
-                       Container(
-                         width:150,alignment: Alignment.topRight,
-                         margin:EdgeInsets.only(top: 20,left: 20,right: 10),child:  _heading('جودة الخدمة'),
-                       ),
-                     ],
-                   ),
-                   SizedBox(height: 10.0,),
-                   // Divider(thickness: 1,color: Colors.black,),
-                   Row(
-                     children: [
-                       Container(margin:EdgeInsets.only(left: 10),child: _ratingBar(_ratingBarMode2),),
-                       Container(
-                         width:150,alignment: Alignment.topRight,
-                         margin:EdgeInsets.only(top: 20,left:20,right: 10),child:  _heading('سرعة وإتقان بالعمل'),
-                       ),
-                     ],
-                   ),
-                   SizedBox(height: 10.0,),
-                   Row(
-                     children: [
-                       Container(margin:EdgeInsets.only(left: 10),child: _ratingBar(_ratingBarMode3),),
-                       Container(
-                         width:150,alignment: Alignment.topRight,
-                         margin:EdgeInsets.only(top: 20,left: 20,right: 10),child:  _heading('الاحترام والانظباط'),
-                       ),
-                     ],
-                   ),
-                   SizedBox(height: 10.0,),
-                   Row(
-                     children: [
-                       Container(margin:EdgeInsets.only(left: 10),child: _ratingBar(_ratingBarMode4),),
-                       Container(
-                         width:150,alignment: Alignment.topRight,
-                         margin:EdgeInsets.only(top: 20,left:20,right: 10),child:  _heading('الإلتزام بالوقت'),
-                       ),
-                     ],
-                   ),
-                   SizedBox(height: 10.0,),
-                   Row(
-                     children: [
-                       Container(margin:EdgeInsets.only(left: 10),child: _ratingBar(_ratingBarMode5),),
-                       Container(
-                         width:150,alignment: Alignment.topRight,
-                         padding: EdgeInsets.only(right: 15),
-                         margin:EdgeInsets.only(top: 20,left: 20,),child:  _heading('هل السعر مناسب؟'),
-                       ),
-                     ],
-                      ),
                        Row(
-                        children: [
-                          Container(
-                            height: 95,
-                            width: 220,
-                            margin:EdgeInsets.only(top: 30,left: 10),
-                            alignment: Alignment.topLeft,
-                           // margin: EdgeInsets.only(right: 150,left: 10),
-                           // margin: EdgeInsets.only(right: 150,left: 10),
-                            child:ReviewSlider(),
+                         children: [
+                           Container(margin:EdgeInsets.only(left:10),child: _ratingBar(_ratingBarMode1),),
+                           Container(
+                             width:150,alignment: Alignment.topRight,
+                             margin:EdgeInsets.only(top: 20,left: 35,right: 10),child:  _heading('جودة الخدمة'),
+                           ),
+                         ],
+                       ),
+                       SizedBox(height: 5.0,),
+                       // Divider(thickness: 1,color: Colors.black,),
+                       Row(
+                         children: [
+                           Container(margin:EdgeInsets.only(left: 10),child: _ratingBar(_ratingBarMode2),),
+                           Container(
+                             width:150,alignment: Alignment.topRight,
+                             margin:EdgeInsets.only(top: 20,left:35,right: 10),child:  _heading('سرعة وإتقان بالعمل'),
+                           ),
+                         ],
+                       ),
+                       SizedBox(height: 5.0,),
+                       Row(
+                         children: [
+                           Container(margin:EdgeInsets.only(left: 10),child: _ratingBar(_ratingBarMode3),),
+                           Container(
+                             width:150,alignment: Alignment.topRight,
+                             margin:EdgeInsets.only(top: 20,left: 35,right: 10),child:  _heading('الاحترام والانظباط'),
+                           ),
+                         ],
+                       ),
+                       SizedBox(height: 5.0,),
+                       Row(
+                         children: [
+                           Container(margin:EdgeInsets.only(left: 10),child: _ratingBar(_ratingBarMode4),),
+                           Container(
+                             width:150,alignment: Alignment.topRight,
+                             margin:EdgeInsets.only(top: 20,left:35,right: 10),child:  _heading('الإلتزام بالوقت'),
+                           ),
+                         ],
+                       ),
+                       SizedBox(height: 5.0,),
+                       Row(
+                         children: [
+                           Container(margin:EdgeInsets.only(left: 10),child: _ratingBar(_ratingBarMode5),),
+                           Container(
+                             width:150,alignment: Alignment.topRight,
+                             padding: EdgeInsets.only(right: 15),
+                             margin:EdgeInsets.only(top: 20,left: 35,),child:  _heading('هل السعر مناسب'),
+                           ),
+                         ],
+                       ),
+                       Row(
+                         children: [
+                           Container(
+                             height: 80,
+                             width: 220,
+                             margin:EdgeInsets.only(top: 10,left: 15),
+                             alignment: Alignment.topLeft,
+                             // margin: EdgeInsets.only(right: 150,left: 10),
+                             // margin: EdgeInsets.only(right: 150,left: 10),
+                             child:ReviewSlider(),
 
-                          ),
-                          Container(
-                            width: 150,
-                            alignment: Alignment.center,
-                            margin:EdgeInsets.only(top: 0,left: 2,right: 0),
-                            child:  _heading('مدى رضاك عن الخدمة؟'),
-                          ),
-                        ],
+                           ),
+                           Container(
+                             height: 80,
+                             width: 150,
+                             alignment: Alignment.center,
+                             margin:EdgeInsets.only(top: 21,left: 17,right: 0),
+                             child:  _heading(' رضاك عن الخدمة '),
+                           ),
+                         ],
+                       ),
+                       Column(
+                         children: [
+                           // Container(
+                           //   width:360,alignment: Alignment.topRight,
+                           //   margin:EdgeInsets.only(top: 0,),
+                           //   child:Text('إضافة تعليق',
+                           //     style: TextStyle(
+                           //       fontSize: 15,
+                           //       fontWeight: FontWeight.bold,
+                           //       color: Colors.grey[600],
+                           //       fontFamily: 'Changa',
+                           //     ),),
+                           // ),
+                           Container(
+                             margin: EdgeInsets.only(top:15,right: 5),
+                             padding: EdgeInsets.symmetric(horizontal: 0),
+                             width: 365,
+                             height: 75,
+                             child: TextFormField(
+
+                               maxLines: 50,
+                               controller: comment,
+                               cursorColor:Colors.grey[600],
+                               textAlign: TextAlign.right,
+                               style: TextStyle(
+                                 color: Colors.grey[600],
+                                 fontSize: 14.0,
+                                 fontFamily: 'Changa',
+                                 fontWeight: FontWeight.bold,
+                               ),
+                               decoration: InputDecoration(
+                                 filled: true,
+                                 fillColor: Colors.white,
+                                 contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal:10),
+                                 enabledBorder: new OutlineInputBorder(
+                                   borderRadius: new BorderRadius.circular(5.0),
+                                   borderSide:  BorderSide(color:  Colors.grey[300],),
+
+                                 ),
+                                 focusedBorder: new OutlineInputBorder(
+                                   borderRadius: new BorderRadius.circular(5.0),
+                                   borderSide:  BorderSide(color: Colors.grey[300],),
+
+                                 ),
+                                 hintText: '  كتابة تعليق ',
+                                 hintStyle: TextStyle(
+                                   fontSize: 13.0,
+                                   fontFamily: 'Changa',
+                                   color: Colors.grey[400],
+                                 ),
+                                 floatingLabelBehavior: FloatingLabelBehavior.always,
+
+                               ),
+
+                             ),
+                           ),
+                           SizedBox(height: 20,),
+                         ],
                        ),
 
-                   //Container(margin:EdgeInsets.only(left: 10),child: _ratingBar(_ratingBarMode6),),
-                 ],
-               ),
-             ),),
+                       //Container(margin:EdgeInsets.only(left: 10),child: _ratingBar(_ratingBarMode6),),
+                     ],
+                   ),
+                 ),),
+             ),
+
             Container(
               //  color: Colors.white,
               // decoration: BoxDecoration(
@@ -219,44 +325,52 @@ class _Body extends State<Rate> {
               //     color: Colors.black,
               //   ),
               // ),
+              margin:EdgeInsets.only(top:742.7),
+              width:500,
+              height: 55,
+              color:Y,
+              alignment: Alignment.center,
               child:  GestureDetector(
                 onTap: ()async{
                   print(widget.phoneuser);
                   print(widget.phoneworker);
                   print(widget.id);
                   print(widget.username);
-
                   print(value);
                   await rate();
+                  if(comment.text.isNotEmpty){
+                    await Comment();
+                  }
+
                   _showMyDialog();
                 },
                 child: Text('تسليم',
                   style: TextStyle(
-                    color: Colors.black54,
+                    color: Colors.white,
                     fontSize: 15.0,
                     fontFamily: 'Changa',
                     fontWeight: FontWeight.bold,),),
               ),
             ),
           ],),
-      ),);
+      ),),);
   }
   Widget _ratingBar(int mode) {
     switch (mode) {
       case 1:
         return RatingBar.builder(
-          glowColor: Colors.orangeAccent,
+          glowColor: Colors.white,
           initialRating:0,
           minRating: 0,
           direction: _isVertical ? Axis.vertical : Axis.horizontal,
           allowHalfRating: true,
           unratedColor: Colors.amber.withAlpha(50),
           itemCount: 5,
-          itemSize: 37.0,
+          itemSize: 35.0,
           itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
           itemBuilder: (context, _) => Icon(
             _selectedIcon ?? Icons.star,
-            color: Colors.amber,
+            color: Y,
           ),
           onRatingUpdate: (rating) {
             setState(() {
@@ -268,18 +382,18 @@ class _Body extends State<Rate> {
         );
       case 2:
         return RatingBar.builder(
-          glowColor: Colors.orangeAccent,
+          glowColor: Colors.white,
           initialRating: 0,
           minRating: 0,
           direction: _isVertical ? Axis.vertical : Axis.horizontal,
           allowHalfRating: true,
           unratedColor: Colors.amber.withAlpha(50),
           itemCount: 5,
-          itemSize: 37.0,
+          itemSize: 35.0,
           itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
           itemBuilder: (context, _) => Icon(
             _selectedIcon ?? Icons.star,
-            color: Colors.amber,
+            color: Y,
           ),
           onRatingUpdate: (rating) {
             setState(() {
@@ -291,18 +405,18 @@ class _Body extends State<Rate> {
         );
       case 3:
         return RatingBar.builder(
-          glowColor: Colors.orangeAccent,
+          glowColor: Colors.white,
           initialRating: 0,
           minRating: 0,
           direction: _isVertical ? Axis.vertical : Axis.horizontal,
           allowHalfRating: true,
           unratedColor: Colors.amber.withAlpha(50),
           itemCount: 5,
-          itemSize: 37.0,
+          itemSize: 35.0,
           itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
           itemBuilder: (context, _) => Icon(
             _selectedIcon ?? Icons.star,
-            color: Colors.amber,
+            color: Y,
           ),
           onRatingUpdate: (rating) {
             setState(() {
@@ -314,18 +428,18 @@ class _Body extends State<Rate> {
         );
       case 4:
         return RatingBar.builder(
-          glowColor: Colors.orangeAccent,
+          glowColor: Colors.white,
           initialRating: 0,
           minRating: 0,
           direction: _isVertical ? Axis.vertical : Axis.horizontal,
           allowHalfRating: true,
           unratedColor: Colors.amber.withAlpha(50),
           itemCount: 5,
-          itemSize: 37.0,
+          itemSize: 35.0,
           itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
           itemBuilder: (context, _) => Icon(
             _selectedIcon ?? Icons.star,
-            color: Colors.amber,
+            color:Y,
           ),
           onRatingUpdate: (rating) {
             setState(() {
@@ -337,18 +451,18 @@ class _Body extends State<Rate> {
         );
       case 5:
         return RatingBar.builder(
-          glowColor: Colors.orangeAccent,
+          glowColor: Colors.white,
           initialRating: 0,
           minRating: 0,
           direction: _isVertical ? Axis.vertical : Axis.horizontal,
           allowHalfRating: true,
           unratedColor: Colors.amber.withAlpha(50),
           itemCount: 5,
-          itemSize: 37.0,
+          itemSize: 35.0,
           itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
           itemBuilder: (context, _) => Icon(
             _selectedIcon ?? Icons.star,
-            color: Colors.amber,
+            color: Y,
           ),
           onRatingUpdate: (rating) {
             setState(() {
@@ -360,7 +474,7 @@ class _Body extends State<Rate> {
         );
       case 6:
         return RatingBar.builder(
-          glowColor: Colors.orangeAccent,
+          glowColor: Colors.white,
           initialRating: 0,
           direction: _isVertical ? Axis.vertical : Axis.horizontal,
           itemCount: 5,
@@ -413,7 +527,7 @@ class _Body extends State<Rate> {
       Text(
         text,
         style: TextStyle(
-          fontSize: 16,
+          fontSize: 15,
           fontWeight: FontWeight.bold,
           color: Colors.grey[600],
           fontFamily: 'Changa',
@@ -454,8 +568,8 @@ class _Body extends State<Rate> {
                   margin: EdgeInsets.only(left: 10,right:180,bottom:15,top: 30),
                   child:GestureDetector(
                    onTap: (){
-                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(username: widget.username,phoneuser:widget.phoneworker,)));
-                   },
+                     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(index:widget.index,Lsist_Post:widget.List_Post,username: widget.username,phoneuser: widget.phoneuser,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+                     },
                    child:Text('حسنا',
                    style: TextStyle(
                    fontSize: 13,

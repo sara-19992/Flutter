@@ -20,7 +20,7 @@ String  Work="";
 String  Experiance="";
 String  Information="";
 String  token="";
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 bool press=true;
 double hight=200;
 class viewWarsha extends StatefulWidget {
@@ -52,7 +52,7 @@ class _viewWarshaState extends State<viewWarsha> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Future getorder()async{
-    var url='https://'+IP4+'/testlocalhost/viewOrder.php';
+    var url='http://'+IP4+'/testlocalhost/viewOrder.php';
     var ressponse=await http.post(url,body: {
       "phone": widget.phone,
     });
@@ -68,36 +68,63 @@ class _viewWarshaState extends State<viewWarsha> {
         body:Form(
           child:Stack(
             children: [
-
               Container(
-                  margin: EdgeInsets.only(top:70,right: 10),
-                  child: GestureDetector(
-                    onTap: (){
-                     // Navigator.pop(context);
-                      Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) => order_worker(lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));},
+                width: 500,
+                height: 110,
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top:60,right: 10),
+                      child:GestureDetector(
+                        onTap: (){
+                          Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) => order_worker(lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));},
+                        child:Icon(Icons.arrow_back,color: Colors.black,),
+                      ),
+                    ),
+                    // Container(
+                    //   margin: EdgeInsets.only(top:60,right: 11),
+                    //   child:Text('طلبات جديدة',
+                    //     style: TextStyle(
+                    //       fontSize: 18,
+                    //       fontWeight: FontWeight.bold,
+                    //       color: Colors.white,
+                    //       fontFamily: 'Changa',
+                    //       //fontStyle: FontStyle.italic,
+                    //     ),),
+                    // ),
 
-                    child:Icon(Icons.arrow_back,color: Colors.grey[600],),
-                  )
+                  ],
+                ),
               ),
-              Container(
-                  height: 100,
-                  color: Colors.white,
-                  margin: EdgeInsets.only(top:90,right:0),
-                  alignment: Alignment.center,
-                  // transform: Matrix4.translationValues(0, -120.0, 0),
-                  child:Text('طلبات جديدة',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w400,
-                      color: Colors.black,
-                      fontFamily: 'vibes',
-                      //fontStyle: FontStyle.italic,
-                    ),)
-              ),
+              // Container(
+              //     margin: EdgeInsets.only(top:70,right: 10),
+              //     child: GestureDetector(
+              //       onTap: (){
+              //        // Navigator.pop(context);
+              //         Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) => order_worker(lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));},
+              //
+              //       child:Icon(Icons.arrow_back,color: Colors.grey[600],),
+              //     )
+              // ),
+              // Container(
+              //     height: 100,
+              //     color: Colors.white,
+              //     margin: EdgeInsets.only(top:90,right:0),
+              //     alignment: Alignment.center,
+              //     // transform: Matrix4.translationValues(0, -120.0, 0),
+              //     child:Text('طلبات جديدة',
+              //       style: TextStyle(
+              //         fontSize: 30,
+              //         fontWeight: FontWeight.w400,
+              //         color: Colors.black,
+              //         fontFamily: 'vibes',
+              //         //fontStyle: FontStyle.italic,
+              //       ),)
+              // ),
               Container(
                 color: Colors.white,
                 height: 647.5,
-                margin: EdgeInsets.only(top:150),
+                margin: EdgeInsets.only(top:100),
                 child: FutureBuilder(
                   future: getorder(),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -106,10 +133,15 @@ class _viewWarshaState extends State<viewWarsha> {
                       return ListView.builder(
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
-                          print(snapshot.data[index]['workerphone']);
-                          // return Container(height: 200,);
-                          print("WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW"+snapshot.data[index]['id']);
-                          return view (orderimage:snapshot.data[index]['orderimage'],latuser:snapshot.data[index]['lat'],lnguser:snapshot.data[index]['lng'],token:snapshot.data[index]['token'],work:widget.Work,lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,city:snapshot.data[index]['city'],country:snapshot.data[index]['country'],id:snapshot.data[index]['id'],type:snapshot.data[index]['type'],image:snapshot.data[index]['image'],describes:snapshot.data[index]['describes'],nameofwork : snapshot.data[index]['nameofwork'],workerphone : snapshot.data[index]['workerphone'], namefirst: snapshot.data[index]['namefirst'], namelast: snapshot.data[index]['namelast'], phoneuser: snapshot.data[index]['phoneuser']);
+                          if(snapshot.data.length==0){
+                            print('SARAHHHHHHHHHHHHHHHHhhhhhhhhhhhhhhhhhhhhhkkkkkkkkkkkkkkkkkkkkkkkk');
+                            return empty();
+                          }
+                         else{
+                            print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+                            return view (orderimage:snapshot.data[index]['orderimage'],latuser:snapshot.data[index]['lat'],lnguser:snapshot.data[index]['lng'],token:snapshot.data[index]['token'],work:widget.Work,lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,city:snapshot.data[index]['city'],country:snapshot.data[index]['country'],id:snapshot.data[index]['id'],type:snapshot.data[index]['type'],image:snapshot.data[index]['image'],describes:snapshot.data[index]['describes'],nameofwork : snapshot.data[index]['nameofwork'],workerphone : snapshot.data[index]['workerphone'], namefirst: snapshot.data[index]['namefirst'], namelast: snapshot.data[index]['namelast'], phoneuser: snapshot.data[index]['phoneuser']);
+
+                          }
 
                         },
                       );
@@ -147,7 +179,7 @@ class _viewWarshaState extends State<viewWarsha> {
 
   Future getlongtimeorder() async {
 
-    var url = 'https://'+IP4+'/testlocalhost/viewOrder.php';
+    var url = 'http://'+IP4+'/testlocalhost/viewOrder.php';
     print("ssssssssssssssssssssssssssssssssssssssssssssssssssssssssss"+widget.phone);
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
@@ -155,8 +187,487 @@ class _viewWarshaState extends State<viewWarsha> {
     });
     return json.decode(ressponse.body);
   }
+  Container cv(){
+    return Container(
+      height: 100,
+      decoration: BoxDecoration(
+        color: Colors.red,
+      ),
+    );
+  }
 }
 
+class empty extends StatefulWidget {
+  final phoneuser;
+  final describes;
+  final namefirst;
+  final namelast;
+  final image;
+  final type;
+  final workerphone;
+  final nameofwork;
+  final id;
+  final city;
+  final country;
+  final lat;
+  final lng;
+  final latuser;
+  final lnguser;
+  final Information;
+  final Experiance;
+  final work;
+  final token;
+  final orderimage;
+  empty({this.orderimage,this.latuser,this.lnguser,this.token,this.Information,this.Experiance,this.work,this.lat,this.lng,this.country,this.city,this.id,this.image,this.type,this.namelast,this.workerphone,this.namefirst,this.phoneuser,this.nameofwork,this.describes});
+  @override
+  _empty createState() => _empty();
+}
+
+class _empty extends State<empty> {
+  @override
+  bool datepicher=false;
+  double h=165;
+  Widget build(BuildContext context) {
+    return Column(
+
+      children:[
+        Container(color:Colors.red,),
+      ],);
+
+
+
+  }
+  Widget card(String namefirst , String namelast,String describes,String phoneuser,String workerphone,String nameofwork,String image,String type)
+  { print("tafaseel talab "+workerphone);
+
+  return Container (
+    height:h,
+    width: 380,
+    transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+    margin: EdgeInsets.only(top:5,bottom: 15),
+    padding: EdgeInsets.all(5),
+    alignment: Alignment.topRight,
+    decoration: BoxDecoration(
+      color:Colors.grey[50],
+      borderRadius: BorderRadius.circular(5),
+    ),
+    clipBehavior: Clip.hardEdge,
+    child: Column(
+      children: [
+        SizedBox(height: 5,),
+        Container(
+          margin: EdgeInsets.only(top:10,right: 15),
+          child:  Row(
+            children: [
+              Container(
+                width:90,
+                child:Text('اسم العميل ', style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                  fontFamily: 'Changa',
+                ),
+                ),
+              ),
+              Container(
+                width:170,
+                child:Text(namefirst + " " +namelast, style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black54,
+                  fontFamily: 'Changa',
+                ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Container(
+          alignment: Alignment.topRight,
+          margin: EdgeInsets.only(top:3,right: 15),
+          child:Row(
+            children: [
+              Text('الموقع  ', style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87,
+                fontFamily: 'Changa',
+              ),
+              ),
+              SizedBox(width: 38,),
+              Text(""+widget.country+" ("+widget.city+") ", style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: Colors.black54,
+                fontFamily: 'Changa',
+              ),
+              ),
+              Icon(Icons.location_on,size:20,color:Colors.black87,),
+            ],
+          ),
+
+        ),
+
+        Container(
+          margin: EdgeInsets.only(top:3,right: 15),
+          child:  Row(
+            children: [
+              Container(
+                width:90,
+                child:Text('نوع الورشة', style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                  fontFamily: 'Changa',
+                ),
+                ),
+              ),
+              Container(
+                width:170,
+                child:Text(type, style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black54,
+                  fontFamily: 'Changa',
+                ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        !press&& widget.describes!=null?Container(
+          margin: EdgeInsets.only(top:10,right: 15),
+          child:  Row(
+            children: [
+              Container(
+                width:90,
+                height: 75,
+                child:Text('تفاصبل الطلب', style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black87,
+                  fontFamily: 'Changa',
+                ),
+                ),
+              ),
+              Container(
+                width:250,
+                height: 75,
+                child:Text(widget.describes, style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black54,
+                  fontFamily: 'Changa',
+                ),
+                ),
+              ),
+            ],
+          ),
+        ):Container(),
+        widget.orderimage!=null && !press?Container(
+          // print(_image[index].id+"");
+          width: 200,
+          height: 150,
+          margin: EdgeInsets.only(left: 150,top:15,bottom: 15),
+          decoration: BoxDecoration(
+            color:Colors.white,
+            borderRadius: BorderRadius.circular(5),
+            image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.orderimage),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ):Container(),
+        Container(
+          width: 500,
+          height: 40,
+          margin: EdgeInsets.only(right: 15,top:10),
+          child: Row(
+            children: [
+              !press?GestureDetector(
+                onTap: (){
+                  press=!press;
+                  h=165;
+                  setState(() {
+                  });
+                },
+                child: Container(
+                  child: Row(
+                    children: [
+                      Text('عرض أقل ',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black87,
+                          fontFamily: 'Changa',
+                        ),),
+                      Icon(Icons.keyboard_arrow_up_outlined,size: 20,),
+                      SizedBox(width:5,),
+                    ],
+                  ),
+                ),
+              ):
+              GestureDetector(
+                onTap: (){
+                  press=!press;
+                  if( widget.orderimage==null && widget.describes==null)h=165;
+                  else if( widget.orderimage==null && widget.describes!=null)h=250;
+                  else if( widget.orderimage!=null && widget.describes==null)h=350;
+                  else h=470;
+                  setState(() {
+
+                  });
+                },
+                child: Container(
+                  child: Row(
+                    children: [
+                      Text('عرض المزيد',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black87,
+                          fontFamily: 'Changa',
+                        ),),
+                      Icon(Icons.keyboard_arrow_down,size: 20,),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(width: 160,),
+              Theme(
+                data: Theme.of(context).copyWith(
+                    accentColor: Y,
+                    primaryColor: Y,
+                    buttonTheme: ButtonThemeData(
+                      colorScheme: Theme.of(context).colorScheme.copyWith(
+                        primary:MY_BLACK,
+                      ),
+                    )),
+                child: Builder(
+                  builder: (context) => GestureDetector(
+                      child: Container(
+                        width: 50,
+                        margin:EdgeInsets.only(top: 0.0, bottom: 0.0, left: 30.0, right: 0.0),
+                        child: Text(
+                          "قبول",
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: Y,
+                            fontFamily: 'Changa',
+                          ),
+                        ),
+                      ),
+                      onTap: () async {
+                        final List<DateTime> picked = await DateRangePicker.showDatePicker(
+                            context: context,
+                            initialFirstDate: new DateTime.now(),
+                            initialLastDate: (new DateTime.now()).add(new Duration(days: 7)),
+                            firstDate: new DateTime(2021),
+                            lastDate: new DateTime(DateTime.now().year + 2));
+                        if (picked != null && picked.length == 2) {
+                          print(picked);
+                          print(picked.first);
+                          _showMyDialog(picked,type);
+
+                        }
+                        else {
+                        }
+                      }),),),
+
+              GestureDetector(
+                onTap: (){
+                  _dialogCall2();
+                },
+                child: Container(
+                  width: 30,
+                  padding: const EdgeInsets.only(top: 0.0, bottom: 0.0, left: 0.0, right: 0.0),
+                  child: Text(
+                    "حذف",
+                    style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: Y,
+                      fontFamily: 'Changa',
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        // Image.asset('assets/card-sample-image.jpg'),
+        // Image.asset('assets/card-sample-image-2.jpg'),
+      ],
+    ),);
+
+  }
+  Future<void> _showMyDialog(final List<DateTime> picked,final type) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Directionality(textDirection: ui.TextDirection.rtl,
+                  child: Column(
+                    children: [
+                      Container(
+                          margin: EdgeInsets.only(top:10,right: 10,bottom:40),
+                          alignment: Alignment.center,
+                          // transform: Matrix4.translationValues(0, -120.0, 0),
+                          child:Text('الموافقة على الورشة',
+                            style: TextStyle(
+                              fontSize: 23,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black,
+                              fontFamily: 'vibes',
+                              //fontStyle: FontStyle.italic,
+                            ),)
+                      ),
+                      Container(
+                        alignment:Alignment.topRight,
+                        child: Row(
+                          children: [
+                            Text('نوع الورشة',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black87,
+                                fontFamily: 'Changa',
+                              ),),
+                            SizedBox(width: 10,),
+                            Text(type,
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.black54,
+                                fontFamily: 'Changa',
+                              ),),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 15,),
+                      Container(
+                        alignment:Alignment.topRight,
+                        child:Text('مدة الورشة ',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black87,
+                            fontFamily: 'Changa',
+                          ),),
+                      ),
+                      SizedBox(height: 10,),
+                      Container(
+                        alignment: Alignment.topRight,
+                        child: Text('من تاريخ '+"  "+ DateFormat('yyyy-MM-dd').format(picked.first),
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black54,
+                            fontFamily: 'Changa',
+                          ),),
+                      ),
+                      Container(
+                        alignment: Alignment.topRight,
+                        child:  Text('إلى تاريخ '+ " "+DateFormat('yyyy-MM-dd').format(picked.last),
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black54,
+                            fontFamily: 'Changa',
+                          ),),
+                      ),
+                      SizedBox(height: 30),
+                      Container(
+                        alignment: Alignment.topRight,
+                        child:Text('لقبول هذه الورشة اضغط على تأكيد',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.black54,
+                            fontFamily: 'Changa',
+                          ),),
+                      ),
+                    ],
+                  ),
+                ),
+              ],),),
+          actions: <Widget>[
+            GestureDetector(
+              onTap: (){
+                Navigator.of(context).pop();
+              },
+              child:Container(
+                margin: EdgeInsets.only(bottom:10,left: 10),
+                child: Text('إلغاء',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color:Y,
+                    fontFamily: 'Changa',
+                  ),),
+              ),
+            ),
+            GestureDetector(
+              onTap: ()async{
+                await print("SARAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHhh");
+                addlongtimework(picked);
+                sendaccept(widget.token);
+                Navigator.of(context).pop();
+                var formattedDate1 = DateFormat('yyyy-MM-dd').format(picked.first);
+                var formattedDate2 = DateFormat('yyyy-MM-dd').format(picked.last);
+
+                Navigator.push(context, MaterialPageRoute(builder: (context) => State_warshe_accept(name:widget.nameofwork,type:widget.type,from:formattedDate1,to:formattedDate2,tokenworker:widget.token,imageworker:widget.image,namelastworker:widget.namelast,namefirstworker:widget.namefirst,Information:widget.Information,Experiance:widget.Experiance,work:widget.work,country:widget.country,city:widget.city,description:widget.describes,latuser:widget.latuser,lnguser:widget.lnguser,lat:widget.lat,lng:widget.lng,orderimage:widget.orderimage,workername:widget.nameofwork,id:widget.id,namefirst: widget.namefirst,namelast: widget.namelast,phoneuser: widget.phoneuser,image: widget.image,phoneworker:widget.workerphone),),);
+                //Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewWarsha(lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,Work:widget.work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst,name:widget.nameofwork,phone: widget.workerphone)));
+              },
+              child:Container(
+                width: 70,
+                margin: EdgeInsets.only(left:40,bottom:10),
+                child: Text('تأكيد',
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color:Y,
+                    fontFamily: 'Changa',
+                  ),),
+              ),
+            ),
+            SizedBox(width: 150,),
+          ],
+        );
+      },
+    );
+  }
+  Future sendaccept(String token) async {
+    print(token);
+    print("vfddddddddddddddddddddddd");
+    var url = 'http://' + IP4 + '/testlocalhost/acceptwarsha.php';
+    var ressponse = await http.post(url, body: {
+      "token": token,
+    });
+  }
+  Future<void> addlongtimework(final List<DateTime> picked) async {
+    int i = 0;
+    var url ='http://'+IP4+'/testlocalhost/reservations.php';
+    var ressponse = await http.post(url, body: {
+      "id":widget.id,
+      "Fromdate": picked.first.toString(),
+      "Todate": picked.last.toString(),
+    });
+  }
+  Future<void> _dialogCall2() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Directionality(textDirection: ui.TextDirection.rtl,
+              child:delete_order(id:widget.id,phone:widget.workerphone,name:widget.nameofwork,lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,work:widget.work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst));
+        });
+  }
+}
 
 class view extends StatefulWidget {
   final phoneuser;
@@ -205,7 +716,8 @@ class _viewState extends State<view> {
   return Container (
     height:h,
     width: 380,
-    margin: EdgeInsets.only(top:0,bottom: 15),
+    transform: Matrix4.translationValues(0.0, -20.0, 0.0),
+    margin: EdgeInsets.only(top:5,bottom: 15),
     padding: EdgeInsets.all(5),
       alignment: Alignment.topRight,
       decoration: BoxDecoration(
@@ -333,7 +845,7 @@ class _viewState extends State<view> {
             decoration: BoxDecoration(
               color:Colors.white,
               borderRadius: BorderRadius.circular(5),
-              image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.orderimage),
+              image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.orderimage),
                 fit: BoxFit.cover,
               ),
             ),
@@ -606,14 +1118,14 @@ class _viewState extends State<view> {
   Future sendaccept(String token) async {
     print(token);
     print("vfddddddddddddddddddddddd");
-    var url = 'https://' + IP4 + '/testlocalhost/acceptwarsha.php';
+    var url = 'http://' + IP4 + '/testlocalhost/acceptwarsha.php';
     var ressponse = await http.post(url, body: {
       "token": token,
     });
   }
   Future<void> addlongtimework(final List<DateTime> picked) async {
     int i = 0;
-    var url ='https://'+IP4+'/testlocalhost/reservations.php';
+    var url ='http://'+IP4+'/testlocalhost/reservations.php';
     var ressponse = await http.post(url, body: {
       "id":widget.id,
       "Fromdate": picked.first.toString(),
@@ -625,7 +1137,7 @@ class _viewState extends State<view> {
         context: context,
         builder: (BuildContext context) {
           return Directionality(textDirection: ui.TextDirection.rtl,
-            child:delete_order(id:widget.id,phone:widget.workerphone,name:widget.nameofwork,));
+            child:delete_order(id:widget.id,phone:widget.workerphone,name:widget.nameofwork,lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,work:widget.work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst));
         });
   }
 }
@@ -654,7 +1166,26 @@ class delete_order extends StatefulWidget {
   final id;
   final phone;
   final name;
-  delete_order({this.name,this.id,this.phone,});
+  final phoneuser;
+  final describes;
+  final namefirst;
+  final namelast;
+  final image;
+  final type;
+  final workerphone;
+  final nameofwork;
+  final city;
+  final country;
+  final lat;
+  final lng;
+  final latuser;
+  final lnguser;
+  final Information;
+  final Experiance;
+  final work;
+  final token;
+  final orderimage;
+  delete_order({this.orderimage,this.latuser,this.lnguser,this.token,this.Information,this.Experiance,this.work,this.lat,this.lng,this.country,this.city,this.id,this.image,this.type,this.namelast,this.workerphone,this.namefirst,this.phoneuser,this.nameofwork,this.describes, this.phone, this.name});
   _delete_order createState() => new _delete_order();
 
 }
@@ -688,7 +1219,9 @@ class _delete_order extends State<delete_order> {
                         print('=========================================================================');
 
                         // Navigator.pop(context);
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewWarsha(phone:widget.phone,name:widget.name,)));
+                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewWarsha(lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,Work:widget.work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst,name:widget.name,phone: widget.phone)));
+
+                        // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => viewWarsha(phone:widget.phone,name:widget.name,)));
                       },
                       child: Container(
                           margin: EdgeInsets.only(right: 170),
@@ -696,7 +1229,7 @@ class _delete_order extends State<delete_order> {
                             style: TextStyle(
                               fontFamily: 'Changa',
                               color: Y,
-                              fontSize: 13.0,
+                             fontSize: 13.0,
                               fontWeight: FontWeight.bold,
                             ),
                           )
@@ -735,7 +1268,7 @@ class _delete_order extends State<delete_order> {
     print(widget.id);
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
     var formattedTime = DateFormat('HH:mm:ss').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/delete_warsha.php';
+    var url = 'http://' + IP4 + '/testlocalhost/delete_warsha.php';
     var ressponse = await http.post(url, body: {
       "id": widget.id,
     });

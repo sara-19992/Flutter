@@ -14,8 +14,7 @@ import 'package:http/http.dart' as http;
 import '../constants.dart';
 import 'Comment.dart';
 import 'WORKER_PROFILE.dart';
-String IP4="192.168.1.8";
-
+String IP4="192.168.1.8:8080";
 String country_choose;
 //Our MyApp class. Represents our application
 //Represents the Homepage widget
@@ -35,7 +34,6 @@ class Search_user extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
-
 //Our Home state, the logic and internal state for a StatefulWidget.
 class _HomeState extends State<Search_user> {
   //A controller for an editable text field.
@@ -80,7 +78,7 @@ class _HomeState extends State<Search_user> {
   }
   var Listsearch=[];
   Future getdata()async{
-    var url='https://'+IP4+'/testlocalhost/all_worker.php';
+    var url='http://'+IP4+'/testlocalhost/all_worker.php';
     var ressponse=await http.get(url);
     var responsepody= json.decode(ressponse.body);
     return responsepody;
@@ -103,7 +101,7 @@ class _HomeState extends State<Search_user> {
     });
   }
   Future getSearchall()async{
-    var url='https://'+IP4+'/testlocalhost/search_all_work.php';
+    var url='http://'+IP4+'/testlocalhost/search_all_work.php';
     var ressponse=await http.post(url,body: {
       "Work":widget.work,
     });
@@ -111,7 +109,7 @@ class _HomeState extends State<Search_user> {
     return json.decode(ressponse.body);
   }
   Future getSearchall_rate()async{
-    var url='https://'+IP4+'/testlocalhost/searchall_rate.php';
+    var url='http://'+IP4+'/testlocalhost/searchall_rate.php';
     var ressponse=await http.post(url,body: {
       "Work":widget.work,
     });
@@ -119,7 +117,7 @@ class _HomeState extends State<Search_user> {
     return json.decode(ressponse.body);
   }
   Future getSearchavalibel()async{
-    var url='https://'+IP4+'/testlocalhost/searchavalibel.php';
+    var url='http://'+IP4+'/testlocalhost/searchavalibel.php';
     var ressponse=await http.post(url,body: {
       "Work":widget.work,
     });
@@ -127,7 +125,7 @@ class _HomeState extends State<Search_user> {
     return json.decode(ressponse.body);
   }
   Future getSearchavalibel_rate()async{
-    var url='https://'+IP4+'/testlocalhost/searchavalibal_rate.php';
+    var url='http://'+IP4+'/testlocalhost/searchavalibal_rate.php';
     var ressponse=await http.post(url,body: {
       "Work":widget.work,
     });
@@ -135,7 +133,7 @@ class _HomeState extends State<Search_user> {
     return json.decode(ressponse.body);
   }
   Future getSearchcoutry(String country)async{
-    var url='https://'+IP4+'/testlocalhost/searchcoutry.php';
+    var url='http://'+IP4+'/testlocalhost/searchcoutry.php';
     var ressponse=await http.post(url,body: {
       "Work":widget.work,
       "country":country,
@@ -144,7 +142,7 @@ class _HomeState extends State<Search_user> {
     return json.decode(ressponse.body);
   }
   Future getSearchcoutry_rate(String country)async{
-    var url='https://'+IP4+'/testlocalhost/searchcountry_rate.php';
+    var url='http://'+IP4+'/testlocalhost/searchcountry_rate.php';
     var ressponse=await http.post(url,body: {
       "Work":widget.work,
       "country":country,
@@ -153,7 +151,7 @@ class _HomeState extends State<Search_user> {
     return json.decode(ressponse.body);
   }
   Future searchavalibelcountry(String country)async{
-    var url='https://'+IP4+'/testlocalhost/searchavalibelcountry.php';
+    var url='http://'+IP4+'/testlocalhost/searchavalibelcountry.php';
     var ressponse=await http.post(url,body: {
       "Work":widget.work,
       "country":country,
@@ -162,7 +160,7 @@ class _HomeState extends State<Search_user> {
     return json.decode(ressponse.body);
   }
   Future getoneworker(String phone)async{
-    var url='https://'+IP4+'/testlocalhost/getoneworker.php';
+    var url='http://'+IP4+'/testlocalhost/getoneworker.php';
     var ressponse=await http.post(url,body: {
       "phone":phone,
     });
@@ -170,7 +168,7 @@ class _HomeState extends State<Search_user> {
     return json.decode(ressponse.body);
   }
   Future searchcountry_avalibel_rate(String country)async{
-    var url='https://'+IP4+'/testlocalhost/searchcountry_avalibel_rate.php';
+    var url='http://'+IP4+'/testlocalhost/searchcountry_avalibel_rate.php';
     var ressponse=await http.post(url,body: {
       "Work":widget.work,
       "country":country,
@@ -181,7 +179,7 @@ class _HomeState extends State<Search_user> {
   bool fav =false;
   Future faverate(String phone) async {
     print('hi hi hi');
-    var url = 'https://'+IP4+'/testlocalhost/checkiffaverate.php';
+    var url = 'http://'+IP4+'/testlocalhost/checkiffaverate.php';
     var ressponse = await http.post(url, body: {
       "phoneworker": phone,
       "phoneuser":widget.phone_Me,
@@ -193,7 +191,7 @@ class _HomeState extends State<Search_user> {
     }}
   var count_comment;
   Future getComment(String phone) async {
-    var url = 'https://' + IP4 + '/testlocalhost/getcountcomment.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getcountcomment.php';
     var ressponse = await http.post(url, body: {
       "phone": phone,
     });
@@ -202,7 +200,7 @@ class _HomeState extends State<Search_user> {
   }
   var count_client;
   Future getCount(String phone) async {
-    var url = 'https://' + IP4 + '/testlocalhost/getcountclient.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getcountclient.php';
     var ressponse = await http.post(url, body: {
       "phone": phone,
     });
@@ -214,7 +212,7 @@ class _HomeState extends State<Search_user> {
   }
   var List_Post=[];
   Future getpost(String phone)async{
-    var url='https://'+IP4+'/testlocalhost/getpost.php';
+    var url='http://'+IP4+'/testlocalhost/getpost.php';
     var ressponse=await http.post(url,body: {
       "phone": phone,
     });
@@ -820,7 +818,8 @@ class _HomeState extends State<Search_user> {
             button5==true && button3==true && button2==true? Container(
               height: 600,
               margin: EdgeInsets.only(top:200),
-              child:Search_map_avalibel_rate(phone_Me:widget.phone_Me,image_Me:widget.image_Me,token_Me:widget.token_Me,location:widget.location,country:widget.country,work: widget.work,nameLast_Me:widget.nameLast_Me,namefirst_Me:widget.namefirst_Me,name_Me: widget.name_Me,),) :Container(),
+              child:Search_map_avalibel_rate(phone_Me:widget.phone_Me,image_Me:widget.image_Me,token_Me:widget.token_Me,location:widget.location,country:widget.country,work: widget.work,nameLast_Me:widget.nameLast_Me,namefirst_Me:widget.namefirst_Me,name_Me: widget.name_Me,),):Container(),
+
             new Container(
               margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 0.0),
               child: new Column(
@@ -1182,7 +1181,7 @@ class _Group extends State<Group> {
   bool fav =false;
   Future faverate() async {
     print('hi hi hi');
-    var url = 'https://'+IP4+'/testlocalhost/checkiffaverate.php';
+    var url = 'http://'+IP4+'/testlocalhost/checkiffaverate.php';
     var ressponse = await http.post(url, body: {
       "phoneworker": widget.phone,
       "phoneuser":widget.phone_Me,
@@ -1193,7 +1192,7 @@ class _Group extends State<Group> {
       fav=true;
     }}
   Future getComment() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getcomment.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getcomment.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -1204,7 +1203,7 @@ class _Group extends State<Group> {
     return json.decode(ressponse.body);
   }
   Future getCount() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getcCount.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getcCount.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -1216,7 +1215,7 @@ class _Group extends State<Group> {
   }
   var List_Post=[];
   Future getpost()async{
-    var url='https://'+IP4+'/testlocalhost/getpost.php';
+    var url='http://'+IP4+'/testlocalhost/getpost.php';
     var ressponse=await http.post(url,body: {
       "phone": widget.phone,
     });
@@ -1284,7 +1283,7 @@ class _Group extends State<Group> {
               // Container(
               //   margin: EdgeInsets.only(top: 30, right: 10),
               //   child: CircleAvatar(backgroundImage: NetworkImage(
-              //       'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+              //       'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
               //     radius: 29.0,),),
               //Container (margin: EdgeInsets.only(top: 20,left: 150),child:Text(widget.name),),
               // Row(
@@ -1359,7 +1358,7 @@ class _Group extends State<Group> {
           decoration: BoxDecoration(
             color:Colors.white,
             borderRadius: BorderRadius.circular(10),
-            image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.image),
+            image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.image),
               fit: BoxFit.cover,
             ),
           ),

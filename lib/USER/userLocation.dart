@@ -18,7 +18,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 bool showmap=true;
 // var url = "http://maps.google.com/mapfiles/ms/icons/";
 // url + = "blue";
@@ -54,7 +54,7 @@ class _mState extends State<Search_map> {
 
 
   Future getMarker()async{
-    var url='https://'+IP4+'/testlocalhost/markers.php';
+    var url='http://'+IP4+'/testlocalhost/markers.php';
     var ressponse=await http.post(url, body: {
       //"phone":list_ [i],
       "Work":widget.work,
@@ -147,7 +147,7 @@ class _MyHomePageState extends State<w> {
           double.parse(widget.Location[i]['lat']),
           double.parse(widget.Location[i]['lng']));
     }
-    list_distance.sort((a,b)=>a.distance.compareTo(b.distance));
+    // list_distance.sort((a,b)=>a.distance.compareTo(b.distance));
     setState(() {
       S = true;
     });
@@ -526,7 +526,7 @@ class _MyHomePageState extends State<w> {
   }
 
   getWorkers() async {
-    var url = 'https://' + IP4 + '/testlocalhost/workerlocation.php';
+    var url = 'http://' + IP4 + '/testlocalhost/workerlocation.php';
     // for(int i=0;i<list_.length;i++){
     var ressponse = await http.post(url, body: {
       //"phone":list_ [i],
@@ -603,7 +603,7 @@ class _Group extends State<Group> {
     super.initState();
   }
   Future getCount() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getcCount.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getcCount.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -615,7 +615,7 @@ class _Group extends State<Group> {
   }
   var ma;
   Future getImages() async {
-    var url = 'https://' + IP4 + '/testlocalhost/Show_EXP.php';
+    var url = 'http://' + IP4 + '/testlocalhost/Show_EXP.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -627,7 +627,7 @@ class _Group extends State<Group> {
   var c;
   Future faverate() async {
     print('hi hi hi');
-    var url = 'https://'+IP4+'/testlocalhost/checkiffaverate.php';
+    var url = 'http://'+IP4+'/testlocalhost/checkiffaverate.php';
     var ressponse = await http.post(url, body: {
       "phoneworker": widget.phone,
       "phoneuser":widget.phone_Me,
@@ -729,7 +729,7 @@ class _Group extends State<Group> {
                 decoration: BoxDecoration(
                   color:Colors.white,
                   borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.image),
+                  image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.image),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -859,7 +859,7 @@ class _Group extends State<Group> {
       ],);
   }
   Future getComment() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getcomment.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getcomment.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -910,7 +910,7 @@ class _GroupButtom extends State<GroupButtom> {
   bool fav =false;
   var c;
   Future getCount() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getcCount.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getcCount.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -923,7 +923,7 @@ class _GroupButtom extends State<GroupButtom> {
 
   Future faverate() async {
     print('hi hi hi');
-    var url = 'https://'+IP4+'/testlocalhost/checkiffaverate.php';
+    var url = 'http://'+IP4+'/testlocalhost/checkiffaverate.php';
     var ressponse = await http.post(url, body: {
       "phoneworker": widget.phone,
       "phoneuser":widget.phone_Me,
@@ -934,7 +934,7 @@ class _GroupButtom extends State<GroupButtom> {
       fav=true;
     }}
   Future getImages() async {
-    var url = 'https://' + IP4 + '/testlocalhost/Show_EXP.php';
+    var url = 'http://' + IP4 + '/testlocalhost/Show_EXP.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -1025,7 +1025,7 @@ class _GroupButtom extends State<GroupButtom> {
   }
 
   Future getComment() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getcomment.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getcomment.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -1075,7 +1075,7 @@ class _GroupButtom extends State<GroupButtom> {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(image: NetworkImage(
-                    'https://' + IP4 + '/testlocalhost/upload/' +
+                    'http://' + IP4 + '/testlocalhost/upload/' +
                         widget.image),
                   fit: BoxFit.cover,
                 ),

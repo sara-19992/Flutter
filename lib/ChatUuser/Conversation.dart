@@ -10,7 +10,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'chatListUser.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class Conversation extends StatefulWidget{
   final String chatRoomId;
@@ -249,7 +249,7 @@ class  _Conversation extends State<Conversation> {
     imagename = _file.path.split('/').last;
     print(imagename);
     print(base64);
-    var url = 'https://'+IP4+'/testlocalhost/save_ChatIMG.php';
+    var url = 'http://'+IP4+'/testlocalhost/save_ChatIMG.php';
     var ressponse = await http.post(url, body: {
       "imagename": imagename,
       "image64": base64,
@@ -303,20 +303,20 @@ class MessageTile extends StatelessWidget {
                     //color: Colors.cyan,
                     child:ClipRRect(
                       borderRadius: BorderRadius.circular(10.0),
-                      child: Image.network('https://' + IP4 + '/testlocalhost/chat/' + massege,width:180,height:130,fit: BoxFit.cover,),),);
+                      child: Image.network('http://' + IP4 + '/testlocalhost/chat/' + massege,width:180,height:130,fit: BoxFit.cover,),),);
                      // child: Image.asset('assest/2.jpg',),),);
                 // Container(
                 //   padding: EdgeInsets.symmetric(horizontal: 0),
                 //   margin: EdgeInsets.symmetric(horizontal: 0),
                 //  //  child:ClipRRect(
                 //  //    borderRadius: BorderRadius.circular(10.0),
-                //  //    child: Image.network('https://' + IP4 + '/testlocalhost/chat/' + massege,width: 300,),),
+                //  //    child: Image.network('http://' + IP4 + '/testlocalhost/chat/' + massege,width: 300,),),
                 //  // ),
                 //   decoration: BoxDecoration(
                 //       borderRadius: BorderRadius.circular(20),
                 //       color: Colors.yellow,
                 //   ),
-                // child:Image.network('https://' + IP4 + '/testlocalhost/chat/' + massege,),);
+                // child:Image.network('http://' + IP4 + '/testlocalhost/chat/' + massege,),);
   }
 }
 

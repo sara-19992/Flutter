@@ -16,7 +16,7 @@ import 'dart:convert';
 import '../database.dart';
 import 'favarate.dart';
 
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 //import 'edit_profile.dart';
 //import 'changePassword.dart';
 FocusNode myFocusNode = new FocusNode();
@@ -213,7 +213,7 @@ class _MenuePage extends State<MenuePage> {
               Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => U_PROFILE(name_Me: widget.name,Lsist_Post:widget.Lsist_Post,)));
             }
             if(_selectedItem==1){
-              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(Lsist_Post:widget.Lsist_Post,username: widget.name,phoneuser: widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
+              Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => user_reserve_order(index:'0',Lsist_Post:widget.Lsist_Post,username: widget.name,phoneuser: widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
             }
             if(_selectedItem==2){
               Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Chat(Lsist_Post:widget.Lsist_Post,name_Me:widget.name,chatsRoomList: chatsRoom,phone:widget.phone,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst)));
@@ -241,7 +241,7 @@ class _MenuePage extends State<MenuePage> {
                       margin: EdgeInsets.only(top:100),
                       child: Center(
                         child: CircleAvatar(backgroundImage: NetworkImage(
-                            'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+                            'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
                           radius: 30.0,),),
                     ),
                     Container(

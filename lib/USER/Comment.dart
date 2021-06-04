@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 TextEditingController comment = TextEditingController();
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 String  name_Me="";
 String  name="";
 String  phone="";
@@ -33,7 +33,7 @@ class _Body extends State<v> {
     super.initState();
   }
   // Future getUser() async {
-  //   var url = 'https://' + IP4 + '/testlocalhost/PHP/getUser.php';
+  //   var url = 'http://' + IP4 + '/testlocalhost/PHP/getUser.php';
   //   var ressponse = await http.post(url, body: {
   //     "name": widget.name_Me,
   //   });
@@ -96,7 +96,7 @@ class _commentsState extends State<comments> {
   // // Future senddata() async {
   // //   var mesaage;
   // //   print('hi hi hi');
-  // //   var url = 'https://'+IP4+'/testlocalhost/PHP/login.php';
+  // //   var url = 'http://'+IP4+'/testlocalhost/PHP/login.php';
   // //   var ressponse = await http.post(url, body: {
   // //     "comment": comment.text,
   // //     "namefirst":widget.namefirst,
@@ -255,7 +255,7 @@ class _commentsState extends State<comments> {
 
   }
   // Future getUser() async {
-  //   var url = 'https://' + IP4 + '/testlocalhost/PHP/getUser.php';
+  //   var url = 'http://' + IP4 + '/testlocalhost/PHP/getUser.php';
   //   var ressponse = await http.post(url, body: {
   //     "name": widget.name_Me,
   //   });
@@ -264,7 +264,7 @@ class _commentsState extends State<comments> {
   // }
   Future addComment( String namefirst, String namelast, String image, String comment,String com_user,String com_worker)async{
     print("hi");
-    var url='https://'+IP4+'/testlocalhost/comment.php';
+    var url='http://'+IP4+'/testlocalhost/comment.php';
     var ressponse = await http.post(url, body: {
       "comuserfirstname": namefirst,
       "comlastname":namelast,

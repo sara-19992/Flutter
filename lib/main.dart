@@ -1,130 +1,131 @@
-// import 'package:flutter/material.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:flutter/material.dart';
-// import 'package:flutterphone/screens/welcome.dart';
-// import 'package:flutterphone/constants.dart';
-// import 'package:sentiment_dart/sentiment_dart.dart';
-// import 'dart:io';
-// import 'USER/Comment.dart';
-// import 'vb.dart';
-// import 'Localnotification.dart';
-// import 'USER/Search.dart';
-// import 'USER/xc.dart';
-// import 'USER/Setting_user.dart';
-// import 'new_map.dart';
-// import 'notificationscreen.dart';
-//
-// class MyHttpOverrides extends HttpOverrides{
-//   @override
-//   HttpClient createHttpClient(SecurityContext context){
-//     return super.createHttpClient(context)
-//       ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
-//   }
-// }
-// @override
-// void main() async {
-//   final sentiment = Sentiment();
-//   print(sentiment.analysis('i hate you piece of shit 💩'));
-//
-//   print(sentiment.analysis('ايها الكلب تافه',emoji: true));
-//   HttpOverrides.global = new MyHttpOverrides();
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(MyApp());
-//
-// }
-//
-// class MyApp extends StatelessWidget {
-//   // This widget is the root of your application.
-//   @override
-//   DateTime _selectedDay = DateTime.now();
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'Flutter Auth',
-//       theme: ThemeData(
-//        primaryColor: MY_YELLOW,
-//        visualDensity: VisualDensity.adaptivePlatformDensity,
-//        // scaffoldBackgroundColor: Colors.white,
-//       ),
-//         // home: My_SLot(phoneworker: '+970595320479',phone:'+97055',tokenworker:'lkk',time: _selectedDay,),
-//         // home: not_conferm__order(time: _selectedDay,phone: '+970595320479'),
-//          home: WelcomeScreen(),
-//         //   home: _RateMyAppTestAppBody(),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
+import 'package:flutterphone/screens/welcome.dart';
+import 'package:flutterphone/constants.dart';
+import 'package:sentiment_dart/sentiment_dart.dart';
+import 'dart:io';
+import 'USER/Comment.dart';
+import 'USER/Rate_Me.dart';
+import 'vb.dart';
+import 'Localnotification.dart';
+import 'USER/Search.dart';
+import 'USER/xc.dart';
+import 'USER/Setting_user.dart';
+import 'new_map.dart';
+import 'notificationscreen.dart';
 
-void main() {
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+}
+@override
+void main() async {
+  final sentiment = Sentiment();
+  print(sentiment.analysis('i hate you piece of shit 💩'));
+
+  print(sentiment.analysis('ايها الكلب تافه',emoji: true));
+  HttpOverrides.global = new MyHttpOverrides();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
   @override
+  DateTime _selectedDay = DateTime.now();
   Widget build(BuildContext context) {
-    return MaterialApp(debugShowCheckedModeBanner: false,
-      title: 'Get Request',
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Auth',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+       primaryColor: MY_YELLOW,
+       visualDensity: VisualDensity.adaptivePlatformDensity,
+       // scaffoldBackgroundColor: Colors.white,
       ),
-      home: HomePage(),
+        // home: My_SLot(phoneworker: '+970595320479',phone:'+97055',tokenworker:'lkk',time: _selectedDay,),
+        // home: not_conferm__order(time: _selectedDay,phone: '+970595320479'),
+         home: WelcomeScreen(),
+        //   home: Rate(),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-
-  String greetings = '';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text(greetings, //Text that will be displayed on the screen
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-            Center(
-              child: Container( //container that contains the button
-                width: 150,
-                height: 60,
-                child: FlatButton(
-                  color: Colors.blue,
-                  onPressed: () async { //async function to perform http get
-
-                    final response = await http.get('http://192.168.1.8:5000'); //getting the response from our backend server script
-
-                    final decoded = json.decode(response.body) as Map<String, dynamic>; //converting it from json to key value pair
-
-                    setState(() {
-                      greetings = decoded['greetings']; //changing the state of our widget on data update
-                    });
-
-                  },
-                  child: Text(
-                    'Press',
-                    style: TextStyle(fontSize: 24,),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+// import 'package:flutter/material.dart';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
+//
+// void main() {
+//   runApp(MyApp());
+// }
+//
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(debugShowCheckedModeBanner: false,
+//       title: 'Get Request',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//         visualDensity: VisualDensity.adaptivePlatformDensity,
+//       ),
+//       home: HomePage(),
+//     );
+//   }
+// }
+//
+// class HomePage extends StatefulWidget {
+//   @override
+//   _HomePageState createState() => _HomePageState();
+// }
+//
+// class _HomePageState extends State<HomePage> {
+//
+//   String greetings = '';
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Container(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//           children: [
+//             Text(greetings, //Text that will be displayed on the screen
+//                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+//             Center(
+//               child: Container( //container that contains the button
+//                 width: 150,
+//                 height: 60,
+//                 child: FlatButton(
+//                   color: Colors.blue,
+//                   onPressed: () async { //async function to perform http get
+//
+//                     final response = await http.get('http://192.168.1.8:5000'); //getting the response from our backend server script
+//
+//                     final decoded = json.decode(response.body) as Map<String, dynamic>; //converting it from json to key value pair
+//
+//                     setState(() {
+//                       greetings = decoded['greetings']; //changing the state of our widget on data update
+//                     });
+//
+//                   },
+//                   child: Text(
+//                     'Press',
+//                     style: TextStyle(fontSize: 24,),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 // import 'package:flutter/material.dart';
 // import 'package:rate_my_app/rate_my_app.dart';
 //

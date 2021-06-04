@@ -8,7 +8,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:http/http.dart' as http;
 import 'List_worker_group.dart';
-String IP4="192.168.1.8";
+
+String IP4="192.168.1.8:8080";
 // var url = "http://maps.google.com/mapfiles/ms/icons/";
 // url + = "blue";
 int count =0;
@@ -37,7 +38,7 @@ class MyApp1 extends StatefulWidget {
 class _mState extends State<MyApp1> {
 
   Future getMarker()async{
-    var url='https://'+IP4+'/testlocalhost/markers.php';
+    var url='http://'+IP4+'/testlocalhost/markers.php';
     var ressponse=await http.get(url);
     print(json.decode(ressponse.body));
     print("vvxbccccccccccccccccccccccc");

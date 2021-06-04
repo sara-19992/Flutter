@@ -7,7 +7,7 @@ import '../constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:convert';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 //import 'edit_profile.dart';
 //import 'changePassword.dart';
 FocusNode myFocusNode = new FocusNode();
@@ -394,7 +394,7 @@ class _SettingsPageState extends State<SettingPage> {
   Future editpassword() async {
     //print(password.text);
     print(newpass.text);
-    var url = 'https://'+IP4+'/testlocalhost/edit_pass.php';
+    var url = 'http://'+IP4+'/testlocalhost/edit_pass.php';
     var response = await http.post(url, body: {
       // "name":widget.name,
       // "pass":password.text,

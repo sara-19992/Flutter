@@ -35,7 +35,7 @@ String namefirst="";
 String namelast="";
 String Country="";
 String  token="";
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class State_order_accept extends StatefulWidget {
   final namefirstworker;
@@ -224,6 +224,7 @@ class  _State_order_accept extends State<State_order_accept> {
                           child:Row(
                             children: [
                               Container(
+                                width: 200,
                                 alignment: Alignment.topRight,
                                 child:Row(
                                   children: [
@@ -239,7 +240,7 @@ class  _State_order_accept extends State<State_order_accept> {
                                 ),
 
                               ),
-                              SizedBox(width:159,),
+                              SizedBox(width:81,),
                               Container(
                                 width: 50,
                                 child: FlatButton(
@@ -441,7 +442,7 @@ class  _accept extends State<accept> {
                       children: [
                         Container(
                           margin: EdgeInsets.only(top:10,right: 0),
-                          child:CircleAvatar(backgroundImage: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.image),radius: 20.0,),),
+                          child:CircleAvatar(backgroundImage: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.image),radius: 20.0,),),
                         Container(
                           height: 30,
                           margin: EdgeInsets.only(top:15,right: 10),
@@ -564,7 +565,7 @@ class  _accept extends State<accept> {
                       // color:Colors.white,
                       color:Colors.red,
                       borderRadius: BorderRadius.circular(5),
-                      image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.orderimage),
+                      image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.orderimage),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -1047,7 +1048,7 @@ class _delete_order extends State<delete_order> {
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
     var formattedTime = DateFormat('HH:mm:ss').format(date);
     print(widget.id);
-    var url = 'https://' + IP4 + '/testlocalhost/delete_order.php';
+    var url = 'http://' + IP4 + '/testlocalhost/delete_order.php';
     var ressponse = await http.post(url, body: {
       "id": widget.id,
       "who":'worker',

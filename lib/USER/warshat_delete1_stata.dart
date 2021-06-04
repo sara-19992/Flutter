@@ -28,7 +28,8 @@ String namefirst="";
 String namelast="";
 String Country="";
 String  token="";
-String IP4="192.168.1.8";
+
+String IP4="192.168.1.8:8080";
 
 class delete1_warshat_statues extends StatefulWidget {
   final country;
@@ -153,7 +154,7 @@ class  _delete1_warshat_statues extends State<delete1_warshat_statues> {
                           decoration: BoxDecoration(
                             color:Colors.white,
                             borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.image),
+                            image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.image),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -266,31 +267,31 @@ class  _delete1_warshat_statues extends State<delete1_warshat_statues> {
                     ),
 
                   ),
-                  Container(
-                    width: 221,
-                    alignment: Alignment.topRight,
-                    margin: EdgeInsets.only(top:280,right: 14),
-                    child:Row(
-                      children: [
-                        Text("  من تاريخ "+widget.from, style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black54,
-                          fontFamily: 'Changa',
-                        ),
-                        ),
-                        Text("   إلى  "+widget.to, style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black54,
-                          fontFamily: 'Changa',
-                        ),
-                        ),
-
-                      ],
-                    ),
-
-                  ),
+                  // Container(
+                  //   width: 221,
+                  //   alignment: Alignment.topRight,
+                  //   margin: EdgeInsets.only(top:280,right: 14),
+                  //   child:Row(
+                  //     children: [
+                  //       Text("  من تاريخ "+widget.from, style: TextStyle(
+                  //         fontSize: 13,
+                  //         fontWeight: FontWeight.w700,
+                  //         color: Colors.black54,
+                  //         fontFamily: 'Changa',
+                  //       ),
+                  //       ),
+                  //       Text("   إلى  "+widget.to, style: TextStyle(
+                  //         fontSize: 13,
+                  //         fontWeight: FontWeight.w700,
+                  //         color: Colors.black54,
+                  //         fontFamily: 'Changa',
+                  //       ),
+                  //       ),
+                  //
+                  //     ],
+                  //   ),
+                  //
+                  // ),
                   Container(
                     height: 300,
                     width: 450,
@@ -718,7 +719,7 @@ class _delete_order extends State<delete_order> {
     DateTime date=DateTime.now();
     var formattedDate = DateFormat('yyyy-MM-dd').format(date);
     var formattedTime = DateFormat('HH:mm:ss').format(date);
-    var url = 'https://' + IP4 + '/testlocalhost/delete_order.php';
+    var url = 'http://' + IP4 + '/testlocalhost/delete_order.php';
     var ressponse = await http.post(url, body: {
       "id": widget.id,
       "datecancel":formattedDate,

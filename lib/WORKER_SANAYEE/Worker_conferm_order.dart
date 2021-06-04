@@ -13,7 +13,7 @@ import 'dart:ui' as ui;
 import 'Profile.dart';
 import 'orders_workers.dart';
 
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 DateTime _selectedDay = DateTime.now();
 
@@ -43,7 +43,7 @@ class _accept_order extends State<accept_order> {
   Map<DateTime, List<dynamic>> _events;
   Future getallorders() async {
     var formattedDate = DateFormat('yyyy-MM-dd').format(widget.time);
-    var url = 'https://'+IP4+'/testlocalhost/count.php';
+    var url = 'http://'+IP4+'/testlocalhost/count.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -106,7 +106,7 @@ class _accept_order extends State<accept_order> {
                     onTap: (){
                       Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) => order_worker(lat:widget.lat,lng:widget.lng,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));},
                     child:Container(
-                      margin: EdgeInsets.only(top:70,left:370),
+                      margin: EdgeInsets.only(top:60,left:380),
                       child:Icon(Icons.arrow_back,color: Colors.black,),),
                   ),
                   SingleChildScrollView(
@@ -189,7 +189,7 @@ class _order extends State<order> {
   }
 
   // Future getallorders() async {
-  //   var url = 'https://'+IP4+'/testlocalhost/day_order_accept.php';
+  //   var url = 'http://'+IP4+'/testlocalhost/day_order_accept.php';
   //   var ressponse = await http.post(url, body: {
   //     "phone": widget.phone,
   //     "date": formattedDate,
@@ -223,7 +223,7 @@ class _order extends State<order> {
   }
   Future getallorders() async {
     var formattedDate = DateFormat('yyyy-MM-dd').format(widget.time);
-    var url = 'https://'+IP4+'/testlocalhost/day_order_accept.php';
+    var url = 'http://'+IP4+'/testlocalhost/day_order_accept.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
       "date": formattedDate,
@@ -236,8 +236,8 @@ class _order extends State<order> {
     _fetchEvents();
     print(widget.List1);
     return Container(
-      height: 700,
-      transform: Matrix4.translationValues(0.0, -42.0, 0.0),
+      height: 710,
+      transform: Matrix4.translationValues(0.0, -52.0, 0.0),
       color: Colors.white,
       child:Column(
         children:<Widget>[
@@ -500,7 +500,7 @@ class _order_accept extends State<order_accept> {
             // Container(
             //   margin: EdgeInsets.only(top: 10, right: 5),
             //   child: CircleAvatar(backgroundImage: NetworkImage(
-            //       'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+            //       'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
             //     radius: 25.0,),),
             Container(
               alignment: Alignment.topRight,

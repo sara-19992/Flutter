@@ -6,7 +6,7 @@ import 'dart:io';
 import 'dart:convert';
 
 import '../constants.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 FocusNode myFocusNode = new FocusNode();
 
 bool _showPassword1 = false;
@@ -45,7 +45,7 @@ class _change extends State<ChangePass> {
     print(widget.name);
     print(password.text);
     print(newpass.text);
-    var url = 'https://'+IP4+'/testlocalhost/edit_pass.php';
+    var url = 'http://'+IP4+'/testlocalhost/edit_pass.php';
     var response = await http.post(url, body: {
       "name":widget.name,
       "pass":password.text,
@@ -121,32 +121,62 @@ class _change extends State<ChangePass> {
              color: Colors.white,
              child: Stack(
              children:[
-               ClipPath(
-                 clipper: ClippingClass(),
-                 child: Container(
-                   height: 250,
-                   width: 500,
-                   decoration: BoxDecoration(
-                     color: Colors.black87.withOpacity(0.9),
-                     image: new DecorationImage(
-                       fit: BoxFit.cover,
-                       colorFilter:
-                       ColorFilter.mode(Colors.black87.withOpacity(0.4),
-                           BlendMode.dstATop),
-                       image: new AssetImage('assets/work/cvtop.jpg',),
-                     ),
-                   ),
-                 ),),
+               // ClipPath(
+               //   clipper: ClippingClass(),
+               //   child: Container(
+               //     height: 250,
+               //     width: 500,
+               //     decoration: BoxDecoration(
+               //       color: Colors.black87.withOpacity(0.9),
+               //       image: new DecorationImage(
+               //         fit: BoxFit.cover,
+               //         colorFilter:
+               //         ColorFilter.mode(Colors.black87.withOpacity(0.4),
+               //             BlendMode.dstATop),
+               //         image: new AssetImage('assets/work/cvtop.jpg',),
+               //       ),
+               //     ),
+               //   ),),
                Container(
-                 margin:EdgeInsets.only(top:70,right:10),
-                 child: GestureDetector(
-                   onTap: (){
-                     Navigator.pop(context);
-                     // Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) => PROFILE(name: widget.name,)));
-                   },
-                   child:Icon(Icons.arrow_back,color: Colors.white,),
+                 width: 500,
+                 height: 110,
+                 color: Colors.white,
+                 child: Row(
+                   children: [
+                     Container(
+                       margin: EdgeInsets.only(top:50,right: 10),
+                       child:GestureDetector(
+                         onTap: (){
+                         Navigator.pop(context);
+                         },
+                         child:Icon(Icons.arrow_back,color: Colors.black,),
+                       ),
+                     ),
+                     // Container(
+                     //   margin: EdgeInsets.only(top:60,right: 11),
+                     //   child:Text('تغيير كلمة السر',
+                     //     style: TextStyle(
+                     //       fontSize: 17,
+                     //       fontWeight: FontWeight.bold,
+                     //       color: Colors.black,
+                     //       fontFamily: 'Changa',
+                     //       //fontStyle: FontStyle.italic,
+                     //     ),),
+                     // ),
+
+                   ],
                  ),
                ),
+               // Container(
+               //   margin:EdgeInsets.only(top:70,right:10),
+               //   child: GestureDetector(
+               //     onTap: (){
+               //       Navigator.pop(context);
+               //       // Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) => PROFILE(name: widget.name,)));
+               //     },
+               //     child:Icon(Icons.arrow_back,color: Colors.white,),
+               //   ),
+               // ),
              Container(
                height: 550,
                decoration: BoxDecoration(
@@ -156,7 +186,7 @@ class _change extends State<ChangePass> {
                  // ),
                  color: Colors.white,
                ),
-               margin: EdgeInsets.only(top: 250),
+               margin: EdgeInsets.only(top: 210),
                child:SingleChildScrollView(
                  child: Column(
                    children: <Widget>[
@@ -177,7 +207,7 @@ class _change extends State<ChangePass> {
                        child:Column(
                          children:[
                            Container(
-                             margin: EdgeInsets.only(top: 50,left: 60,right: 60),
+                             margin: EdgeInsets.only(top: 50,left: 40,right: 40),
                              height: 50,
                              child:TextFormField(
                                // textDirection: TextDirection.rtl,
@@ -249,7 +279,7 @@ class _change extends State<ChangePass> {
 
                            Container(margin: EdgeInsets.symmetric(vertical: 5)),
                            Container(
-                             margin: EdgeInsets.symmetric(horizontal: 60),
+                             margin: EdgeInsets.symmetric(horizontal: 40),
                              height: 50,
                              child:TextFormField(
                                validator: (value) {
@@ -325,7 +355,7 @@ class _change extends State<ChangePass> {
                            ),
                            Container(margin: EdgeInsets.symmetric(vertical: 5.0),),
                            Container(
-                             margin: EdgeInsets.symmetric(horizontal: 60),
+                             margin: EdgeInsets.symmetric(horizontal: 40),
                              height: 50,
                              child:TextFormField(
                                obscureText: !_showPassword3,
@@ -464,65 +494,65 @@ class _change extends State<ChangePass> {
 
                                ),),
                            ),
-                           // GestureDetector(
-                           //   onTap: () async{
-                           //     if (formKey.currentState.validate()) {print('validate');}
-                           //     if( Pass_Null &&  Pass_Mismatch && Pass_S && Pass_old){
-                           //       await editpassword();
-                           //     }
-                           //     else{print('not validate');}
-                           //     setState(() {
-                           //
-                           //     });
-                           //     // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => getMyComment(phone: widget.phone,name:widget.name,)));
-                           //   },
-                           //   child:Container(
-                           //     height: 40,
-                           //     alignment: Alignment.center,
-                           //     margin: EdgeInsets.only(left: 80,right: 80,top:0),
-                           //     //color:Y,
-                           //     width:350,
-                           //     decoration: BoxDecoration(
-                           //       color: Y,
-                           //       border: Border.all(
-                           //         color: Y,
-                           //         style: BorderStyle.solid,
-                           //         width: 1.0,
-                           //       ),
-                           //       borderRadius: BorderRadius.circular(30.0),
-                           //     ),
-                           //     // margin: EdgeInsets.only(left: 8,right: 15),
-                           //     child: Text(
-                           //       "تعديل",
-                           //       style: TextStyle(
-                           //         color: Colors.white,
-                           //         fontWeight: FontWeight.bold,
-                           //         fontSize: 15.0,
-                           //         fontFamily: 'Changa',
-                           //       ),
-                           //     ),
-                           //   ),
-                           // ),
-                           Container(
-                             margin: EdgeInsets.only(left: 130,right: 130,top:75),
-                             width: 150,
-                             child: FloatingActionButton(
-                               backgroundColor:Y,
-                               splashColor: Colors.transparent,
-                               onPressed: () async{
-                                 if (formKey.currentState.validate()) {print('validate');}
-                                     if( Pass_Null &&  Pass_Mismatch && Pass_S && Pass_old){
-                                       await editpassword();
-                                     }
-                                     else{print('not validate');}
-                                     setState(() {
+                           GestureDetector(
+                             onTap: () async{
+                               if (formKey.currentState.validate()) {print('validate');}
+                               if( Pass_Null &&  Pass_Mismatch && Pass_S && Pass_old){
+                                 await editpassword();
+                               }
+                               else{print('not validate');}
+                               setState(() {
 
-                                     });
-                               },
-                               tooltip: 'Increment',
-                               child: Icon(Icons.edit),
+                               });
+                               // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => getMyComment(phone: widget.phone,name:widget.name,)));
+                             },
+                             child:Container(
+                               height: 50,
+                               alignment: Alignment.center,
+                               margin: EdgeInsets.only(left: 40,right: 40,top:0),
+                               //color:Y,
+                               width:350,
+                               decoration: BoxDecoration(
+                                 color: Y,
+                                 border: Border.all(
+                                   color: Y,
+                                   style: BorderStyle.solid,
+                                   width: 1.0,
+                                 ),
+                                 borderRadius: BorderRadius.circular(30.0),
+                               ),
+                               // margin: EdgeInsets.only(left: 8,right: 15),
+                               child: Text(
+                                 "حفظ التعديل",
+                                 style: TextStyle(
+                                   color: Colors.white,
+                                   fontWeight: FontWeight.bold,
+                                   fontSize: 15.0,
+                                   fontFamily: 'Changa',
+                                 ),
+                               ),
                              ),
                            ),
+                           // Container(
+                           //   margin: EdgeInsets.only(left: 130,right: 130,top:130),
+                           //   width: 150,
+                           //   child: FloatingActionButton(
+                           //     backgroundColor:Y,
+                           //     splashColor: Colors.transparent,
+                           //     onPressed: () async{
+                           //       if (formKey.currentState.validate()) {print('validate');}
+                           //           if( Pass_Null &&  Pass_Mismatch && Pass_S && Pass_old){
+                           //             await editpassword();
+                           //           }
+                           //           else{print('not validate');}
+                           //           setState(() {
+                           //
+                           //           });
+                           //     },
+                           //     tooltip: 'Increment',
+                           //     child: Icon(Icons.edit),
+                           //   ),
+                           // ),
                            // Row(
                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                            //   children: [

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'GET_IMGS.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class IMG extends StatefulWidget {
   final  imageName;
@@ -18,7 +18,7 @@ class IMG extends StatefulWidget {
 class  _Get_Images extends State<IMG> {
 
   Future Delete()async{
-    var url='https://'+IP4+'/testlocalhost/delete_IMG.php';
+    var url='http://'+IP4+'/testlocalhost/delete_IMG.php';
     var ressponse=await http.post(url,body: {
       "id": widget.id,
     });
@@ -50,7 +50,7 @@ class  _Get_Images extends State<IMG> {
                 child: Container(margin:EdgeInsets.symmetric(vertical:100),
                   height: 100,
                   decoration: BoxDecoration(
-                        image: DecorationImage(image: NetworkImage('https://'+IP4+'/testlocalhost/upload/'+widget.imageName),
+                        image: DecorationImage(image: NetworkImage('http://'+IP4+'/testlocalhost/upload/'+widget.imageName),
                         fit: BoxFit.cover,
                     ),
                   ),

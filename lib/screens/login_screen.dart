@@ -11,7 +11,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
+
 
 FocusNode myFocusNode = new FocusNode();
 
@@ -43,13 +44,13 @@ class _Body extends State<Loginscreen> {
 
 
   Future getdata()async{
-    var url='https://'+IP4+'/testlocalhost/login.php';
+    var url='http://'+IP4+'/testlocalhost/login.php';
     var ressponse=await http.get(url);
     return json.decode(ressponse.body);
   }
   var List_P=[];
   Future getpost()async{
-    var url='https://'+IP4+'/testlocalhost/post_profile.php';
+    var url='http://'+IP4+'/testlocalhost/post_profile.php';
     var ressponse=await http.get(url);
     List_P=await json.decode(ressponse.body);
     return json.decode(ressponse.body);
@@ -57,7 +58,7 @@ class _Body extends State<Loginscreen> {
   }
   var phone;
   Future getworker(String name) async {
-    var url = 'https://' + IP4 + '/testlocalhost/getphone.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getphone.php';
     var ressponse = await http.post(url, body: {
       "name": name,
     });
@@ -66,7 +67,7 @@ class _Body extends State<Loginscreen> {
   }
   Future senddata() async {
     print('hi hi hi');
-    var url = 'https://'+IP4+'/testlocalhost/login.php';
+    var url = 'http://'+IP4+'/testlocalhost/login.php';
     var ressponse = await http.post(url, body: {
       "name": nameController.text,
       "pass": passController.text,
@@ -125,7 +126,7 @@ class _Body extends State<Loginscreen> {
         colorFilter:
         ColorFilter.mode(Colors.black54.withOpacity(0.35),
             BlendMode.dstATop),
-        image: new AssetImage(
+            image: new AssetImage(
           'assets/work/cv.jpg',
         ),
       ),

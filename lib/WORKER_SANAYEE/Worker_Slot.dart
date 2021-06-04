@@ -28,7 +28,7 @@ String namefirst="";
 String namelast="";
 String Country="";
 String  token="";
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class Worker_SLot extends StatefulWidget {
   final  name;
@@ -63,7 +63,7 @@ class  _Worker_SLot extends State<Worker_SLot> {
     print(widget.time);
     var formattedDate = DateFormat('yyyy-MM-dd').format(widget.time);
     print(formattedDate);
-    var url='https://'+IP4+'/testlocalhost/show_slot_of_worker.php';
+    var url='http://'+IP4+'/testlocalhost/show_slot_of_worker.php';
     var ressponse=await http.post(url,body: {
       "phoneworker": widget.phone,
       "date":formattedDate,
@@ -101,7 +101,7 @@ class  _Worker_SLot extends State<Worker_SLot> {
                     onTap: (){
                       Navigator.push(context,MaterialPageRoute(builder: (BuildContext context) => order_worker(Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,name:widget.name,phone:widget.phone,image:widget.image,token:widget.token,namefirst:widget.namefirst)));},
                     child:Container(
-                      margin: EdgeInsets.only(top:70,left: 370),
+                      margin: EdgeInsets.only(top:60,left: 380),
                       child:Icon(Icons.arrow_back,color: Colors.black,),
                     ),
                   ),
@@ -123,7 +123,7 @@ class  _Worker_SLot extends State<Worker_SLot> {
                   //   ),
                   // ),
                   Container(
-                    height: 700,
+                    height: 710,
                     width: 500,
                     decoration: BoxDecoration(
                       // color:Color(0xFF1C1C1C),
@@ -190,7 +190,7 @@ class _slot extends State<slot> {
   Map<DateTime, List<dynamic>> _events;
   // var ListBlock=["8.00 - 9.00 ","9.00 - 10.00","","","",];
   // Future getList() async {
-  //   var url = 'https://' + IP4 + '/testlocalhost/getList.php';
+  //   var url = 'http://' + IP4 + '/testlocalhost/getList.php';
   //   var ressponse = await http.post(url, body: {
   //     "phone": widget.phone,
   //     "date":formattedDate,
@@ -261,8 +261,8 @@ class _slot extends State<slot> {
   Widget build(BuildContext context) {
     DateTime selected;
     return Container(
-      height: 700,
-      transform: Matrix4.translationValues(0.0, -42.0, 0.0),
+      height: 710,
+      transform: Matrix4.translationValues(0.0, -52.0, 0.0),
       child:Column(
           children:<Widget>[
             //StreamBuilder<Map<DateTime, List>>(
@@ -373,12 +373,12 @@ class _slot extends State<slot> {
                             child: Row(
                               children: [
                                 Text('  إضافة سلوت',style: TextStyle(
-                                  color: Colors.black87,
+                                  color: Colors.black54,
                                   fontSize: 15.0,
                                   fontFamily: 'Changa',
                                   fontWeight: FontWeight.bold,
                                 ),),
-                                Icon(Icons.add,size: 20,),
+                                Icon(Icons.add,size: 20,color: Colors.black54,),
                               ],
                             ),
                           ),
@@ -395,7 +395,7 @@ class _slot extends State<slot> {
                               ),
                               itemCount: widget.List1.length,
                               itemBuilder: (context,index){
-                                return time(widget.List1[index]['timestart']+" - "+widget.List1[index]['timeend'],widget.List1[index]['Am_Pm'],widget.List1[index]['timestart'],widget.List1[index]['timeend']);
+                                return time(widget.List1[index]['id'],widget.List1[index]['timestart']+" - "+widget.List1[index]['timeend'],widget.List1[index]['Am_Pm'],widget.List1[index]['timestart'],widget.List1[index]['timeend']);
                               },
                             )
                         ),
@@ -419,12 +419,12 @@ class _slot extends State<slot> {
             child:MyDialog(name:widget.name,phone: widget.phone,time: widget.time,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst),);
         });
   }
-  Future<void> _dialogCall2(String init1,String init2,String initPeriode) {
+  Future<void> _dialogCall2(String id,String init1,String init2,String initPeriode) {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return Directionality(textDirection: ui.TextDirection.rtl,
-            child:edit_delete(name:widget.name,phone: widget.phone,time: widget.time,init1:init1 ,init2:init2,initPeriode: initPeriode,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst),);
+            child:edit_delete(id:id,name:widget.name,phone: widget.phone,time: widget.time,init1:init1 ,init2:init2,initPeriode: initPeriode,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst),);
         });
   }
 
@@ -439,13 +439,13 @@ class _slot extends State<slot> {
       ),)));
   }
 
-  Container time(String time,String d,String from,String to)
+  Container time(String id,String time,String d,String from,String to)
   {
     return Container(
       width: 200,
       child:GestureDetector(
         onTap: (){
-          _dialogCall2(from,to,d);
+          _dialogCall2(id,from,to,d);
           // _dialogCall(phone,phoneworker,token,workertoken,username);
         },
         child: Container(
@@ -568,8 +568,8 @@ class _Empty extends State<Empty> {
 
   Widget build(BuildContext context) {
     return Container(
-      height: 700,
-      transform: Matrix4.translationValues(0.0, -42.0, 0.0),
+      height: 710,
+      transform: Matrix4.translationValues(0.0, -52.0, 0.0),
       color: Colors.white,
       child: Column(
           children: <Widget>[
@@ -641,12 +641,12 @@ class _Empty extends State<Empty> {
                         child: Row(
                           children: [
                             Text('  إضافة سلوت',style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.black54,
                               fontSize: 15.0,
                               fontFamily: 'Changa',
                               fontWeight: FontWeight.bold,
                             ),),
-                            Icon(Icons.add,size: 20,),
+                            Icon(Icons.add,size: 20,color: Colors.black54,),
                           ],
                         ),
                       ),
@@ -976,7 +976,7 @@ class _MyDialogState extends State<MyDialog> {
                       Navigator.pop(context);
                       print(widget.time); print(widget.phone); print(widget.namelast); print(widget.namefirst); print(widget.Information); print(widget.Experiance);print(widget.image);
                       print(widget.name); print(widget.token); print(widget.Work);
-                      Fluttertoast.showToast(msg: "تمت الإضافة  بنجاح  ",fontSize: 16,textColor:Colors.white,backgroundColor: Colors.black87.withOpacity(0.5));
+                      Fluttertoast.showToast(msg: "تمت الإضافة  بنجاح  ",fontSize: 16,textColor:Colors.black,);
                       // _showSnackBar(context, 'لقد تمت الإضافة  بنجاح');
                       Navigator.push(context, MaterialPageRoute(builder: (context) => Worker_SLot(time: widget.time,phone:widget.phone,name:widget.name,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst,),),);
 
@@ -1001,7 +1001,7 @@ class _MyDialogState extends State<MyDialog> {
   Future check_Slot()async{
     var dateParse = DateTime.parse(widget.time.toString());
     var formattedDate = DateFormat('yyyy-MM-dd').format(widget.time);
-    var url='https://'+IP4+'/testlocalhost/add_slot.php';
+    var url='http://'+IP4+'/testlocalhost/add_slot.php';
     var ressponse=await http.post(url,body: {
       "phoneworker": '+970595320479',
       "date":formattedDate,
@@ -1037,6 +1037,7 @@ class edit_delete extends StatefulWidget {
   final name;
   var init1;
   var init2;
+  final id;
   var initPeriode;
   final  image;
   final  Work;
@@ -1045,7 +1046,7 @@ class edit_delete extends StatefulWidget {
   final  token;
   final namefirst;
   final namelast;
-  edit_delete({this.name,this.phone,this.time,this.init1,this.init2,this.initPeriode,this.namefirst,this.namelast,this.image,this.Work, this.Experiance, this.Information, this.token});
+  edit_delete({this.id,this.name,this.phone,this.time,this.init1,this.init2,this.initPeriode,this.namefirst,this.namelast,this.image,this.Work, this.Experiance, this.Information, this.token});
   _edit_delete createState() => new _edit_delete();
 }
 class _edit_delete extends State<edit_delete> {
@@ -1314,7 +1315,7 @@ class _edit_delete extends State<edit_delete> {
                     // senddata();
                     await check_Slot();
                     Navigator.pop(context);
-                    Fluttertoast.showToast(msg: " تم التعديل بنجاح ",fontSize: 16,textColor:Colors.white,backgroundColor: Colors.black87.withOpacity(0.5));
+                    Fluttertoast.showToast(msg: " تم التعديل بنجاح ",fontSize: 16,textColor:Colors.black,);
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Worker_SLot(time: widget.time,phone:widget.phone,name:widget.name,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst),),);
                   }),),
             Container(
@@ -1340,7 +1341,7 @@ class _edit_delete extends State<edit_delete> {
                     // senddata();
                     await delete_Slot();
                     Navigator.pop(context);
-                    Fluttertoast.showToast(msg: " تم الحذف بنجاح ",fontSize: 16,textColor:Colors.white,backgroundColor: Colors.black87.withOpacity(0.5));
+                    Fluttertoast.showToast(msg: " تم الحذف بنجاح ",fontSize: 16,textColor:Colors.black,);
                     Navigator.push(context, MaterialPageRoute(builder: (context) => Worker_SLot(time:_selectedDay,phone:widget.phone,name:widget.name,Information:widget.Information,Experiance:widget.Experiance,Work:widget.Work,namelast:widget.namelast,image:widget.image,token:widget.token,namefirst:widget.namefirst),),);
                     setState(() {
                     });
@@ -1358,8 +1359,9 @@ class _edit_delete extends State<edit_delete> {
   Future delete_Slot()async{
     var dateParse = DateTime.parse(widget.time.toString());
     var formattedDate = DateFormat('yyyy-MM-dd').format(widget.time);
-    var url='https://'+IP4+'/testlocalhost/delete_slot.php';
+    var url='http://'+IP4+'/testlocalhost/delete_slot.php';
     var ressponse=await http.post(url,body: {
+      "id":widget.id,
       "phoneworker": widget.phone,
       "date":formattedDate,
       "timestart":widget.init1,
@@ -1373,8 +1375,9 @@ class _edit_delete extends State<edit_delete> {
   Future check_Slot()async{
     var dateParse = DateTime.parse(widget.time.toString());
     var formattedDate = DateFormat('yyyy-MM-dd').format(widget.time);
-    var url='https://'+IP4+'/testlocalhost/update_slot.php';
+    var url='http://'+IP4+'/testlocalhost/update_slot.php';
     var ressponse=await http.post(url,body: {
+      "id":widget.id,
       "phoneworker": widget.phone,
       "date":formattedDate,
       "timestart":widget.init1,

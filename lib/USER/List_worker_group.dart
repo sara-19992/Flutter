@@ -17,7 +17,7 @@ import 'dart:convert';
 import 'Comment.dart';
 import 'WORKER_PROFILE.dart';
 
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 String _verificationCode;
 String smscode ;
@@ -65,7 +65,7 @@ class _Body extends State<List_Worker> {
     });
   }
   Future getSearch()async{
-    var url='https://'+IP4+'/testlocalhost/groupsearch.php';
+    var url='http://'+IP4+'/testlocalhost/groupsearch.php';
     var ressponse=await http.post(url,body: {
       "Work":widget.work,
       "country":widget.location,
@@ -456,7 +456,7 @@ class _Group extends State<Group> {
   }
 
   Future getImages() async {
-    var url = 'https://' + IP4 + '/testlocalhost/Show_EXP.php';
+    var url = 'http://' + IP4 + '/testlocalhost/Show_EXP.php';
     var ressponse = await http.post(url, body: {
       "phone": widget.phone,
     });
@@ -498,7 +498,7 @@ class _Group extends State<Group> {
               Container(
                 margin: EdgeInsets.only(top: 30, right: 10),
                 child: CircleAvatar(backgroundImage: NetworkImage(
-                    'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+                    'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
                   radius: 29.0,),),
               Container(
                 width: 200,

@@ -16,7 +16,7 @@ import 'Conversation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class Chat extends StatefulWidget{
   final name_Me;
@@ -62,22 +62,10 @@ class  _Chat extends State<Chat> {
       //   ),
       //   child: Image.asset('assets/work/cvtop.jpg',width:500,fit: BoxFit.fitWidth,),
       // ),
-      Container(
-          height: 170,
-          width: 500,
-          decoration: BoxDecoration(
-          color: Colors.black87.withOpacity(0.9),
-      image: new DecorationImage(
-        fit: BoxFit.cover,
-        colorFilter:
-        ColorFilter.mode(Colors.black87.withOpacity(0.4),
-            BlendMode.dstATop),
-        image: new AssetImage('assets/work/cvtop.jpg',),
-      ),),),
+
      Container(
       height: 500,
-      margin: EdgeInsets.only(top: 0),
-      transform: Matrix4.translationValues(0.0, -60, 0.0),
+       margin: EdgeInsets.only(top: 30),
       child:StreamBuilder(stream: widget.chatsRoomList,
           builder: (context,snapshot){
             return snapshot.hasData?ListView.builder(
@@ -284,7 +272,7 @@ class ChatRooTile extends StatefulWidget {
 class  _ChatRooTile extends State<ChatRooTile> {
 
   Future getWorker()async{
-    var url='https://'+IP4+'/testlocalhost/getworker.php';
+    var url='http://'+IP4+'/testlocalhost/getworker.php';
     var ressponse=await http.post(url,body: {
       "name": widget.name,
     });
@@ -292,7 +280,7 @@ class  _ChatRooTile extends State<ChatRooTile> {
     return json.decode(ressponse.body);
   }
   Future getUser() async {
-    var url = 'https://' + IP4 + '/testlocalhost/getUser.php';
+    var url = 'http://' + IP4 + '/testlocalhost/getUser.php';
     var ressponse = await http.post(url, body: {
       "name": widget.name,
     });
@@ -383,7 +371,7 @@ class  _ChatBlock extends State<ChatBlock> {
         Container(
           margin: EdgeInsets.only(top: 5,bottom: 5,right: 30),
           child:CircleAvatar(backgroundImage: NetworkImage(
-              'https://' + IP4 + '/testlocalhost/upload/' + widget.image),
+              'http://' + IP4 + '/testlocalhost/upload/' + widget.image),
             radius: 25.0,),
         ),
         Container(

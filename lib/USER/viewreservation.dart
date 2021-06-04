@@ -9,7 +9,7 @@ import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 
 import '../constants.dart';
 import 'List_worker_group.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 class viewreservation extends StatefulWidget {
   //final workerphone;
   // final phone;
@@ -139,7 +139,7 @@ class _viewreservationState extends State<viewreservation> {
     );
   }
   viewreservations() async {
-    var url = 'https://' + IP4 + '/DUAA/PHP/seereservations.php';
+    var url = 'http://' + IP4 + '/DUAA/PHP/seereservations.php';
     print(widget.phoneworker);
     var ressponse = await http.post(url, body: {
       "phone": widget.phoneworker,
@@ -279,7 +279,7 @@ class _datepState extends State<datep> {
       print('hi hi hi');
       // print(widget.nameofwork);
       //print(widget.namefirst);
-      var url = 'https://' + IP4 + '/DUAA/PHP/reservations.php';
+      var url = 'http://' + IP4 + '/DUAA/PHP/reservations.php';
       var ressponse = await http.post(url, body: {
         "nameofwork": widget.nameofworkd,
         "namefirst": widget.namefirstd,
@@ -321,7 +321,7 @@ class _datepState extends State<datep> {
       //if(picked.first [i]>= dt)
       var mesaage;
       print('hi hi hi');
-      var url = 'https://' + IP4 + '/DUAA/PHP/reservations.php';
+      var url = 'http://' + IP4 + '/DUAA/PHP/reservations.php';
       var ressponse = await http.post(url, body: {
         "nameofwork": widget.nameofworkd,
         "namefirst": widget.namefirstd,
@@ -450,6 +450,7 @@ class _userState extends State<user> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor:Colors.white,
       // appBar: AppBar(
       //   elevation: 0.0,
       //   backgroundColor:Colors.black.withOpacity(0.75),
@@ -463,13 +464,13 @@ class _userState extends State<user> {
                 Navigator.pop(context);
               },
               child:Container(
-                margin: EdgeInsets.only(top: 70,left: 370),
+                margin: EdgeInsets.only(top: 60,left: 380),
                 child:Icon(Icons.arrow_forward,color: Colors.black,),
               )
           ),
           Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.only(top: 50,),
+              margin: EdgeInsets.only(top: 60,),
               child:Text('اختر الورشة التي تريدها',
                 style: TextStyle(
                   fontSize: 35,
@@ -806,7 +807,7 @@ class _userState extends State<user> {
     var mesaage;
     print('hi hi hi');
     print(describe.text);
-    var url = 'https://'+IP4+'/DUAA/PHP/addlongtimerequest.php';
+    var url = 'http://'+IP4+'/DUAA/PHP/addlongtimerequest.php';
     var ressponse = await http.post(url, body: {
       "nameofwork": nameofwork,
       "namefirst":widget.namefirst,
@@ -998,7 +999,7 @@ class _sabakState extends State<sabak> {
     var mesaage;
     print('hi hi hi');
     print(describe.text);
-    var url = 'https://'+IP4+'/DUAA/PHP/addlongtimerequest.php';
+    var url = 'http://'+IP4+'/DUAA/PHP/addlongtimerequest.php';
     var ressponse = await http.post(url, body: {
       "nameofwork": nameofwork,
       "namefirst":widget.namefirst_Me,

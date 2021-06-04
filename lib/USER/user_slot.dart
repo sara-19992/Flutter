@@ -30,7 +30,7 @@ String namefirst="";
 String namelast="";
 String Country="";
 String  token="";
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 
 class My_SLot extends StatefulWidget {
   final name_Me;
@@ -68,7 +68,7 @@ class  _My_SLot extends State<My_SLot> {
 
   Future getMYslot()async{
     var formattedDate = DateFormat('yyyy-MM-dd').format(widget.date);
-    var url='https://'+IP4+'/testlocalhost/show_slot_of_worker.php';
+    var url='http://'+IP4+'/testlocalhost/show_slot_of_worker.php';
     var ressponse=await http.post(url,body: {
       "phoneworker":widget.phoneworker,
       "date":formattedDate,
@@ -266,7 +266,7 @@ class _slot extends State<slot> {
                       rightChevronMargin: EdgeInsets.only(right: 80),
                     ),
                     calendarStyle: CalendarStyle(
-                        todayColor: Colors.white,
+                        todayColor: Colors.grey[200],
                         selectedColor: Y.withOpacity(0.9),
                         weekendStyle: TextStyle(
                             color: Colors.black
@@ -598,7 +598,7 @@ class _Empty extends State<Empty> {
                 rightChevronMargin: EdgeInsets.only(right: 70),
               ),
               calendarStyle: CalendarStyle(
-                  todayColor: Colors.white,
+                  todayColor: Colors.grey[200],
                   selectedColor: Y.withOpacity(0.9),
                   weekendStyle: TextStyle(
                       color: Colors.black
@@ -817,7 +817,7 @@ class _MyDialogState extends State<MyDialog> {
     print(widget.phone); print(widget.username); print(widget.phoneworker);
     print(description.text); print(widget.tokenworker); print(widget.token); print(formattedDate); print(formattedTime);
     print("''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''");
-    var url = 'https://'+IP4+'/testlocalhost/reserve.php';
+    var url = 'http://'+IP4+'/testlocalhost/reserve.php';
       var ressponse = await http.post(url, body: {
         "description": description.text,
         "phone": widget.phone,

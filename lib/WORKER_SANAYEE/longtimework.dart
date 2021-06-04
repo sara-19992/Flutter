@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:date_range_picker/date_range_picker.dart' as DateRangePicker;
 
 import '../constants.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 class viewreservation extends StatefulWidget {
   //final workerphone;
   // final phone;
@@ -129,7 +129,7 @@ class _viewreservationState extends State<viewreservation> {
     ),),);
   }
   viewreservations() async {
-    var url = 'https://'+IP4+'/testlocalhost/seereservations.php';
+    var url = 'http://'+IP4+'/testlocalhost/seereservations.php';
     print(widget.workerphoned);
     var ressponse = await http.post(url, body: {
       "phone": widget.workerphoned,
@@ -253,7 +253,7 @@ class _datepState extends State<datep> {
       print('hi hi hi');
       // print(widget.nameofwork);
       //print(widget.namefirst);
-      var url ='https://'+IP4+'/testlocalhost/reservations.php';
+      var url ='http://'+IP4+'/testlocalhost/reservations.php';
       var ressponse = await http.post(url, body: {
         "nameofwork": widget.nameofworkd,
         "namefirst": widget.namefirstd,
@@ -295,7 +295,7 @@ class _datepState extends State<datep> {
       //if(picked.first [i]>= dt)
       var mesaage;
       print('hi hi hi');
-      var url = 'https://'+IP4+'/testlocalhost/reservations.php';
+      var url = 'http://'+IP4+'/testlocalhost/reservations.php';
       var ressponse = await http.post(url, body: {
         "nameofwork": widget.nameofworkd,
         "namefirst": widget.namefirstd,

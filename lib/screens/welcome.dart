@@ -20,7 +20,7 @@ import 'dart:convert';
 import 'dart:ui' as ui;
 import '../Map.dart';
 import 'login_screen.dart';
-String IP4="192.168.1.8";
+String IP4="192.168.1.8:8080";
 String _verificationCode;
 String smscode ;
 FocusNode myFocusNode = new FocusNode();
